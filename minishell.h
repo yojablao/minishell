@@ -6,7 +6,7 @@
 /*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/08/23 09:08:51 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/09/03 17:32:29 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,15 @@ typedef struct s_quotes
     int dq;
 }   t_quotes;
 
-typedef struct s_correc
+typedef struct s_oper
 {
-    size_t i;
-    size_t j;
-} t_correc;
+    size_t pipe;
+    size_t her;
+    size_t inp;
+    size_t len;
+    size_t out;
+    size_t app;
+} t_oper;
 
 
 typedef struct s_env
@@ -49,6 +53,8 @@ typedef struct s_environment
     struct  s_environment *next;
 }	t_environment;
 char    *ft_my_malloc( size_t len);
-int syntax_ok(char *str);
-int    ft_check_Quotes(char *str);
+int     syntax_ok(char *str);
+int		ft_check_Quotes(char *str);
+void	ft_full_list(t_list **a, char *s);
+void	ft_free_stack(t_list *a);
 #endif

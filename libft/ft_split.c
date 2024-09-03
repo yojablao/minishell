@@ -6,13 +6,13 @@
 /*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:25:41 by hamrachi          #+#    #+#             */
-/*   Updated: 2023/12/12 20:45:19 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/09/03 17:33:38 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	int	ft_counter(char const *s, char c)
+int	ft_counter(char const *s, char c)
 {
 	size_t	i;
 	size_t	cnt;
@@ -37,7 +37,7 @@ static	int	ft_counter(char const *s, char c)
 	return (cnt);
 }
 
-static	char	*ft_mysep(const char *s1, char c)
+char	*ft_mysep(const char *s1, char c)
 {
 	char	*result;
 	size_t	lword;
@@ -61,7 +61,7 @@ static	char	*ft_mysep(const char *s1, char c)
 	return (result);
 }
 
-static	char	**ft_frees(char **new, int l)
+char	**ft_frees(char **new, int l)
 {
 	int	i;
 
@@ -75,7 +75,7 @@ static	char	**ft_frees(char **new, int l)
 	return (NULL);
 }
 
-static	char	**my_copy(char **new, char const *s, int x, char c)
+char	**my_copy(char **new, char const *s, int x, char c)
 {
 	char	*tmp;
 	int		n;
