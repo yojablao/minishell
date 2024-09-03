@@ -6,38 +6,40 @@
 /*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:25:41 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/03 17:33:38 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/09/03 18:28:29 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "../minishell.h"
 
-int	ft_counter(char const *s, char c)
+int ft_counter(char *s, char c)
 {
-	size_t	i;
-	size_t	cnt;
+    size_t i = 0;
+    size_t cnt = 0;
 
-	i = 0;
-	cnt = 0;
-	while (s[i])
-	{
-		while (s[i] == c && s[i] != '\0')
-		{
-			i++;
-		}
-		if (s[i] != '\0')
-		{
-			cnt++;
-		}
-		while (s[i] != c && s[i] != '\0')
-		{
-			i++;
-		}
-	}
-	return (cnt);
+    while (s[i])
+    {
+        while (s[i] == c && s[i] != '\0')
+            i++;
+        if (s[i] != '\0')
+        {
+            cnt++;
+            while (s[i] != c && s[i] != '\0')
+            {
+                if (s[i] == 39 || s[i] == 34)
+                {
+					skip_betw_quotes(s, &i);
+					i++;
+				}
+                else
+                    i++;
+            }
+        }
+    }
+    return cnt;
 }
-
-char	*ft_mysep(const char *s1, char c)
+char	*ft_mysep(char *s1, char c)
 {
 	char	*result;
 	size_t	lword;
@@ -46,8 +48,15 @@ char	*ft_mysep(const char *s1, char c)
 	lword = 0;
 	while (s1[lword] != c && s1[lword])
 	{
-		lword++;
+		if (s1[lword] == 39 || s1[lword] == 34)
+		{
+			skip_betw_quotes(s1,&lword);
+			lword++; 
+		}
+        else
+			lword++;
 	}
+	printf("lword = %zu\n",lword);
 	result = (char *)malloc(lword + 1);
 	if (!result)
 		return (NULL);
@@ -58,6 +67,7 @@ char	*ft_mysep(const char *s1, char c)
 		i++;
 	}
 	result[i] = '\0';
+	printf("result == %s\n",result);
 	return (result);
 }
 
@@ -75,7 +85,7 @@ char	**ft_frees(char **new, int l)
 	return (NULL);
 }
 
-char	**my_copy(char **new, char const *s, int x, char c)
+char	**my_copy(char **new, char *s, int x, char c)
 {
 	char	*tmp;
 	int		n;
@@ -93,6 +103,7 @@ char	**my_copy(char **new, char const *s, int x, char c)
 			else
 				new[n++] = tmp;
 		}
+		printf("here\n");
 		while (*s != c && *s)
 			s++;
 	}
@@ -100,7 +111,7 @@ char	**my_copy(char **new, char const *s, int x, char c)
 	return (new);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char c)
 {
 	char	**new;
 	int		x;
@@ -108,6 +119,7 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	x = ft_counter(s, c);
+	printf("x = %d\n", x);
 	new = (char **)ft_calloc(x + 1, sizeof(char *));
 	if (!new)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:46:07 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/03 17:28:35 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/09/03 18:28:55 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,40 +20,17 @@ void	skip_betw_quotes(char *str, size_t *i)
         while (str[*i] != 34 && str[*i] != '\0')
             (*i)++;
     }
-    else if (str[*i] == 39)
+    else if(str[*i] == 39)
     {
         (*i)++;
         while (str[*i] != 39 && str[*i] != '\0')
             (*i)++;
     }
 }
-void	skip_betw_quotes2(char *str, size_t *i, size_t *l)
-{
-   
-    if (str[*i] == 34)
-    {
-        (*i)++;
-		(*l)++;
-        while (str[*i] != 34 && str[*i] != '\0')
-        {
-			(*i)++;
-		}
-    }
-    else if (str[*i] == 39)
-    {
-        (*i)++;
-		(*l)++;
-        while (str[*i] != 39 && str[*i] != '\0')
-		{
-			(*l)++;
-			(*i)++;
-		}
-    }
-}
 
 size_t  ft_count_operators(char *str)
 {
-    t_oper s;
+   	t_num_operat s;
 	size_t	i;
 	size_t res;
 
@@ -79,11 +56,11 @@ size_t  ft_count_operators(char *str)
 			s.her += 1;
 		i++;	
 	}
-	printf("pipe = %zu\n ",s.pipe);
-	printf("inp = %zu\n ",s.inp);
-	printf("out = %zu\n ",s.out);
-	printf("app = %zu\n ",s.app);
-	printf("her = %zu\n ",s.her);
+	// printf("pipe = %zu\n ",s.pipe);
+	// printf("inp = %zu\n ",s.inp);
+	// printf("out = %zu\n ",s.out);
+	// printf("app = %zu\n ",s.app);
+	// printf("her = %zu\n ",s.her);
 	res = (s.pipe + s.app + s.her + s.inp + s.out) * 2;
 	printf("res == %zu\n",res);
 	return (res);
