@@ -6,7 +6,7 @@
 /*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/03 18:14:30 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/09/03 19:50:40 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ typedef struct s_num_operat
     size_t len;
 }   t_num_operat;
 
+typedef struct s_member_split
+{
+    char *tmp;
+    int n;
+}   t_member_split;
 typedef struct s_quotes
 {
     size_t i;
@@ -68,6 +73,6 @@ void	ft_print_stack(t_list *a);
 int    ft_check_Quotes(char *str);
 void	ft_free_stack(t_list *a);
 void	skip_betw_quotes(char *str, size_t *i);
-void	skip_betw_quotes2(char *str, size_t *i, size_t *l);
+char	*skip_betw_quotes2(char *str);
 
 #endif

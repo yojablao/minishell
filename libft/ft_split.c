@@ -6,7 +6,7 @@
 /*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:25:41 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/03 18:28:29 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/09/03 19:53:24 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int ft_counter(char *s, char c)
     }
     return cnt;
 }
+
 char	*ft_mysep(char *s1, char c)
 {
 	char	*result;
@@ -56,10 +57,7 @@ char	*ft_mysep(char *s1, char c)
         else
 			lword++;
 	}
-	printf("lword = %zu\n",lword);
-	result = (char *)malloc(lword + 1);
-	if (!result)
-		return (NULL);
+	result = ft_my_malloc(lword + 1);
 	i = 0;
 	while (i < lword)
 	{
@@ -67,7 +65,6 @@ char	*ft_mysep(char *s1, char c)
 		i++;
 	}
 	result[i] = '\0';
-	printf("result == %s\n",result);
 	return (result);
 }
 
@@ -87,27 +84,30 @@ char	**ft_frees(char **new, int l)
 
 char	**my_copy(char **new, char *s, int x, char c)
 {
-	char	*tmp;
-	int		n;
+	t_member_split sp;
 
-	n = 0;
-	while (*s && n < x)
+	sp.n = 0;
+	while (*s && sp.n < x)
 	{
 		while (*s == c && *s)
 			s++;
 		if (*s != '\0')
 		{
-			tmp = ft_mysep(s, c);
-			if (tmp == NULL)
-				return (ft_frees(new, n));
-			else
-				new[n++] = tmp;
+			sp.tmp = ft_mysep(s, c);
+			new[sp.n++] = sp.tmp;
 		}
-		printf("here\n");
 		while (*s != c && *s)
-			s++;
+		{
+			if (*s == 34 || *s == 39)
+			{
+				s = skip_betw_quotes2(s);
+				s++;
+			}
+			else
+				s++;
+		}
 	}
-	new[n] = 0;
+	new[sp.n] = 0;
 	return (new);
 }
 
@@ -119,7 +119,6 @@ char	**ft_split(char *s, char c)
 	if (!s)
 		return (NULL);
 	x = ft_counter(s, c);
-	printf("x = %d\n", x);
 	new = (char **)ft_calloc(x + 1, sizeof(char *));
 	if (!new)
 		return (NULL);

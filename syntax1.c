@@ -6,7 +6,7 @@
 /*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:46:07 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/03 18:28:55 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/09/03 19:37:13 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,22 @@ void	skip_betw_quotes(char *str, size_t *i)
         while (str[*i] != 39 && str[*i] != '\0')
             (*i)++;
     }
+}
+char	*skip_betw_quotes2(char *str)
+{
+	if (*str == 34)
+    {
+        str++;
+        while (*str != 34 && *str != '\0')
+        	str++;
+    }
+    else if (*str == 39)
+    {
+        str++;
+        while (*str != 39 && *str != '\0')
+            str++;
+    }
+	return(str);
 }
 
 size_t  ft_count_operators(char *str)
