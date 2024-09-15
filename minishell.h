@@ -6,7 +6,7 @@
 /*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/03 19:50:40 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/09/11 23:01:27 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,5 @@ int    ft_check_Quotes(char *str);
 void	ft_free_stack(t_list *a);
 void	skip_betw_quotes(char *str, size_t *i);
 char	*skip_betw_quotes2(char *str);
-
+int     ft_check_grammer(t_list *a);
 #endif

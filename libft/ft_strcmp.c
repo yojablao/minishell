@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   malloc.c                                           :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/19 04:55:36 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/15 21:35:02 by hamrachi         ###   ########.fr       */
+/*   Created: 2024/09/05 18:01:56 by hamrachi          #+#    #+#             */
+/*   Updated: 2024/09/05 18:03:57 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-char    *ft_my_malloc(size_t len)
+int	ft_strcmp(char *s1, char *s2)
 {
-    char	*new;
-	int i;
+	int	i;
 
-	new = malloc(len);
-	if(!new)
-	{
-		free(new);
-		exit(1);
-	}
 	i = 0;
-	while (new[i])
-	{
-		new[i] = '\0';
+	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;
-	}
-	return(new);
+	return(s1[i] - s2[i]);
 }

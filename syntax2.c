@@ -6,7 +6,7 @@
 /*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 10:15:24 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/02 20:03:50 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/09/15 21:26:05 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	ft_full_list(t_list **a, char *s)
 	{
 		tmp = ft_lstnew(array[i]);
 		printf("==> %s\n", tmp->content);
+		printf("stat ==> %d\n", tmp->stat);
 		if (!tmp)
 			exit(1);
 		ft_lstadd_back(a, tmp);
@@ -45,7 +46,9 @@ void	ft_print_stack(t_list *a)
     tmp = a;
     while (tmp)
     {
-       printf("==> %s\n", tmp->content);
+       printf("content ==> %s\n", tmp->content);
+       printf("stat ==> %d\n", tmp->stat);
+
         tmp = tmp->next;
     }
 }
@@ -65,11 +68,28 @@ void	ft_free_stack(t_list *a)
 	a = NULL;
 }
 
-// void	ft_check_grammer(t_list *a)
-// {
-// 	t_list *tmp;
+int	ft_check_grammer(t_list *a)
+{
+	t_list *tmp;
 
-// 	tmp = a;
-
-// 	while()
-// }
+	tmp = a;
+	if (tmp -> stat == PIPE || !tmp)
+			return(0);
+	while(tmp)
+	{
+		if (tmp && tmp -> stat != TEXT && !tmp -> next)
+			return(0);
+		if(tmp -> stat != TEXT && tmp -> stat != PIPE)
+		{
+			if (tmp -> next && tmp -> next -> stat != TEXT)
+				return (0);
+		}
+		if (tmp -> stat == PIPE)
+		{
+			if (tmp -> next && tmp -> next -> stat == PIPE)
+				return (0);
+		}
+		tmp = tmp -> next;
+	}
+	return(1);
+}

@@ -6,7 +6,7 @@
 /*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:43:43 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/03 17:45:17 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/09/05 18:04:41 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,24 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+int		ft_strcmp(char *s1, char *s2);
 
 typedef struct s_list
 {
 	char			*content;
+	int				stat;
 	struct s_list	*next;
 }	t_list;
 
+enum status
+{
+	PIPE,
+	INP,
+    OUT,
+    APP,
+    HER,
+    TEXT,
+};
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **lst, t_list *new);
 int		ft_lstsize(t_list *lst);

@@ -6,7 +6,7 @@
 /*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:46:07 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/03 19:37:13 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/09/11 23:04:04 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ void	ft_add_spaces(char *str, char *new)
 	}
 	new[j] = '\0';
 }
+
 int	ft_check_her(char *str)
 {
 	int i;
@@ -174,7 +175,7 @@ int	ft_check_her(char *str)
 		if(str[i] == '>' && str[i + 1] == '>' && str[i + 2] == '>')
 			return (0);
 		if (str[i] == '<' && str[i + 1] == '<' && 
-			str[i + 2] == '<' && str[i + 3] == '<')
+			str[i + 2] == '<')
 			return (0);
 		i++;
 	}
@@ -195,7 +196,13 @@ int syntax(char *str)
     new = ft_handel_spaces_allocation(str);
 	ft_add_spaces(str,new);
 	ft_full_list(&a, new);
-	//ft_check_grammer(a); (loop nodes for check condition of grammer)
+	if (ft_check_grammer(a) == 0)
+	{
+		ft_free_stack(a);
+		free(new);
+		free(str);
+		return(0);
+	}
 	ft_free_stack(a);
 	free(new);
 	free(str);

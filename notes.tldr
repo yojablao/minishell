@@ -43,9 +43,9 @@
 		{
 			"id": "pointer:pointer",
 			"typeName": "pointer",
-			"x": 1331.959312596291,
-			"y": 12519.470821486893,
-			"lastActivityTimestamp": 1725302916203,
+			"x": 1732.7309190416036,
+			"y": 11290.303363924837,
+			"lastActivityTimestamp": 1725640864794,
 			"meta": {}
 		},
 		{
@@ -77,7 +77,7 @@
 				"x": 0,
 				"y": 0,
 				"w": 1263.3101806640625,
-				"h": 421.2962951660156
+				"h": 495.370361328125
 			},
 			"insets": [
 				false,
@@ -94,7 +94,7 @@
 			"isFocused": true,
 			"devicePixelRatio": 3.4560000896453857,
 			"isCoarsePointer": false,
-			"isHoveringCanvas": false,
+			"isHoveringCanvas": true,
 			"openMenus": [],
 			"isChangingStyle": false,
 			"isReadonly": false,
@@ -105,10 +105,12 @@
 			"typeName": "instance"
 		},
 		{
-			"editingShapeId": null,
+			"editingShapeId": "shape:M0YB_X7FpEhHVM017CdLH",
 			"croppingShapeId": null,
-			"selectedShapeIds": [],
-			"hoveredShapeId": null,
+			"selectedShapeIds": [
+				"shape:M0YB_X7FpEhHVM017CdLH"
+			],
+			"hoveredShapeId": "shape:M0YB_X7FpEhHVM017CdLH",
 			"erasingShapeIds": [],
 			"hintingShapeIds": [],
 			"focusedGroupId": null,
@@ -118,9 +120,9 @@
 			"typeName": "instance_page_state"
 		},
 		{
-			"x": 4110.658485255271,
-			"y": -8884.081417190018,
-			"z": 0.1,
+			"x": 401.07620986464644,
+			"y": -10075.025531893587,
+			"z": 0.25,
 			"meta": {},
 			"id": "camera:page:page",
 			"typeName": "camera"
@@ -55493,7 +55495,7 @@
 				"color": "red",
 				"size": "s",
 				"w": 225.85433959960938,
-				"text": "   hamza aaa\"ham za \"jdjd   ddd",
+				"text": "   hamza aaa\"ham za \"jdjd   ddd \npipe (s,end,pipe )",
 				"font": "draw",
 				"textAlign": "start",
 				"autoSize": false,
