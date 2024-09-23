@@ -6,7 +6,7 @@
 /*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/11 23:01:27 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/09/20 02:19:22 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,12 @@ typedef struct s_environment
     char 				*var;
     struct  s_environment *next;
 }	t_environment;
+
 char    *ft_my_malloc( size_t len);
+void	ft_free(t_list *a, char *s1, char *s2);
+void	ft_free_array(char **s1);
 int		syntax(char *str);
-void	ft_full_list(t_list **a, char *s);
+void	ft_full_list(t_list **a, char *s , int c);
 void	ft_print_stack(t_list *a);
 //int syntax_ok(char *str);
 int    ft_check_Quotes(char *str);

@@ -6,22 +6,28 @@
 /*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 10:15:24 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/15 21:26:05 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/09/20 02:19:11 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "minishell.h"
 
-void	ft_full_list(t_list **a, char *s)
+void	ft_full_list(t_list **a, char *s , int c)
 {
 	char	**array;
 	t_list	*tmp;
 	int		i;
 
-	array = ft_split(s, ' ');
+	array = ft_split(s, c);
 	if (!array)
 		exit(1);
+	i = 0;
+	while (i < ft_counter(s, c))
+	{
+		printf("this is array = %s\n",array[i]);
+		i++;
+	}
 	i = 0;
 	while (array[i])
 	{
@@ -33,10 +39,7 @@ void	ft_full_list(t_list **a, char *s)
 		ft_lstadd_back(a, tmp);
 		i++;
 	}
-	i = 0;
-	while (i < ft_counter(s, ' '))
-		free(array[i++]);
-	free(array);
+	ft_free_array(array);
 }
 
 void	ft_print_stack(t_list *a)
@@ -93,3 +96,5 @@ int	ft_check_grammer(t_list *a)
 	}
 	return(1);
 }
+
+

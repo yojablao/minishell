@@ -6,7 +6,7 @@
 /*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:46:07 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/11 23:04:04 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/09/21 20:55:27 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,6 @@ size_t  ft_count_operators(char *str)
 			s.her += 1;
 		i++;	
 	}
-	// printf("pipe = %zu\n ",s.pipe);
-	// printf("inp = %zu\n ",s.inp);
-	// printf("out = %zu\n ",s.out);
-	// printf("app = %zu\n ",s.app);
-	// printf("her = %zu\n ",s.her);
 	res = (s.pipe + s.app + s.her + s.inp + s.out) * 2;
 	printf("res == %zu\n",res);
 	return (res);
@@ -90,7 +85,7 @@ char    *ft_handel_spaces_allocation(char *str)
 
     len2 = ft_count_operators(str);
 	len1  = ft_strlen(str) + len2;
-	printf("len1 %zu\n",len1);
+	//printf("len1 %zu\n",len1);
 	new = ft_my_malloc(len1 + 1);
 	return(new);
 }
@@ -167,11 +162,13 @@ void	ft_add_spaces(char *str, char *new)
 
 int	ft_check_her(char *str)
 {
-	int i;
+	size_t i;
 
 	i = 0;
 	while (str[i])
 	{
+		if (str[i] == 39 || str[i] == 34)
+			skip_betw_quotes(str, &i);
 		if(str[i] == '>' && str[i + 1] == '>' && str[i + 2] == '>')
 			return (0);
 		if (str[i] == '<' && str[i + 1] == '<' && 
@@ -186,25 +183,31 @@ int syntax(char *str)
 {
     char *new;
 	t_list *a;
+	t_list *b;
 
 	a = NULL;
-	if (!ft_check_quotes(str) || !ft_check_her(str))     
+	b = NULL;
+	if (!ft_check_quotes(str) || !ft_check_her(str))
 	{
 		free(str);
 		return (0);
 	}
     new = ft_handel_spaces_allocation(str);
-	ft_add_spaces(str,new);
-	ft_full_list(&a, new);
+	ft_add_spaces(str, new);
+	ft_full_list(&a, new, 32);
 	if (ft_check_grammer(a) == 0)
 	{
-		ft_free_stack(a);
-		free(new);
-		free(str);
+		ft_free(a, str, new);
 		return(0);
 	}
-	ft_free_stack(a);
-	free(new);
-	free(str);
+	ft_full_list(&b, new, 124);
+	ft_free(a, str, new);
+	ft_free_stack(b);
 	return (1);
 }
+/*
+split ("|");0 done;
+char **allcmd == echo $DFdf > $USER 
+char **cmd = echo \0
+char **red = > file > hamrachi
+*/
