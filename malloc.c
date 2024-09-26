@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 04:55:36 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/20 02:19:00 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/09/25 04:24:45 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char    *ft_my_malloc(size_t len)
 {
     char	*new;
-	int i;
+	size_t i;
 
 	new = malloc(len);
 	if(!new)
@@ -24,7 +24,7 @@ char    *ft_my_malloc(size_t len)
 		exit(1);
 	}
 	i = 0;
-	while (new[i])
+	while (i < len)
 	{
 		new[i] = '\0';
 		i++;

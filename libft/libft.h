@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:43:43 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/21 21:15:27 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/09/25 01:22:13 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
-typedef struct s_listb
-{
-	char **cmd;
-	char **redirec
-}
+// typedef struct s_listb
+// {
+// 	char **cmd;
+// 	char **redirec;
+// };
 enum status
 {
 	PIPE,

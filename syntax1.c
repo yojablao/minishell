@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:46:07 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/21 20:55:27 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/09/26 06:22:23 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,43 @@ char	*skip_betw_quotes2(char *str)
 	return(str);
 }
 
+// size_t  ft_count_operators(char *str)
+// {
+//    	t_num_operat s;
+// 	size_t	i;
+// 	size_t res;
+
+// 	s.pipe = 0;
+// 	s.her = 0;
+// 	s.inp = 0;
+// 	s.out = 0;
+// 	s.app = 0;
+// 	i = 0;
+//     while (str[i])
+// 	{
+// 		if (str[i] == 34 || str[i] == 39)
+// 			skip_betw_quotes(str, &i);
+// 		if (str[i] == '|')
+// 			s.pipe += 1;
+// 		if (str[i - 1] != '<' && str[i] == '<' && str[i + 1] != '<')
+// 			s.inp += 1;
+// 		if (str[i - 1] != '>' && str[i] == '>'&& str[i + 1] != '>')
+// 			s.out += 1;
+// 		if (str[i - 1] != '>' && str[i] == '>' && str[i + 1] == '>' && str[i + 2] != '>')
+// 			s.app += 1;
+// 		if (str[i - 1] != '<' && str[i] == '<' && str[i + 1] == '<' && str[i + 2] != '<')
+// 			s.her += 1;
+// 		i++;	
+// 	}
+// 	res = (s.pipe + s.app + s.her + s.inp + s.out) * 2;
+// 	printf("res == %zu\n",res);
+// 	return (res);
+// }
 size_t  ft_count_operators(char *str)
 {
    	t_num_operat s;
 	size_t	i;
-	size_t res;
+	size_t  res;
 
 	s.pipe = 0;
 	s.her = 0;
@@ -62,13 +94,15 @@ size_t  ft_count_operators(char *str)
 			skip_betw_quotes(str, &i);
 		if (str[i] == '|')
 			s.pipe += 1;
-		if (str[i - 1] != '<' && str[i] == '<' && str[i + 1] != '<')
+		
+		// Ensure that i > 0 before accessing str[i-1]
+		if (i > 0 && str[i - 1] != '<' && str[i] == '<' && str[i + 1] != '<')
 			s.inp += 1;
-		if (str[i - 1] != '>' && str[i] == '>'&& str[i + 1] != '>')
+		if (i > 0 && str[i - 1] != '>' && str[i] == '>' && str[i + 1] != '>')
 			s.out += 1;
-		if (str[i - 1] != '>' && str[i] == '>' && str[i + 1] == '>' && str[i + 2] != '>')
+		if (i > 0 && str[i - 1] != '>' && str[i] == '>' && str[i + 1] == '>' && str[i + 2] != '>')
 			s.app += 1;
-		if (str[i - 1] != '<' && str[i] == '<' && str[i + 1] == '<' && str[i + 2] != '<')
+		if (i > 0 && str[i - 1] != '<' && str[i] == '<' && str[i + 1] == '<' && str[i + 2] != '<')
 			s.her += 1;
 		i++;	
 	}
@@ -95,7 +129,7 @@ int	ft_check_quotes(char *str)
 	size_t i;
 
 	i = 0;
-	while (str[i] != '\0')
+	while (str && str[i] != '\0')
 	{
 		if (str[i] == 34 || str[i] == 39)
 		{
@@ -179,14 +213,14 @@ int	ft_check_her(char *str)
 	return(1);
 }
 
-int syntax(char *str)
+int syntax(char *str,t_top **cmd)
 {
     char *new;
-	t_list *a;
-	t_list *b;
+	// t_list *a;
+	// t_list *b;
 
-	a = NULL;
-	b = NULL;
+	(*cmd)->a = NULL;
+	// b = NULL;
 	if (!ft_check_quotes(str) || !ft_check_her(str))
 	{
 		free(str);
@@ -194,15 +228,16 @@ int syntax(char *str)
 	}
     new = ft_handel_spaces_allocation(str);
 	ft_add_spaces(str, new);
-	ft_full_list(&a, new, 32);
-	if (ft_check_grammer(a) == 0)
+	ft_full_list(&(*cmd)->a, new, 32);
+	if (ft_check_grammer((*cmd)->a) == 0)
 	{
-		ft_free(a, str, new);
+		ft_free((*cmd)->a, str, new);
 		return(0);
 	}
-	ft_full_list(&b, new, 124);
-	ft_free(a, str, new);
-	ft_free_stack(b);
+	// (*cmd)->a = a;
+	// ft_full_list(&b, new, 124);
+	// ft_free(a, str, new);
+	// ft_free_stack(b);
 	return (1);
 }
 /*

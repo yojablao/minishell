@@ -3,7 +3,7 @@ SOURCES = $(shell find . -name "*.c")
 OBJECTS = $(SOURCES:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror  -fsanitize=address 
 
 READ = -lreadline
 $(NAME) : $(OBJECTS) 
@@ -20,4 +20,8 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 
+
+push:
+	git add .
+	git commit -m ""
 re: fclean all
