@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 20:32:50 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/05 18:01:25 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/09/28 10:14:10 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,11 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	{
 		return (0);
 	}
+	if(str1[i] == '\0' && str1[i] != '\0')
+		return (str1[i]);
+	if(str1[i] == '\0' && str1[i] != '\0')
+		return (str1[i]);
+		
+		
 	return (str1[i] - str2[i]);
 }

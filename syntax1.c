@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:46:07 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/26 06:22:23 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/09/28 09:40:51 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ size_t  ft_count_operators(char *str)
 		i++;	
 	}
 	res = (s.pipe + s.app + s.her + s.inp + s.out) * 2;
-	printf("res == %zu\n",res);
+	// printf("res == %zu\n",res);
 	return (res);
 }
 

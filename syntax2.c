@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 10:15:24 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/26 05:35:43 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/09/28 09:41:56 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_full_list(t_list **a, char *s , int c)
 	i = 0;
 	while (i < ft_counter(s, c))
 	{
-		printf("this is array = %s\n",array[i]);
+		// printf("this is array = %s\n",array[i]);
 		i++;
 	}
 	i = 0;

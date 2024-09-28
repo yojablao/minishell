@@ -1,25 +1,28 @@
 #include "minishell.h"
-char *expand(char *s,char **envo)
+char *expand(char *s, char **envo)
 {
     t_env *env = env_set(envo);
-    char *result;
-    int i =0;
-    if(s[i] == '$')
+    // if (!env)
+    //     return NULL;
+    
+    if (s[0] == '$')
         s++;
-    while(env->key)
+    // printf("lol: %s", s);
+    while (env)
     {
-        if (ft_strcmp(env->key,s) == 0)
+        // printf("Checking environment key: %s\n", env->key);
+        if (!ft_strcmp(env->key, s))
         {
-            result =  ft_strdup(env->value);
-            if(!result)
-                return(NULL);
-            return(result);
+            // printf("Match found! Value: %s\n", env->value);
+            char *result = ft_strdup(env->value);
+            if (!result)
+                return NULL; 
+            return result;
         }
         env = env->next;
     }
+    // printf("No match found for: %s\n", s);
     return NULL;
-
-    
 }
 // t_env     *env_set(char **envi)
 // {
@@ -71,14 +74,14 @@ char    *find_comond(char *comond,char **env)
 
     
     tmp = env_set(env);
-    while(tmp !=   NULL && (ft_strncmp(tmp->key,"PATH",4)) != 0)
+    while(tmp !=   NULL && (ft_strcmp(tmp->key,"PATH")) != 0)
     {
-        if((ft_strncmp(tmp->key,"PATH",4)) == 0)
+        if((ft_strcmp(tmp->key,"PATH")) == 0)
             break;
         else
             tmp = tmp->next;
     }
-    if((ft_strncmp(tmp->key, "PATH", 4)) == 0)
+    if((ft_strcmp(tmp->key, "PATH")) == 0)
     {
         // printf("%s\n",tmp->content);
         fullpath = ft_split(tmp->value, ':');
