@@ -55,16 +55,5 @@
   "C_Cpp_Runner.useLeakSanitizer": false,
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
-  "C_Cpp_Runner.msvcSecureNoWarnings": false,
-  "files.associations": {
-    "minishell.h": "c",
-    "sstream": "c",
-    "iterator": "c",
-    "readline.h": "c",
-    "fcntl.h": "c",
-    "libft.h": "c",
-    "__node_handle": "c",
-    "algorithm": "c",
-    "stdio.h": "c"
-  }
+  "C_Cpp_Runner.msvcSecureNoWarnings": false
 }

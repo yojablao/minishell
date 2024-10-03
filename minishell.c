@@ -6,17 +6,17 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 00:56:39 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/01 22:46:40 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/03 09:50:48 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdio.h>
 
-// void	leaks()
-// {
-// 	system("leaks minishell");
-// }
+void	leaks()
+{
+	system("leaks minishell");
+}
 t_top *init(char **envi)
 {
 	t_top *data;
@@ -34,7 +34,7 @@ t_top *init(char **envi)
 t_exec_cmd	*aloc_comond(char **env ,t_exec_cmd *s)
 {
 	t_exec_cmd *st;
-    st = malloc(sizeof(t_exec_cmd));
+    st = c_malloc(sizeof(t_exec_cmd),1);
     if (!(st)) {
         perror("Memory allocation failed");
         exit(EXIT_FAILURE);
@@ -119,23 +119,23 @@ char **init_mult_cmd(t_list *a, int p)
     char *tmp;
     char *line_parsed = NULL;
 	char **comond;
-    comond = malloc(sizeof(char **) * (p + 2));
+    comond = c_malloc(sizeof(char **) * (p + 2),1);
     // int k = 0;
     while(a)
     {
         if(a->content[0] != '|' || a->next != NULL)
         {
             if (!line_parsed) 
-                line_parsed = ft_strdup(a->content); 
+                line_parsed = f_strdup(a->content); 
             else
             {
                 tmp = line_parsed;
-                line_parsed =ft_strjoin(line_parsed ,a->content);
+                line_parsed =f_strjoin(line_parsed ,a->content);
                 free(tmp);
                 
             }
             tmp = line_parsed;
-            line_parsed = ft_strjoin(line_parsed ," ");
+            line_parsed = f_strjoin(line_parsed ," ");
             free(tmp);
         }
         a = a->next;
@@ -163,8 +163,10 @@ int pars(t_top **cmd,char *input)
         i = -1;
 		while(comond[++i])
 		{
-			handel_comond(comond[i],&(*cmd)->cmd,(*cmd)->env->env);
-			(*cmd)->cmd->cmd = find_comond((*cmd)->cmd->args[0],(*cmd)->env->env);
+			if(handel_comond(comond[i],&(*cmd)->cmd,(*cmd)->env->env))
+            {
+			    (*cmd)->cmd->cmd = find_comond((*cmd)->cmd->args[0],(*cmd)->env->env);
+            }
             if(comond[i + 1] != NULL)
 			    (*cmd)->cmd->next = aloc_comond((*cmd)->env->env,(*cmd)->head);
             else
@@ -182,8 +184,9 @@ int pars(t_top **cmd,char *input)
 	}
     else
     {
-        comond = ft_joinlist((*cmd)->a);///join nodes
-		handel_onecomond(comond,&(*cmd)->cmd,(*cmd)->env->env); //expand and redirection and her dok and append
+        comond = ft_joinlist((*cmd)->a);
+		if(!handel_onecomond(comond,&(*cmd)->cmd,(*cmd)->env->env))
+            return(-1);
 		(*cmd)->cmd->cmd = find_comond((*cmd)->cmd->args[0],(*cmd)->env->env); 
         return(1);
     }
@@ -191,7 +194,7 @@ int pars(t_top **cmd,char *input)
 bool    handel_onecomond(char **words,t_exec_cmd **comond,char **env)
 {
     char **args;  
-    args = malloc(sizeof(char *) * (count_words(words) + 1));
+    args = c_malloc(sizeof(char *) * (count_words(words) + 1),1);
     char *temp;
     int i = 0;
     int j = 0;
@@ -207,30 +210,34 @@ bool    handel_onecomond(char **words,t_exec_cmd **comond,char **env)
                 free(temp);
             }
         }
-        else if(ft_strcmp(words[i],"<<") == 0)
+        if(ft_strcmp(words[i],"<<") == 0)
         {
             (*comond)->infd =  ft_herdoc(words[++i],env);
-            // printf("%d\n",(*comond)->infd);
             if((*comond)->infd == -1)
-                return false;
+                return (perror(words[i]) ,false);
         }
         else if( ft_strcmp(words[i],">") == 0)
         {
             (*comond)->outfd = out_redirect(words[++i]);
             if((*comond)->outfd == -1)
-                return false;
+                return (perror(words[i]) ,false);
         }
         else if(ft_strcmp(words[i],"<") == 0)
         {
-            (*comond)->infd = in_redirect(words[++i]);
-            if((*comond)->infd == -1)
+            if(words[i + 1] != NULL)
+            {
+                (*comond)->infd = in_redirect(words[++i]);
+                if((*comond)->infd == -1)
+                    return (perror(words[i]) ,false);
+            }
+            else
                 return false;
         }
         else if(ft_strcmp(words[i],">>") == 0)
         {
             (*comond)->outfd = append(words[++i]);
             if((*comond)->outfd == -1)
-                return false;
+                return (perror(words[i]) ,false);
         }
         else
         {
@@ -304,38 +311,40 @@ void pipe_line(t_exec_cmd **s, char **env)
             {
                 if (dup2(root[1], STDOUT_FILENO) == -1)
                 {
-                    perror("dup2 output redirection failed");
+                    // perror("dup2 outpu/t redirection failed");
                     exit(EXIT_FAILURE);
                 }
             }
 
             if (prev[1] != -1) close(prev[1]);
-            // close(root[0]);
-            // close(root[1]);
+            close(root[0]);
+            close(root[1]);
             child(&cmd, env);
             exit(EXIT_FAILURE); 
         }
         else 
         {
-            int s;
-            waitpid(pid, &s, 0);
-            if (WIFEXITED(s))
-            {
+            // int s;
+            waitpid(pid, 0, 0);
+            // if (WIFEXITED(s))
+            // {
                 
-            }
+            // }
             if (cmd->next != NULL)
             {
                 close(root[1]);
             }
 
-            if (prev[0] != -1) close(prev[0]);
+            if (prev[0] != -1)
+                close(prev[0]);
             prev[0] = root[0];
             prev[1] = root[1];
         }
 
         cmd = cmd->next;
     }
-    if (prev[0] != -1) close(prev[0]);
+    if (prev[0] != -1)
+        close(prev[0]);
 }
 
 
@@ -352,7 +361,7 @@ int main(int ac, char **av, char **env)
 	data = init(env);
 	if(!data)
 		return 1;
-	// atexit(leaks);
+	atexit(leaks);
 	while (1)
 	{ 
 		input = readline(prompt);
@@ -368,21 +377,17 @@ int main(int ac, char **av, char **env)
                 continue;
             }
 
-				// printf("data error\n");
-            // ft_printf_a(data->a);
 			flage = pars(&data,input);
 			if(flage == -1)
-				exit(1);
+				continue;
 			else if(flage == 2)
             {
 				pipe_line(&data->cmd,env);
             }
 			else
 				exic(&data->cmd,env);
-				
-			
-				
 		}
+        c_malloc(0,0);
 	}
 	return (0);
 }

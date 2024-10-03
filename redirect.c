@@ -5,6 +5,7 @@ int in_redirect(char *file)
     int fd ;
     // printf("%s\n",file);
     fd = open(file,O_RDONLY);
+    // printf("%s\n",file);
     if(fd < 0)
         return -1;
     return fd;

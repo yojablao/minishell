@@ -16,12 +16,12 @@ t_env     *env_set(char **envi)
         {
             if(envi[i][j] == '=')
             {
-                new_env = malloc(sizeof(t_env));
+                new_env = c_malloc(sizeof(t_env),1);
                 if(!new_env)
                     return NULL;
                 envi[i][j] = '\0';
-                new_env->key = ft_strdup(&envi[i][0]);
-                new_env->value= ft_strdup(&envi[i][j + 1]);
+                new_env->key = f_strdup(&envi[i][0]);
+                new_env->value= f_strdup(&envi[i][j + 1]);
                 new_env->next = NULL;
                 if(tmp == NULL)
                     env = new_env;
@@ -78,7 +78,7 @@ char **ft_joinlist(t_list *a)
     if (!a) return NULL; 
 
     int p = ft_lstsize(a);
-    char **words = malloc(sizeof(char *) * (p + 1)); 
+    char **words = c_malloc(sizeof(char *) * (p + 1),1); 
     if (!words) return NULL; 
     int i = 0;
     while (a)
@@ -95,7 +95,7 @@ bool    handel_comond(char *cmd,t_exec_cmd **comond,char **env)
 {
      char **words = ft_split(&cmd[0],' ');
       char **args;  
-    args = malloc(sizeof(char *) * (count_words(words) + 1));
+    args = c_malloc(sizeof(char *) * (count_words(words) + 1),1);
     char *temp;
     int i = 0;
     int j = 0;
@@ -118,26 +118,26 @@ bool    handel_comond(char *cmd,t_exec_cmd **comond,char **env)
             (*comond)->infd =  ft_herdoc(words[++i],env);
             // printf("%d\n",(*comond)->infd);
             if((*comond)->infd == -1)
-                return false;
+                return (perror(words[i]) ,false);
         }
         else if( ft_strcmp(words[i],">") == 0)
         {
             (*comond)->outfd = out_redirect(words[++i]);
             if((*comond)->outfd == -1)
-                return false;
+                return (perror(words[i]) ,false);
 
         }
         else if(ft_strcmp(words[i],"<") == 0)
         {
             (*comond)->infd = in_redirect(words[++i]);
             if((*comond)->infd == -1)
-                return false;
+                return (perror(words[i]) ,false);
         }
         else if(ft_strcmp(words[i],">>") == 0)
         {
             (*comond)->outfd = append(words[++i]);
             if((*comond)->outfd == -1)
-                return false;
+                return (perror(words[i]) ,false);
         }
         else
         {
@@ -165,10 +165,8 @@ void filehandler(t_exec_cmd **s)
         // printf("%d\n",(*s)->outfd);
     if ((*s)->infd != 0)
     { 
-        if (dup2((*s)->infd, 0) == -1) {
-            perror("dup2 input redirection failed");
+        if (dup2((*s)->infd, 0) == -1)
             exit(EXIT_FAILURE);
-        }
         close((*s)->infd); 
     }
     if ((*s)->outfd != 1) {  

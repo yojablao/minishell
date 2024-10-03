@@ -46,11 +46,11 @@ char    *find_comond(char *comond,char **env)
         while(fullpath[i] != NULL)
         {
             add = fullpath[i];
-            fullpath[i] =  ft_strjoin(fullpath[i],"/");
+            fullpath[i] =  f_strjoin(fullpath[i],"/");
             free(add);
             if(!fullpath[i])
                 return NULL;
-            path = ft_strjoin(fullpath[i],comond);
+            path = f_strjoin(fullpath[i],comond);
             if(!path[i])
                 return NULL;
             if(!access(path, X_OK))

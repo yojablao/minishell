@@ -24,18 +24,18 @@ char *check_expand(char *line,char **env)
             tmp = fullline;
             if(!expanded)
                 exit(11);
-            fullline =  ft_strjoin(fullline,expanded);
+            fullline =  f_strjoin(fullline,expanded);
             free(tmp);
         }
         else
         {
             tmp = fullline;
-            fullline =  ft_strjoin(fullline,words[i]);
+            fullline =  f_strjoin(fullline,words[i]);
             free(tmp);
 
         }
         tmp = fullline;
-        fullline =  ft_strjoin(fullline," ");
+        fullline =  f_strjoin(fullline," ");
         free(tmp);
         i++;
     }
@@ -62,10 +62,10 @@ static char *read_it(const char *del,int *f,char **env,bool flage)
         if(flage == true)
             line = check_expand(line,env);
         tmp = line;
-        line =  ft_strjoin(line,"\n");
+        line =  f_strjoin(line,"\n");
         free(tmp);
         tmp = fullline;
-        fullline =  ft_strjoin(fullline,line);
+        fullline =  f_strjoin(fullline,line);
         free(tmp);
     }
     return(fullline);

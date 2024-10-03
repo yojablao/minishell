@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/01 19:04:32 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/03 09:35:27 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,12 @@ typedef struct s_oper
     size_t end;
 } t_correc;
 
+typedef struct s_malloc
+{
+    void *ptr;
+    
+    struct s_malloc *next;
+} t_malloc;
 
 
 
@@ -118,5 +124,8 @@ int append(char *file);
 char **ft_joinlist(t_list *a);
 int count_words(char **words);
 bool    pasabel(char *c);
+void    *c_malloc(size_t size, int flag);
+char	*f_strdup(const char *s1);
+char	*f_strjoin(char const *s1, char const *s2);
 
 #endif

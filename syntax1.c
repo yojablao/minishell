@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:46:07 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/01 22:43:32 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/03 08:16:03 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,7 +219,7 @@ char *rm_escap_char(char *s)
     int single_q = 0;
     int double_q = 0;
 
-    char *res = malloc(ft_strlen(s) + 1);
+    char *res = c_malloc(ft_strlen(s) + 1,1);
     if (!res)
         return (NULL);
     while (s[i])
@@ -258,7 +258,7 @@ int syntax(char *str,t_top **cmd)
 		ft_free((*cmd)->a, str, new);
 		return(0);
 	}
-	printf("%s\n",str);
+	// printf("%s\n",str);
 	// hander_words((*cmd)->a);
 	// (*cmd)->a = a;
 	// ft_full_list(&b, new, 124);
