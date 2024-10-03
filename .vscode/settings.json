@@ -62,6 +62,9 @@
     "iterator": "c",
     "readline.h": "c",
     "fcntl.h": "c",
-    "libft.h": "c"
+    "libft.h": "c",
+    "__node_handle": "c",
+    "algorithm": "c",
+    "stdio.h": "c"
   }
 }

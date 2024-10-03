@@ -64,9 +64,36 @@ bool    pasabel(char *c)
     
     return(true);
 }
+void ft_printf_a(t_list *a)
+{
+    t_list *tmp = a;
+    while(tmp)
+    {
+        printf("%s - content\n",tmp->content);
+        tmp = tmp -> next;
+    }
+}
+char **ft_joinlist(t_list *a)
+{
+    if (!a) return NULL; 
+
+    int p = ft_lstsize(a);
+    char **words = malloc(sizeof(char *) * (p + 1)); 
+    if (!words) return NULL; 
+    int i = 0;
+    while (a)
+    {
+        words[i] = a->content; 
+        a = a->next;          
+        i++;
+    }
+    words[i] = NULL; 
+
+    return words; 
+}
 bool    handel_comond(char *cmd,t_exec_cmd **comond,char **env)
 {
-    char **words = ft_split(cmd, ' ');
+     char **words = ft_split(&cmd[0],' ');
       char **args;  
     args = malloc(sizeof(char *) * (count_words(words) + 1));
     char *temp;
@@ -85,8 +112,6 @@ bool    handel_comond(char *cmd,t_exec_cmd **comond,char **env)
             }
 
         }
-        if(words[i][0] == '|')
-            i++;
         else if(ft_strcmp(words[i],"<<") == 0)
         {
 
@@ -153,4 +178,24 @@ void filehandler(t_exec_cmd **s)
         }
         close((*s)->outfd);  
     }
+}
+void f(void *content)
+{
+    char *s = (char *)content;  // Cast content to char as it's passed as void *
+    int i = 0;
+    int j = 0;
+    int single_q = 0;
+    int double_q = 0;
+
+    while (s[i])
+    {
+        if (s[i] == '\'' && !double_q)
+            single_q = !single_q;
+        else if (s[i] == '"' && !single_q)
+            double_q = !double_q;
+        else
+            s[j++] = s[i];  // Copy valid characters to the current position
+        i++;
+    }
+    s[j] = '\0';  // Null-terminate at position j
 }

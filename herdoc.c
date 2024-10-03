@@ -70,16 +70,27 @@ static char *read_it(const char *del,int *f,char **env,bool flage)
     }
     return(fullline);
 }
-int    ft_herdoc(const char *del,char **env)
+int    ft_herdoc(char *del,char **env)
 {
     (void)env;
     char *fullline;
     int fd;
     int flage;
-    if(del[0] == '$')
+    int i;
+
+    if(del[0] == '\"')
     {
         flage = false;
         del++;
+        i = ft_strlen(del) ;
+        del[i- 1] = '\0';
+    }
+    else if(del[0] == '\'')
+    {
+        flage = false;
+        del++;
+        i = ft_strlen(del) ;
+        del[i- 1] = '\0';
     }
     else
         flage = true;

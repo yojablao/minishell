@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 10:15:24 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/28 09:41:56 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:44:07 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ int	ft_check_grammer(t_list *a)
 			if (tmp -> next && tmp -> next -> stat == PIPE)
 				return (0);
 		}
+		if(tmp -> stat == TEXT)
+			f(tmp->content);
 		tmp = tmp -> next;
 	}
 	return(1);

@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/28 10:42:59 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/01 19:04:32 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+
 typedef struct s_env
 {
     char *key;
@@ -36,7 +37,7 @@ typedef struct s_exec_cmd {
     int outfd;
     char *cmd;
     char **args;
-    char **files;
+    // char **files;
     char **env;
 } t_exec_cmd;
 typedef struct s_num_operat
@@ -94,6 +95,8 @@ void	ft_free_array(char **s1);
 int		syntax(char *str,t_top ** cmd);
 void	ft_full_list(t_list **a, char *s , int c);
 void	ft_print_stack(t_exec_cmd *a);
+void f(void *content);
+void    ft_printf_a(t_list *a);
 //int syntax_ok(char *str);
 int    ft_check_Quotes(char *str);
 void	ft_free_stack(t_list *a);
@@ -106,9 +109,14 @@ char    *find_comond(char *comond,char **env);
 int out_redirect(char *file);
 int in_redirect(char *file);
 bool    handel_comond(char *cmd,t_exec_cmd **comond,char **env);
+bool    handel_onecomond(char **cmd,t_exec_cmd **comond,char **env);
 char *expand(char *s,char **envo);
-int    ft_herdoc(const char *del,char **env);
+int    ft_herdoc(char *del,char **env);
 void filehandler(t_exec_cmd **s);
 void    child(t_exec_cmd **s,char **env);
 int append(char *file);
+char **ft_joinlist(t_list *a);
+int count_words(char **words);
+bool    pasabel(char *c);
+
 #endif
