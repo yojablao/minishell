@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 10:15:24 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/09/30 16:44:07 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/04 03:41:27 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_full_list(t_list **a, char *s , int c)
 	t_list	*tmp;
 	int		i;
 
-	array = ft_split(s, c);
+	array = f_split(s, c);
 	if (!array)
 		exit(1);
 	i = 0;
@@ -31,7 +31,7 @@ void	ft_full_list(t_list **a, char *s , int c)
 	i = 0;
 	while (array[i])
 	{
-		tmp = ft_lstnew(array[i]);
+		tmp = f_lstnew(array[i]);
 		// printf("==> %s\n", tmp->content);
 		// printf("stat ==> %d\n", tmp->stat);
 		if (!tmp)

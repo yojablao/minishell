@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:46:07 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/03 08:16:03 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/04 04:01:06 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ size_t  ft_count_operators(char *str)
 		i++;	
 	}
 	res = (s.pipe + s.app + s.her + s.inp + s.out) * 2;
-	// printf("res == %zu\n",res);
 	return (res);
 }
 
@@ -119,7 +118,6 @@ char    *ft_handel_spaces_allocation(char *str)
 
     len2 = ft_count_operators(str);
 	len1  = ft_strlen(str) + len2;
-	//printf("len1 %zu\n",len1);
 	new = ft_my_malloc(len1 + 1);
 	return(new);
 }
@@ -219,7 +217,7 @@ char *rm_escap_char(char *s)
     int single_q = 0;
     int double_q = 0;
 
-    char *res = c_malloc(ft_strlen(s) + 1,1);
+    char *res = master(ft_strlen(s) + 1,1);
     if (!res)
         return (NULL);
     while (s[i])
@@ -236,15 +234,13 @@ char *rm_escap_char(char *s)
     return (res);
 }
 
-// hander_words
+
 int syntax(char *str,t_top **cmd)
 {
     char *new;
-	// t_list *a;
-	// t_list *b;
 
 	(*cmd)->a = NULL;
-	// b = NULL;
+
 	if (!ft_check_quotes(str) || !ft_check_her(str))
 	{
 		free(str);
@@ -258,12 +254,6 @@ int syntax(char *str,t_top **cmd)
 		ft_free((*cmd)->a, str, new);
 		return(0);
 	}
-	// printf("%s\n",str);
-	// hander_words((*cmd)->a);
-	// (*cmd)->a = a;
-	// ft_full_list(&b, new, 124);
-	// ft_free(a, str, new);
-	// ft_free_stack(b);
 	return (1);
 }
 /*

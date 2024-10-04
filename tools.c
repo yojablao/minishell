@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tools.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/04 03:50:24 by yojablao          #+#    #+#             */
+/*   Updated: 2024/10/04 03:50:29 by yojablao         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 t_env     *env_set(char **envi)
 {
@@ -16,7 +28,7 @@ t_env     *env_set(char **envi)
         {
             if(envi[i][j] == '=')
             {
-                new_env = c_malloc(sizeof(t_env),1);
+                new_env = master(sizeof(t_env),1);
                 if(!new_env)
                     return NULL;
                 envi[i][j] = '\0';
@@ -37,7 +49,6 @@ t_env     *env_set(char **envi)
         }
         i++;
     }
-    // printf("hrjvgblre\n");
     return (env);
 }
 int count_words(char **words)
@@ -78,7 +89,7 @@ char **ft_joinlist(t_list *a)
     if (!a) return NULL; 
 
     int p = ft_lstsize(a);
-    char **words = c_malloc(sizeof(char *) * (p + 1),1); 
+    char **words = master(sizeof(char *) * (p + 1), 1); 
     if (!words) return NULL; 
     int i = 0;
     while (a)
@@ -88,14 +99,13 @@ char **ft_joinlist(t_list *a)
         i++;
     }
     words[i] = NULL; 
-
     return words; 
 }
 bool    handel_comond(char *cmd,t_exec_cmd **comond,char **env)
 {
-     char **words = ft_split(&cmd[0],' ');
+     char **words = f_split(&cmd[0],' ');
       char **args;  
-    args = c_malloc(sizeof(char *) * (count_words(words) + 1),1);
+    args = master(sizeof(char *) * (count_words(words) + 1),1);
     char *temp;
     int i = 0;
     int j = 0;
@@ -108,7 +118,7 @@ bool    handel_comond(char *cmd,t_exec_cmd **comond,char **env)
             {
                 temp = words[i];
                 words[i] =  expand(words[i],env);
-                free(temp);
+                // free(temp);
             }
 
         }
@@ -116,7 +126,6 @@ bool    handel_comond(char *cmd,t_exec_cmd **comond,char **env)
         {
 
             (*comond)->infd =  ft_herdoc(words[++i],env);
-            // printf("%d\n",(*comond)->infd);
             if((*comond)->infd == -1)
                 return (perror(words[i]) ,false);
         }

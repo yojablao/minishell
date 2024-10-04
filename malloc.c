@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 04:55:36 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/03 10:08:09 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/04 03:53:20 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char    *ft_my_malloc(size_t len)
     char	*new;
 	size_t i;
 
-	new = c_malloc(len,1);
+	new = master(len,1);
 	if(!new)
 	{
 		free(new);
@@ -50,84 +50,74 @@ void	ft_free_array(char **s1)
 	}
 	free(s1);
 }
-t_malloc    *ft_mallocnew(void *value)
-{
-    t_malloc    *node;
 
-    node = malloc(sizeof(t_malloc));
-    if (!node)
-        return (NULL);
-    printf("\n\nadd of node : %p\n\n", node);
-    node->ptr = value;
-    node->next = NULL;
-    return (node);
+void free_all(void **arr)
+{
+    int i = 0;
+
+    while (arr[i])
+    {
+        free(arr[i]);
+        arr[i] = NULL;
+        i++;
+    }
 }
 
-void    ft_mallocadd_back(t_malloc **lst, t_malloc *new)
+void    *master(size_t size, int flag)
 {
-    t_malloc    *current;
-
-    if (!*lst || !lst)
-    {
-        lst = &new;
-        return ;
-    }
-    current = *lst;
-    while (current->next != NULL)
-    {
-        current = current->next;
-
-    }
-    current->next = new;
-}
-
-void ft_mallocclear(t_malloc **st)
-{
-    t_malloc *tmp;
-    t_malloc *lst;
-    lst = *st;
-
-    // Ensure the list and its content exist
-    if (!lst)
-        return;
-
-    // Iterate through the list and free the nodes
-    while (lst)
-    {
-        tmp = lst->next;  // Save the next node
-        if (lst->ptr)
-        {
-            printf("\n#####%p#####\n", lst->ptr);
-            free(lst->ptr);  // Free the memory pointed to by ptr
-        }
-        free(lst);  // Free the node itself
-        lst = tmp;  // Move to the next node
-    }
-    lst = NULL;  // Ensure the list pointer is set to NULL after clearing
-}
-
-void    *c_malloc(size_t size, int flag)
-{
-    static t_malloc    *head;
-    t_malloc            *tmp;
+    static void *arr[100042];
+    static int i;
     void            *ptr;
 
     if (flag == 1)
     {
         ptr = malloc(size);
         if (!ptr)
-            return (ft_mallocclear(&head), NULL);
-        tmp = ft_mallocnew(ptr);
-        if (!tmp)
-            return (ft_mallocclear(&head), free(ptr), NULL);
-        ft_mallocadd_back(&head, tmp);
+            exit(1);
+        arr[i++] = ptr;
+        arr[i] = NULL;
         return (ptr);
     }
-    else if (flag == 0)
-	{
-		// printf("\n\n#####%p#####\n",&head);
-        ft_mallocclear(&head);
-		printf("%d\n",flag);
-	}
-    return (NULL);
+    else
+    {
+        i = 0;
+        free_all(arr);
+        return NULL;
+    }
+}
+void	*f_calloc(size_t count, size_t size)
+{
+	void	*str;
+
+	if (size > sizeof(size))
+		return (NULL);
+	str = master(count * size,1);
+	if (!str)
+		return (NULL);
+	ft_bzero (str, (count * size));
+	return (str);
+}
+t_list	*f_lstnew(void *content)
+{
+	t_list	*head;
+	enum status;
+
+	head = (t_list *)master(sizeof(t_list),1);
+	if (!head)
+		return (NULL);
+	head -> content = content;
+	if (ft_strcmp(head -> content, "|") == 0)
+		head -> stat = PIPE;
+	else if (ft_strcmp(head -> content, "<") == 0)
+		head -> stat = INP;
+	else if (ft_strcmp(head -> content, ">") == 0)
+		head -> stat = OUT;
+	else if (ft_strcmp(head -> content, "<<") == 0)
+		head -> stat = HER;
+	else if (ft_strcmp(head -> content, ">>") == 0)
+		head -> stat = APP;
+	else
+		head -> stat = TEXT;
+	head -> next = NULL;
+	return (head);
 }

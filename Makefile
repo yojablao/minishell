@@ -3,7 +3,7 @@ SOURCES = $(shell find . -name "*.c")
 OBJECTS = $(SOURCES:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror  -fsanitize=address 
+CFLAGS = -Wall -Wextra -Werror   #-fsanitize=address -g 
 
 READ = -lreadline
 $(NAME) : $(OBJECTS) 

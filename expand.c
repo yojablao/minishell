@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/04 03:50:05 by yojablao          #+#    #+#             */
+/*   Updated: 2024/10/04 03:51:15 by yojablao         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 char *expand(char *s, char **envo)
 {
@@ -11,7 +23,7 @@ char *expand(char *s, char **envo)
     {
         if (!ft_strcmp(env->key, s))
         {
-            char *result = ft_strdup(env->value);
+            char *result = f_strdup(env->value);
             if (!result)
                 return NULL; 
             return result;
@@ -26,10 +38,8 @@ char    *find_comond(char *comond,char **env)
     int i = 0;
     t_env    *tmp ;
     char    *path;
-    char    *add;
     char    **fullpath;
 
-    
     tmp = env_set(env);
     if(ft_strchr(comond,'/'))
         return(comond);
@@ -42,12 +52,10 @@ char    *find_comond(char *comond,char **env)
     }
     if((ft_strcmp(tmp->key, "PATH")) == 0)
     {
-        fullpath = ft_split(tmp->value, ':');
+        fullpath = f_split(tmp->value, ':');
         while(fullpath[i] != NULL)
         {
-            add = fullpath[i];
             fullpath[i] =  f_strjoin(fullpath[i],"/");
-            free(add);
             if(!fullpath[i])
                 return NULL;
             path = f_strjoin(fullpath[i],comond);
@@ -59,5 +67,4 @@ char    *find_comond(char *comond,char **env)
         }
     }
     return (NULL);
-
 }

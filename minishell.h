@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/03 09:35:27 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/04 03:57:19 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct top
     int     n_pipe;
 }t_top;
 
+t_list	*f_lstnew(void *content);
 char    *ft_my_malloc( size_t len);
 void	ft_free(t_list *a, char *s1, char *s2);
 void	ft_free_array(char **s1);
@@ -124,8 +125,14 @@ int append(char *file);
 char **ft_joinlist(t_list *a);
 int count_words(char **words);
 bool    pasabel(char *c);
-void    *c_malloc(size_t size, int flag);
+void    *master(size_t size, int flag);
 char	*f_strdup(const char *s1);
 char	*f_strjoin(char const *s1, char const *s2);
+char	**f_split(char *s, char c);
+void	*f_calloc(size_t count, size_t size);
+t_top   *init(char **envi);
+int pars(t_top **cmd,char *input);
+t_exec_cmd	*aloc_comond(char **env ,t_exec_cmd *s);
+char **init_mult_cmd(t_list *a, int p);
 
 #endif

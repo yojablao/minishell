@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   herdoc.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/04 03:49:33 by yojablao          #+#    #+#             */
+/*   Updated: 2024/10/04 03:52:04 by yojablao         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 void free2d(char **s)
 {
@@ -7,42 +19,32 @@ void free2d(char **s)
 }
 char *check_expand(char *line,char **env)
 {
-    char *tmp;
     char *expanded;
     char *fullline;
 
     int flage = 0;
     int i = 0;
     fullline = NULL;
-    char **words = ft_split(line,' ');
+    char **words = f_split(line,' ');
     while (words[i])
     {
         if(words[i][0] == '$')
         {
             flage = 1;
             expanded = expand(words[i],env);
-            tmp = fullline;
             if(!expanded)
                 exit(11);
             fullline =  f_strjoin(fullline,expanded);
-            free(tmp);
         }
         else
-        {
-            tmp = fullline;
             fullline =  f_strjoin(fullline,words[i]);
-            free(tmp);
-
-        }
-        tmp = fullline;
         fullline =  f_strjoin(fullline," ");
-        free(tmp);
         i++;
     }
     if(flage == 1 && fullline)
         return(fullline);
     else
-        return(free2d(words),free(line),fullline);
+        return(fullline);
 }
 static char *read_it(const char *del,int *f,char **env,bool flage)
 {
@@ -63,10 +65,8 @@ static char *read_it(const char *del,int *f,char **env,bool flage)
             line = check_expand(line,env);
         tmp = line;
         line =  f_strjoin(line,"\n");
-        free(tmp);
         tmp = fullline;
         fullline =  f_strjoin(fullline,line);
-        free(tmp);
     }
     return(fullline);
 }
