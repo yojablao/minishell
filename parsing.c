@@ -6,117 +6,64 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:39 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/04 03:57:43 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/19 18:56:26 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-static int pipe_check(char *s)
+static int pipe_check(t_list *a)
 {
     int i = 0;
-    int k = 0;
-    if(!s)
-        return(0);
-    while(s[i])
+    while(a)
     {
-        if(s[i] == '|')
-            k++;
-        i++;
+        if(ft_strcmp(a->content,"|") == 0)
+            i++;
+        a = a->next;
     }
-    return(k);
+    return(i);
 }
-int pars(t_top **cmd,char *input)
+
+
+int pars(t_shell **cmd,char *input)
 {
-	int i = -1;
-	char **comond;
-	(*cmd)->cmd = aloc_comond((*cmd)->env->env,NULL);
-	if(!(*cmd)->cmd)
+    if (!syntax(input,cmd))
+		return (printf("syntax error\n"), -1);
+        ft_printf_a((*cmd)->a);
+	(*cmd)->cmd = aloc_comond((*cmd)->cmd);
+	if(!(*cmd)->cmd || !(*cmd)->a)
 		return -1;
 	(*cmd)->head = (*cmd)->cmd;
-	(*cmd)->n_pipe = pipe_check(input);
+	(*cmd)->n_pipe = pipe_check((*cmd)->a);
 	if((*cmd)->n_pipe > 0)
 	{
-		comond = init_mult_cmd((*cmd)->a,(*cmd)->n_pipe);
-        i = -1;
-		while(comond[++i])
-		{
-			if(handel_comond(comond[i],&(*cmd)->cmd,(*cmd)->env->env))
-            {
-			    (*cmd)->cmd->cmd = find_comond((*cmd)->cmd->args[0],(*cmd)->env->env);
-            }
-            if(comond[i + 1] != NULL)
-			    (*cmd)->cmd->next = aloc_comond((*cmd)->env->env,(*cmd)->head);
-            else
-            {
-                (*cmd)->cmd->next = NULL;
-                break;
-            }
-            
-			if(!(*cmd)->cmd->next)
-				exit(150);
-			(*cmd)->cmd = (*cmd)->cmd->next;
-		}
+        // printf("jkruhgnv\n");
+        init_pipe_line(cmd);
 		(*cmd)->cmd = (*cmd)->head;
 		return(2);
 	}
     else
     {
-        comond = ft_joinlist((*cmd)->a);
-		if(!handel_onecomond(comond,&(*cmd)->cmd,(*cmd)->env->env))
+        if(comond_init(cmd) == false)
             return(-1);
-		(*cmd)->cmd->cmd = find_comond((*cmd)->cmd->args[0],(*cmd)->env->env); 
         return(1);
     }
 }
-bool    handel_onecomond(char **words,t_exec_cmd **comond,char **env)
+
+bool    handel_comond(char **words,t_exec_cmd **comond,t_environment **env)
 {
     char **args;  
-    args = master(sizeof(char *) * (count_words(words) + 1),1);
-    char *temp;
     int i = 0;
     int j = 0;
 
+
+    args = master(sizeof(char *) * (count_words(words) + 1),1);
+    if(!args)
+        return(false);
     while(words[i] != NULL)
     {
-        if(words[i][0] == '$')
-        {
-            if(i > 0 && pasabel(words[i-1] ))
-            {
-                temp = words[i];
-                words[i] =  expand(words[i],env);
-                // free(temp);
-            }
-        }
-        if(ft_strcmp(words[i],"<<") == 0)
-        {
-            (*comond)->infd =  ft_herdoc(words[++i],env);
-            if((*comond)->infd == -1)
-                return (perror(words[i]) ,false);
-        }
-        else if( ft_strcmp(words[i],">") == 0)
-        {
-            (*comond)->outfd = out_redirect(words[++i]);
-            if((*comond)->outfd == -1)
-                return (perror(words[i]) ,false);
-        }
-        else if(ft_strcmp(words[i],"<") == 0)
-        {
-            if(words[i + 1] != NULL)
-            {
-                (*comond)->infd = in_redirect(words[++i]);
-                if((*comond)->infd == -1)
-                    return (perror(words[i]) ,false);
-            }
-            else
-                return false;
-        }
-        else if(ft_strcmp(words[i],">>") == 0)
-        {
-            (*comond)->outfd = append(words[++i]);
-            if((*comond)->outfd == -1)
-                return (perror(words[i]) ,false);
-        }
-        else
+        if(!handel_redirect(&i,words,comond,(*env)->env))
+            return (false);
+        else if(words[i])
         {
             if(((i >= 1 && pasabel(words[i - 1]) == true) || i == 0 ))
             {
@@ -125,11 +72,61 @@ bool    handel_onecomond(char **words,t_exec_cmd **comond,char **env)
             }
             i++;
         }
+        // printf("-- %s --\n", words[i]);
     }
-    if(!args)
-        return(false);
-    args[j] = NULL;
+    args [j]= NULL;
     (*comond)->args = args;
-    (*comond)->cmd = words[0];
-    return(args);
+    return(true);
+}
+static char *find_pexec(char *comond,char *value)
+{
+    char    *path;
+    char    **fullpath;
+    int i;
+
+    i = -1;
+    fullpath = f_split(value, ':');
+    while(fullpath[++i] != NULL)
+    {
+        fullpath[i] =  f_strjoin(fullpath[i],"/");
+        if(!fullpath[i])
+            return NULL;
+        path = f_strjoin(fullpath[i],comond);
+        if(!path[i])
+            return NULL;
+        if(!access(path, X_OK))
+            return(path);
+    }
+    return(NULL);
+}
+char    *find_comond(char *comond,t_env **env)
+{
+    t_env    *tmp ;
+
+    if(!comond)
+        return NULL;
+    tmp = (*env);
+    if(ft_strchr(comond,'/'))
+        return(comond);
+    while(tmp !=   NULL && (ft_strcmp(tmp->key,"PATH")) != 0)
+    {
+        if((ft_strcmp(tmp->key,"PATH")) == 0)
+            break;
+        if(tmp->next == NULL)
+            break;
+        else
+            tmp = tmp->next;
+    }
+    if((ft_strcmp(tmp->key, "PATH")) == 0)
+        return(find_pexec(comond,tmp->value));
+    return (NULL);
+}
+size_t	f_strlen2d(char **str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }

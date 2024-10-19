@@ -3,7 +3,7 @@ SOURCES = $(shell find . -name "*.c")
 OBJECTS = $(SOURCES:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror   #-fsanitize=address -g 
+CFLAGS = -Wall -Wextra -Werror   -fsanitize=address -g 
 
 READ = -lreadline
 $(NAME) : $(OBJECTS) 
@@ -23,5 +23,6 @@ fclean: clean
 
 push:
 	git add .
-	git commit -m ""
+	git commit -m "yojablao"
+	git push
 re: fclean all

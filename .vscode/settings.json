@@ -57,6 +57,9 @@
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
-    "minishell.h": "c"
+    "minishell.h": "c",
+    "_xlocale.h": "c",
+    "algorithm": "c",
+    "fcntl.h": "c"
   }
 }

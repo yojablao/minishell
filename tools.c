@@ -6,11 +6,40 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:50:24 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/04 03:50:29 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/19 16:47:06 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+
+
+char	*f_substr(char const *s, unsigned int start, size_t len)
+{
+	char		*new;
+	char		*src;
+	size_t		l;
+	size_t		i;
+
+	if (!s)
+		return (NULL);
+	src = (char *)s;
+	l = ft_strlen(s);
+	i = 0;
+	if (start >= l)
+		return (f_strdup(""));
+	if (len > l - start)
+		len = (l - start);
+	new = (char *)master((len + 1) * sizeof(char),1);
+	if (!new)
+		return (NULL);
+	while (i < len)
+		new[i++] = src[start++];
+	new[i] = '\0';
+	return (new);
+}
+
 t_env     *env_set(char **envi)
 {
     t_env    *env = NULL;
@@ -34,6 +63,7 @@ t_env     *env_set(char **envi)
                 envi[i][j] = '\0';
                 new_env->key = f_strdup(&envi[i][0]);
                 new_env->value= f_strdup(&envi[i][j + 1]);
+                new_env->valid = 1;
                 new_env->next = NULL;
                 if(tmp == NULL)
                     env = new_env;
@@ -80,94 +110,86 @@ void ft_printf_a(t_list *a)
     t_list *tmp = a;
     while(tmp)
     {
-        printf("%s - content\n",tmp->content);
+        printf("{%s}\n",tmp->content);
         tmp = tmp -> next;
     }
 }
-char **ft_joinlist(t_list *a)
+char **ft_joinlist(t_list *a,t_environment **env)
 {
     if (!a) return NULL; 
-
+    int s = -1;
     int p = ft_lstsize(a);
+    // printf("%d\n",p);
     char **words = master(sizeof(char *) * (p + 1), 1); 
     if (!words) return NULL; 
     int i = 0;
     while (a)
     {
-        words[i] = a->content; 
-        a = a->next;          
+        if (s == -1 || s != 4)
+            words[i] = ft_expand(a->content,(*env)->lenv);
+        else
+            words[i] = f_strdup(a->content);
+        s = a->stat;
+        a = a->next;        
         i++;
     }
     words[i] = NULL; 
     return words; 
 }
-bool    handel_comond(char *cmd,t_exec_cmd **comond,char **env)
-{
-     char **words = f_split(&cmd[0],' ');
-      char **args;  
-    args = master(sizeof(char *) * (count_words(words) + 1),1);
-    char *temp;
-    int i = 0;
-    int j = 0;
+// bool    handel_comond(char *cmd,t_exec_cmd **comond,char **env)
+// {
+//      char **words = f_split(cmd,' ');
+//     char **args;  
+//     args = master(sizeof(char *) * (count_words(words) + 1),1);
+//     int i = 0;
+//     int j = 0;
 
-    while(words[i] != NULL)
-    {
-        if(words[i][0] == '$')
-        {
-            if(i > 0 && pasabel(words[i-1] ))
-            {
-                temp = words[i];
-                words[i] =  expand(words[i],env);
-                // free(temp);
-            }
+//     while(words[i] != NULL)
+//     {
+//         if(ft_strcmp(words[i],"<<") == 0)
+//         {
 
-        }
-        else if(ft_strcmp(words[i],"<<") == 0)
-        {
+//             (*comond)->infd =  ft_herdoc(words[++i],env);
+//             if((*comond)->infd == -1)
+//                 return (perror(words[i]) ,false);
+//         }
+//         else if( ft_strcmp(words[i],">") == 0)
+//         {
+//             (*comond)->outfd = out_redirect(words[++i]);
+//             if((*comond)->outfd == -1)
+//                 return (perror(words[i]) ,false);
+//         }
+//         else if(ft_strcmp(words[i],"<") == 0)
+//         {
+//             (*comond)->infd = in_redirect(words[++i]);
+//             if((*comond)->infd == -1)
+//                 return (perror(words[i]) ,false);
+//         }
+//         else if(ft_strcmp(words[i],">>") == 0)
+//         {
+//             (*comond)->outfd = append(words[++i]);
+//             if((*comond)->outfd == -1)
+//                 return (perror(words[i]) ,false);
+//         }
+//         else
+//         {
+//             if(((i >= 1 && pasabel(words[i - 1]) == true) || i == 0 ))
+//             {
+//                 args[j] = words[i];
+//                 j++;
 
-            (*comond)->infd =  ft_herdoc(words[++i],env);
-            if((*comond)->infd == -1)
-                return (perror(words[i]) ,false);
-        }
-        else if( ft_strcmp(words[i],">") == 0)
-        {
-            (*comond)->outfd = out_redirect(words[++i]);
-            if((*comond)->outfd == -1)
-                return (perror(words[i]) ,false);
+//             }
 
-        }
-        else if(ft_strcmp(words[i],"<") == 0)
-        {
-            (*comond)->infd = in_redirect(words[++i]);
-            if((*comond)->infd == -1)
-                return (perror(words[i]) ,false);
-        }
-        else if(ft_strcmp(words[i],">>") == 0)
-        {
-            (*comond)->outfd = append(words[++i]);
-            if((*comond)->outfd == -1)
-                return (perror(words[i]) ,false);
-        }
-        else
-        {
-            if(((i >= 1 && pasabel(words[i - 1]) == true) || i == 0 ))
-            {
-                args[j] = words[i];
-                j++;
-
-            }
-
-            i++;
-        }
-    }
-    if(!args)
-        return(false);
-    args[j] = NULL;
-    (*comond)->args = args;
-    (*comond)->cmd = words[0];
-    return(args);
-    
-}
+//             i++;
+//         }
+//     }
+//     if(!args)
+//         return(false);
+//     args[j] = NULL;
+//     (*comond)->args = args;
+//     (*comond)->cmd = args[0];
+//     return(args);
+// }
 void filehandler(t_exec_cmd **s)
 {
         // printf("%d\n",(*s)->infd);

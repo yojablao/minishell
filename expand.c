@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:50:05 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/04 03:51:15 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/14 21:30:51 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,40 +31,4 @@ char *expand(char *s, char **envo)
         env = env->next;
     }
     return NULL;
-}
-
-char    *find_comond(char *comond,char **env)
-{
-    int i = 0;
-    t_env    *tmp ;
-    char    *path;
-    char    **fullpath;
-
-    tmp = env_set(env);
-    if(ft_strchr(comond,'/'))
-        return(comond);
-    while(tmp !=   NULL && (ft_strcmp(tmp->key,"PATH")) != 0)
-    {
-        if((ft_strcmp(tmp->key,"PATH")) == 0)
-            break;
-        else
-            tmp = tmp->next;
-    }
-    if((ft_strcmp(tmp->key, "PATH")) == 0)
-    {
-        fullpath = f_split(tmp->value, ':');
-        while(fullpath[i] != NULL)
-        {
-            fullpath[i] =  f_strjoin(fullpath[i],"/");
-            if(!fullpath[i])
-                return NULL;
-            path = f_strjoin(fullpath[i],comond);
-            if(!path[i])
-                return NULL;
-            if(!access(path, X_OK))
-                return(path);
-            i++;
-        }
-    }
-    return (NULL);
 }

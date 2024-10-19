@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:33 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/04 03:52:04 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:21:11 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,23 @@ void free2d(char **s)
     int i = -1;
     while(s[++i] != NULL)
         free(s[i]);
+    free(s);
 }
+
+char	*ft_get_env(t_shell *data, char *key)
+{
+	t_env	*temp;
+
+	temp = data->env->lenv;
+	while (temp)
+	{
+		if (ft_strcmp(temp->key, key) == 0)
+			return (temp->value);
+		temp = temp->next;
+	}
+	return (NULL);
+}
+
 char *check_expand(char *line,char **env)
 {
     char *expanded;
@@ -48,6 +64,8 @@ char *check_expand(char *line,char **env)
 }
 static char *read_it(const char *del,int *f,char **env,bool flage)
 {
+    (void)env;
+    (void)flage;
     char    *fullline;
     char    *tmp;
     char    *line;
@@ -59,16 +77,31 @@ static char *read_it(const char *del,int *f,char **env,bool flage)
     while(1)
     {
         line = readline("\033[95m heredoc> \033[0m");
-        if(!line || ft_strcmp(line ,(char *)del) == 0)
+        if(!line)
             break;
+        if(ft_strcmp(line ,(char *)del) == 0)
+        {
+            free (line);
+            break;
+        }
         if(flage == true)
-            line = check_expand(line,env);
-        tmp = line;
-        line =  f_strjoin(line,"\n");
-        tmp = fullline;
-        fullline =  f_strjoin(fullline,line);
+            tmp = check_expand(line,env);
+        tmp =  f_strjoin(tmp,"\n");
+        free(line);
+        fullline =  f_strjoin(fullline,tmp);
     }
     return(fullline);
+}
+
+bool     check_qoutes(char *str)
+{
+    int i;
+
+    i = -1;
+    while (str[++i])
+        if (str[i] == '\'' || str[i] == '\"')
+            return (false);
+    return (true);
 }
 int    ft_herdoc(char *del,char **env)
 {
@@ -76,36 +109,20 @@ int    ft_herdoc(char *del,char **env)
     char *fullline;
     int fd;
     int flage;
-    int i;
+    // int i;
 
-    if(del[0] == '\"')
-    {
-        flage = false;
-        del++;
-        i = ft_strlen(del) ;
-        del[i- 1] = '\0';
-    }
-    else if(del[0] == '\'')
-    {
-        flage = false;
-        del++;
-        i = ft_strlen(del) ;
-        del[i- 1] = '\0';
-    }
-    else
-        flage = true;
-    fullline =read_it(del,&fd,env,flage);
+
+    flage = check_qoutes(del);
+    if (flage == false)
+        f(del);
+    fullline = read_it(del,&fd,env,flage);
     if (fullline)
     {
         if(fullline == NULL)
             exit(1);
-
         if (write(fd, fullline, ft_strlen(fullline)) == -1)
-            return(perror("Error writing to file"),free(fullline),close(fd), -1);
-        free(fullline);
+            return(perror("Error writing to file"),close(fd), -1);
     }
-    else
-        return (close(fd),-1);
     close(fd);
     fd = open("/tmp/lo.txt", O_RDONLY);
     if (fd == -1)
