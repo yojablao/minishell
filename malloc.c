@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 04:55:36 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/06 18:13:56 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/22 15:18:51 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,16 @@ void free_all(void **arr)
 
 void    *master(size_t size, int flag)
 {
-    static void *arr[100042];
-    static int i;
+    static void *arr[INT32_MAX];
+    static int i = 0;
     void            *ptr;
-
     if (flag == 1)
     {
         ptr = malloc(size);
         if (!ptr)
             exit(1);
-        arr[i++] = ptr;
-        arr[i] = NULL;
+        arr[i] = ptr;
+        arr[++i] = NULL;
         return (ptr);
     }
     else

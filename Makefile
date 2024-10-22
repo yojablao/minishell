@@ -1,9 +1,21 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/10/21 15:23:56 by yojablao          #+#    #+#              #
+#    Updated: 2024/10/22 15:39:36 by yojablao         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = minishell
 SOURCES = $(shell find . -name "*.c")
 OBJECTS = $(SOURCES:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror   -fsanitize=address -g 
+CFLAGS =   -Wall -Wextra -Werror  -g -fsanitize=address
 
 READ = -lreadline
 $(NAME) : $(OBJECTS) 

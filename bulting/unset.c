@@ -38,7 +38,7 @@ char **join_to_env(t_env *env)
     i = 0;
     while(env)
     {
-        if(env->valid)
+        if(env->valid || ft_strcmp(env->key,"PATH") == 0)
         {
             envi[i] = f_strjoin(env->key,"=");
             envi[i] = f_strjoin(envi[i],env->value);
@@ -67,10 +67,12 @@ bool    un_set_builting(t_exec_cmd **s,t_environment **env)
     }
     return(true);
 }
-bool check_exs(t_env *env,char *key,char *value,bool add)
+bool check_exs(t_env **tmp,char *key,char *value,bool add)
 {
     bool flage;
+    t_env *env;
 
+    env = (*tmp);
     flage = false;
     while (env)
     {
@@ -95,7 +97,7 @@ void add_to_env(t_env **envi, char *key,char *content,bool add)
     bool flage;
     flage = false;
     
-    if(check_exs((*envi),key,content,add) == true)
+    if(check_exs(envi,key,content,add) == true)
         return;
     while(current->next)
         current = current->next;

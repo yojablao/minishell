@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:33 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/18 10:21:11 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:12:02 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static char *read_it(const char *del,int *f,char **env,bool flage)
     while(1)
     {
         line = readline("\033[95m heredoc> \033[0m");
-        if(!line)
+        if(!*line)
             break;
         if(ft_strcmp(line ,(char *)del) == 0)
         {
@@ -118,6 +118,7 @@ int    ft_herdoc(char *del,char **env)
     fullline = read_it(del,&fd,env,flage);
     if (fullline)
     {
+        // perror("Error writing to file");
         if(fullline == NULL)
             exit(1);
         if (write(fd, fullline, ft_strlen(fullline)) == -1)

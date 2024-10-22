@@ -60,6 +60,8 @@
     "minishell.h": "c",
     "_xlocale.h": "c",
     "algorithm": "c",
-    "fcntl.h": "c"
+    "fcntl.h": "c",
+    "locale": "c",
+    "__mutex_base": "c"
   }
 }

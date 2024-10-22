@@ -6,17 +6,9 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 20:53:27 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/16 15:45:27 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/19 22:17:40 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
-
-
-
-
-
-
 
 #include "../minishell.h"
 
@@ -37,8 +29,6 @@ char *cd_to_path(char *path, bool flag, int gard)
 		}
 		return (NULL);
 	}
-
-	
 	return f_strdup(buffer);
 }
 
@@ -70,7 +60,7 @@ int handle_fail_chdir(int *gard, t_env **env, char *path)
 		add_to_env(env, "PWD", "/.", 1);
 	}
 	// else if(cwd)
-		// add_to_env(env, "PWD", cwd, 1);
+	// 	add_to_env(env, "PWD", cwd, 1);
 	return (*gard);
 }
 

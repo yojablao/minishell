@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/19 16:56:52 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:31:47 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,16 @@ typedef struct s_environment
 typedef struct top
 {
     t_list  *a;
+    int     dup_stdin;
     t_exec_cmd *cmd;
     t_environment   *env;
+    char   **env_ini;
     t_exec_cmd *head;
     int     n_pipe;
+    int     *curr;
+    int     *prev;
 }t_shell;
-
+ 
 t_list	*f_lstnew(void *content);
 char    *ft_my_malloc( size_t len);
 // void	ft_free(t_list *a, char *s1, char *s2);
@@ -130,7 +134,7 @@ int count_words(char **words);
 bool    pasabel(char *c);
 void    *master(size_t size, int flag);
 char	*f_strdup(const char *s1);
-char	*f_strjoin(char const *s1, char const *s2);
+char	*f_strjoin(char *s1, char *s2);
 char	**f_split(char *s, char c);
 void	*f_calloc(size_t count, size_t size);
 t_shell   *init(char **envi);
@@ -159,8 +163,11 @@ int check_internal_builtins(t_exec_cmd **s,t_environment **env);
 // char **expand_f(char **s,t_env *env);
 // char *expand_chesk(char *s,t_env *env);
 size_t	f_strlen2d(char **str);
-char *ft_expand(char *s, t_env *env);
+char *ft_expand(char *s, char **envi);
+// char *ft_expand(char *s, t_env *env);
 bool    handel_comond(char **words,t_exec_cmd **comond,t_environment **env);
 int get_exit(int sts, bool set);
+char *ft_expand1(char *s, char **envi);
+void add_key_env(t_env **env, char *key, char *value);
 
 #endif

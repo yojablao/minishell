@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:53:57 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/19 18:06:20 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:38:07 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ t_environment *env_setup(char **envi)
     {
         env->env = creat_env();
 	    env->lenv = env_set(env->env);
-
+        add_key_env(&env->lenv,"PATH",defaultpath);
+        env->env = join_to_env(env->lenv);
     }
     else
     {
@@ -117,27 +118,58 @@ t_exec_cmd	*aloc_comond(t_exec_cmd *s)
     st->builting = false;
 	return(st);
 }
+
+int typecheck(char *word,t_exec_cmd **comond)
+{
+    if(ft_strcmp(word,"<<") == 0)
+    {
+        if((*comond)->infd != 0)
+            close((*comond)->infd);
+        return(1);
+    }
+    else if(ft_strcmp(word,"<") == 0)
+    {
+        if((*comond)->infd != 0)
+            close((*comond)->infd);    
+        return(2);
+    }
+    else if(ft_strcmp(word,">>") == 0)
+    {
+        if((*comond)->outfd != 1)
+            close((*comond)->outfd);
+        return(3);
+    }
+    else if(ft_strcmp(word,">") == 0)
+    {   
+        if((*comond)->outfd != 1)
+            close((*comond)->outfd);
+        return(4);
+    }
+    return(0);
+    
+}
 bool handel_redirect(int *j,char **words ,t_exec_cmd **comond,char **env)
 {
-    if(ft_strcmp(words[(*j)],"<<") == 0)
+    int type = typecheck(words[*j],comond);
+    if(type  == 1)
     {
         (*comond)->infd =  ft_herdoc(words[++(*j)],env);
         if((*comond)->infd == -1)
+            return (perror(words[(*j)]) ,false);   
+    }
+    else if(type == 2)
+    {
+        (*comond)->infd = in_redirect(words[++(*j)]);
+        if((*comond)->infd == -1)
             return (perror(words[(*j)]) ,false);
     }
-    else if( ft_strcmp(words[(*j)],">") == 0)
+    else if(type == 3)
     {
         (*comond)->outfd = out_redirect(words[++(*j)]);
         if((*comond)->outfd == -1)
             return (perror(words[(*j)]) ,false);
     }
-    else if(ft_strcmp(words[(*j)],"<") == 0)
-    {
-            (*comond)->infd = in_redirect(words[++(*j)]);
-            if((*comond)->infd == -1)
-                return (perror(words[(*j)]) ,false);
-    }
-    else if(ft_strcmp(words[(*j)],">>") == 0)
+    else if(type == 4)
     {
         (*comond)->outfd = append(words[++(*j)]);
         if((*comond)->outfd == -1)
@@ -148,15 +180,17 @@ bool handel_redirect(int *j,char **words ,t_exec_cmd **comond,char **env)
 bool comond_init(t_shell **cmd)
 {
 	char **comond;
+    // int i = 0;
 
     comond = ft_joinlist((*cmd)->a,&(*cmd)->env);
-    // str = ft_expand(comond[i],(*cmd)->env->lenv);
-    // comond = expand_f(comond,(*cmd)->env->lenv);
+
 	if (!handel_comond(comond,&(*cmd)->cmd,&(*cmd)->env))
         return (get_exit(1,0),false);
     if(check_internal_builtins(&(*cmd)->cmd,&(*cmd)->env) == 1)
         return false;
 	(*cmd)->cmd->cmd = find_comond((*cmd)->cmd->args[0],&(*cmd)->env->lenv);
+    if(!(*cmd)->cmd->args[0])
+        return(false);
     if(!(*cmd)->cmd->cmd)
     {
         ft_putstr_fd("minishell:  ",2);
@@ -177,11 +211,10 @@ bool init_pipe_line(t_shell **cmd)
     comond = init_mult_cmd((*cmd)->a,(*cmd)->n_pipe);
     i = -1;
     char *str;
-    // comond = expand_f(comond,(*cmd)->env->lenv);
-    // expand_part(cmd);
+
 	while(comond[++i])
 	{
-        str = ft_expand(comond[i],(*cmd)->env->lenv);
+        str = ft_expand(comond[i],(*cmd)->env->env);
 		if(handel_comond(f_split(str,' '),&(*cmd)->cmd,&(*cmd)->env))
         {
 		    (*cmd)->cmd->cmd = find_comond((*cmd)->cmd->args[0],&(*cmd)->env->lenv);

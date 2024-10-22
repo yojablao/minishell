@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:50:24 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/19 16:47:06 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:44:09 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ t_env     *env_set(char **envi)
     while(envi[i])
     {
         j = 0;
+        // printf("-  - %s -   -\n", envi[i]);
         while(envi[i][j])
         {
             if(envi[i][j] == '=')
@@ -119,14 +120,13 @@ char **ft_joinlist(t_list *a,t_environment **env)
     if (!a) return NULL; 
     int s = -1;
     int p = ft_lstsize(a);
-    // printf("%d\n",p);
     char **words = master(sizeof(char *) * (p + 1), 1); 
     if (!words) return NULL; 
     int i = 0;
     while (a)
     {
         if (s == -1 || s != 4)
-            words[i] = ft_expand(a->content,(*env)->lenv);
+            words[i] = ft_expand1(a->content,(*env)->env);
         else
             words[i] = f_strdup(a->content);
         s = a->stat;
