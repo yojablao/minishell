@@ -1,0 +1,11 @@
+expand OLDPWD from env not export
+minishell : env | grep OLD
+OLDPWD=/Users/yojablao
+minishell : export | grep OLD
+declare -x OLDPWD="/Users/yojablao/fullminishell"
+
+echo $USER+$HOME
+yojablao+HOME
+expected
+bash-3.2$ echo $USER+$HOME
+yojablao+/Users/yojablao

@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 10:15:24 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/22 15:39:18 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/22 21:14:58 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,16 @@ void	ft_full_list(t_list **a, char *s , int c)
 		exit(1);
 	i = 0;
 	while (array[i])
-	{
-		// printf("this is array = %s\n",array[i]);
 		i++;
-	}
 	i = 0;
 	while (array[i])
 	{
 		tmp = f_lstnew(array[i]);
-		// printf("==> %s\n", tmp->content);
-		// printf("stat ==> %d\n", tmp->stat);
 		if (!tmp)
 			exit(1);
 		ft_lstadd_back(a, tmp);
-		// printf("hello\n");
 		i++;
 	}
-	// ft_free_array(array);
 }
 
 void	ft_print_stack(t_exec_cmd *a)
@@ -96,8 +89,6 @@ int	ft_check_grammer(t_list *a)
 			if (tmp -> next && tmp -> next -> stat == PIPE)
 				return (0);
 		}
-		// if(tmp -> stat == TEXT)
-		// 	f(tmp->content);
 		tmp = tmp -> next;
 	}
 	return(1);

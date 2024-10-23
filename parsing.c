@@ -6,14 +6,17 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:39 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/22 16:46:35 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/22 21:51:31 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 static int pipe_check(t_list *a)
 {
-    int i = 0;
+    int i;
+
+    i = 0;
     while(a)
     {
         if(a->stat ==  0)
@@ -27,7 +30,6 @@ int pars(t_shell **cmd,char *input)
 {
     if (!syntax(input,cmd))
 		return (printf("syntax error\n"), -1);
-        // ft_printf_a((*cmd)->a);
 	(*cmd)->cmd = aloc_comond((*cmd)->cmd);
 	if(!(*cmd)->cmd || !(*cmd)->a)
 		return -1;
@@ -50,24 +52,22 @@ int pars(t_shell **cmd,char *input)
 bool handel_comond(char **words, t_exec_cmd **comond, t_environment **env)
 {
     char **args;  
-    int i = 0;
-    int j = 0;
-
+    int i;
+    int j;
+    
+    i = 0;
+    j = 0;
     args = master(sizeof(char *) * (count_words(words) + 1), 1);
     if (!args)
         return false;
     while (words[i] != NULL)
     {
-       
         if (!handel_redirect(&i, words, comond, (*env)->env))
             return false;
         else if(words[i] != NULL)
         {
             if (i == 0 || (i >= 1 && pasabel(words[i - 1]) == true))
-            {
-                args[j] = words[i];
-                j++;
-            }
+                args[j++] = words[i];
             i++;
         }
     }

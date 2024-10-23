@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:53:57 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/22 16:38:07 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:37:20 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,26 +177,31 @@ bool handel_redirect(int *j,char **words ,t_exec_cmd **comond,char **env)
     }
     return (true);
 }
+void comnond_err(char *s)
+{
+    ft_putstr_fd("minishell:  ",2);
+    ft_putstr_fd(s,2);
+    ft_putstr_fd(": command not found\n",2);
+}
 bool comond_init(t_shell **cmd)
 {
 	char **comond;
     // int i = 0;
 
     comond = ft_joinlist((*cmd)->a,&(*cmd)->env);
+    if(!comond[0])
+        return(false);
 
 	if (!handel_comond(comond,&(*cmd)->cmd,&(*cmd)->env))
         return (get_exit(1,0),false);
     if(check_internal_builtins(&(*cmd)->cmd,&(*cmd)->env) == 1)
         return false;
+    // if(!(*cmd)->cmd->args[0])
+    //     return(false);
 	(*cmd)->cmd->cmd = find_comond((*cmd)->cmd->args[0],&(*cmd)->env->lenv);
-    if(!(*cmd)->cmd->args[0])
-        return(false);
     if(!(*cmd)->cmd->cmd)
     {
-        ft_putstr_fd("minishell:  ",2);
-
-        ft_putstr_fd((*cmd)->cmd->args[0],2);
-        ft_putstr_fd(": command not found\n",2);
+        comnond_err((*cmd)->cmd->args[0]);
         get_exit(127,0);
         return(false);
     }

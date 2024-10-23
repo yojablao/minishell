@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 00:56:39 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/22 16:46:52 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/23 01:56:45 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ int get_exit(int sts, bool set)
 }
 int exice(t_exec_cmd **cmd,int type,t_shell **info)
 {
-    // ft_print_stack(*cmd);
+    ft_print_stack(*cmd);
 	if(type == 2)
 		pipe_line(cmd,info);
 	else
@@ -179,58 +179,6 @@ int exice(t_exec_cmd **cmd,int type,t_shell **info)
     close_open_fd((*info));
     return 1;
 }
-void save_env(t_environment **env)
-{
-    int i;
-    char **buffer;
-    
-    i = 0;
-    while ((*env)->env[i])
-        i++;
-    buffer = (char **)malloc(sizeof(char *) * (i + 1));
-    if (!buffer)
-        return;
-    i = 0;
-    while ((*env)->env[i])
-    {
-        buffer[i] = ft_strdup((*env)->env[i]);
-        if (!buffer[i])
-        {
-            while (--i >= 0)
-                free(buffer[i]);
-            free(buffer);
-            return;
-        }
-        i++;
-    }
-    buffer[i] = NULL;
-    master(0, 0);  
-    (*env)->lenv = env_set(buffer);
-    (*env)->env = join_to_env((*env)->lenv);
-    i = 0;
-    free2d(buffer);
-}
-// void save_env(t_environment **env)
-// {
-//     int i;
-//     char *buffer[1024];
-    
-//     i = 0;
-//     while((*env)->env[i])
-//     {
-//         buffer[i] = ft_strdup((*env)->env[i]);
-//         if(!buffer[i])
-//             return;
-//         i++;
-//     }
-//     buffer[i] = NULL;
-//     master(0,0);
-//     (*env)->lenv = env_set(buffer);
-//     free
-//     (*env)->env = join_to_env((*env)->lenv);
-// }
-//=-=--=-=
-
 int main(int ac, char **av, char **env)
 {
     char    *input = NULL;
@@ -241,7 +189,6 @@ int main(int ac, char **av, char **env)
 
     (void)ac;
     (void)av;
-    // while(1){}
     data = init(env);
     if (!data)
         return 1;
@@ -264,7 +211,6 @@ int main(int ac, char **av, char **env)
             }
             continue; 
         }
-
         if (*input)
         {
             add_history(input);
@@ -272,8 +218,6 @@ int main(int ac, char **av, char **env)
             if (flage != -1)
                 exice(&data->cmd, flage, &data);
         }
-
-        // Restore original stdin after command execution
         if (stdin_backup != -1)
         {
             dup2(stdin_backup, STDIN_FILENO);
@@ -287,32 +231,3 @@ int main(int ac, char **av, char **env)
     return (0);
 }
 
-//=-=-=-=-=-
-// int main(int ac, char **av, char **env)
-// {
-// 	char    *input = NULL;
-
-// 	(void)ac;
-// 	(void)av;
-// 	t_shell	*data;
-//     // char    prompt[2000] = "\001\033[93m\002Minishell ⌁ \001\033[30m\033[0m\002";
-//     int flage;
-// 	data = init(env);
-// 	if(!data)
-// 		return 1;
-// 	while (1)
-// 	{
-// 		if(input && *input)
-// 		{
-// 			add_history(input);
-//             flage = pars(&data,input);
-//             if(flage != -1)
-//                 exice(&data->cmd,flage,&data); 
-//             free(input);
-// 		}
-// 		input = readline("lol :");
-        
-// 	}
-//     // free_data(&data);
-// 	return (0);
-// }

@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:46:07 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/21 18:22:16 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/22 21:17:13 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,38 +52,7 @@ size_t skip_betw_quotes3(char *str, size_t *i)
      len++;
     return len;
 }
-// size_t  ft_count_operators(char *str)
-// {
-//    	t_num_operat s;
-// 	size_t	i;
-// 	size_t res;
 
-// 	s.pipe = 0;
-// 	s.her = 0;
-// 	s.inp = 0;
-// 	s.out = 0;
-// 	s.app = 0;
-// 	i = 0;
-//     while (str[i])
-// 	{
-// 		if (str[i] == 34 || str[i] == 39)
-// 			skip_betw_quotes(str, &i);
-// 		if (str[i] == '|')
-// 			s.pipe += 1;
-// 		if (str[i - 1] != '<' && str[i] == '<' && str[i + 1] != '<')
-// 			s.inp += 1;
-// 		if (str[i - 1] != '>' && str[i] == '>'&& str[i + 1] != '>')
-// 			s.out += 1;
-// 		if (str[i - 1] != '>' && str[i] == '>' && str[i + 1] == '>' && str[i + 2] != '>')
-// 			s.app += 1;
-// 		if (str[i - 1] != '<' && str[i] == '<' && str[i + 1] == '<' && str[i + 2] != '<')
-// 			s.her += 1;
-// 		i++;	
-// 	}
-// 	res = (s.pipe + s.app + s.her + s.inp + s.out) * 2;
-// 	printf("res == %zu\n",res);
-// 	return (res);
-// }
 size_t  ft_count_operators(char *str)
 {
 	size_t	i;
@@ -110,7 +79,6 @@ size_t  ft_count_operators(char *str)
 		}
 		i++;	
 	}
-	// printf("|%zu|\n",c);
 	return (c * 2);
 }
 
@@ -122,7 +90,6 @@ char    *ft_handel_spaces_allocation(char *str)
 
 	new = NULL;
     len2 = ft_count_operators(str);
-	// printf("size|%zu|\n",len2);
 	len1  = ft_strlen(str) + len2;
 	new = ft_my_malloc(len1 + 1);
 	return(new);
@@ -250,22 +217,12 @@ int syntax(char *str,t_shell **cmd)
 	expend = NULL;
 	(*cmd)->a = NULL;
 	if (!ft_check_quotes(str) || !ft_check_her(str))
-	{
-		// free(str);
 		return (0);
-	}
     new = ft_handel_spaces_allocation(str);
 	ft_add_spaces(str, new);
 	ft_full_list(&(*cmd)->a, new, 32);
 	if (ft_check_grammer((*cmd)->a) == 0)
-	{
-		// ft_free((*cmd)->a, str, new);
 		return(0);
-	}
-	// expend = ft_expand(str,(*cmd)->env->env);
-	// printf("this is expend[%s]\n",expend);
-	// //expand_input(new, env_set((*cmd)->env->env));
-	// ft_expanding(new,(*cmd)->env->env);
 	return (1);
 }
 /*

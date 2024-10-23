@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 20:53:27 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/19 22:17:40 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:18:05 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,10 @@ void cd_builting(t_exec_cmd **s, t_environment **env)
 		old = cd_to_path((*s)->args[1], 0, gard);
 
 	if (old)
+	{
 		update_pwd(getcwd(buffer, sizeof(buffer)), old, 0, &(*env)->lenv);
+		(*env)->env = join_to_env((*env)->lenv);
+	}
 	else if (!old && gard <= 2)
 		gard = handle_fail_chdir(&gard, &(*env)->lenv, (*s)->args[1]);
 	else if (!old && gard > 2)

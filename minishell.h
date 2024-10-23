@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/22 16:31:47 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:25:38 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,5 +169,6 @@ bool    handel_comond(char **words,t_exec_cmd **comond,t_environment **env);
 int get_exit(int sts, bool set);
 char *ft_expand1(char *s, char **envi);
 void add_key_env(t_env **env, char *key, char *value);
+void comnond_err(char *s);
 
 #endif
