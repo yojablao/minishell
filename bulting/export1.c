@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 19:47:10 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/22 16:42:29 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/24 22:39:57 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void add_key_env(t_env **env, char *key, char *value)
     while (tmp->next)
         tmp = tmp->next;
     tmp->next = new_node;
-    printf("%s\n",tmp->next->value);
+    // printf("%s\n",tmp->next->value);
 }
 int key_exists(char *str,t_env *env)
 {
@@ -203,7 +203,9 @@ int validation(char **str,int i,t_environment **env)
 int export_builtin(char **str, t_environment **env)
 {
     int i;
+    bool flage;
 
+    flage = false;
     if (!str)
         return (1);
     if (str[1] == NULL)
@@ -216,11 +218,13 @@ int export_builtin(char **str, t_environment **env)
     {
         if(validation(str,i,env) ==1)
         {
+            flage = true;
             print_error("not a valid identifier\n", str[i], str[0]);
             get_exit(1,0);
         }
         (*env)->env = join_to_env((*env)->lenv);
 		// update_env(env);
     }
+    (!flage) && (get_exit(0,0));
     return (0);
 }

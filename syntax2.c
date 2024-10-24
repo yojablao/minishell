@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 10:15:24 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/22 21:14:58 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/24 22:12:57 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_full_list(t_list **a, char *s , int c)
 	t_list	*tmp = NULL;
 	int		i;
 
-	array = f_split(s, c);
+	array = f_split(s, c,c);
 	if (!array)
 		exit(1);
 	i = 0;

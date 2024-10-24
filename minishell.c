@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 00:56:39 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/24 18:16:03 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/24 21:44:44 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,9 @@ int     exic(t_exec_cmd **s,t_shell **data)
     else
     {
         waitpid(pid,&status,0);
-        // if (WIFEXITED(status))
-        //     status = WEXITSTATUS(status);
+        if (WIFEXITED(status))
+            status = WEXITSTATUS(status);
+        get_exit(status,0);
         // else if (WIFSIGNALED(status))
         // {
         //     if (WTERMSIG(status) == SIGQUIT)
@@ -180,11 +181,11 @@ int get_exit(int sts, bool set)
     static int status;
     if (!set)
         status = sts;
-    return (status);  
+    return (status);
 }
 int exice(t_exec_cmd **cmd,int type,t_shell **info)
 {
-    // ft_print_stack(*cmd);
+    ft_print_stack(*cmd);
 	if(type == 2)
 		pipe_line(cmd,info);
 	else

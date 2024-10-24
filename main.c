@@ -6,30 +6,30 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:06:47 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/24 04:30:21 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/24 22:13:52 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	restore_stdin(int stdin_backup)
-{
-	if (stdin_backup != -1)
-	{
-		dup2(stdin_backup, STDIN_FILENO);
-		close(stdin_backup);
-	}
-}
+// static void	restore_stdin(int stdin_backup)
+// {
+// 	if (stdin_backup != -1)
+// 	{
+// 		dup2(stdin_backup, STDIN_FILENO);
+// 		close(stdin_backup);
+// 	}
+// }
 
-static int	backup_stdin(void)
-{
-	int	stdin_backup;
+// static int	backup_stdin(void)
+// {
+// 	int	stdin_backup;
 
-	stdin_backup = dup(STDIN_FILENO);
-	if (stdin_backup == -1)
-		perror("dup");
-	return (stdin_backup);
-}
+// 	stdin_backup = dup(STDIN_FILENO);
+// 	if (stdin_backup == -1)
+// 		perror("dup");
+// 	return (stdin_backup);
+// }
 
 static void	process_input(char *input, t_shell **data)
 {
@@ -46,7 +46,7 @@ static void	process_input(char *input, t_shell **data)
 
 static void	minishell_loop(t_shell **data, char *prompt)
 {
-	int		stdin_backup;
+	// int		stdin_backup;
 	char	*input;
 
 	while (1)

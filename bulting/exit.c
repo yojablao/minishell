@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:43:59 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/24 18:24:10 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/24 22:13:32 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ bool check_is_number(char *s)
 }
 bool multi_argiment(char **args)
 {
-    int i;
+    // int i;
     int exit_status;
 
     if(!check_is_number(args[1]))

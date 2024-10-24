@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/24 18:11:33 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/24 22:11:50 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ bool    pasabel(char *c);
 void    *master(size_t size, int flag);
 char	*f_strdup(const char *s1);
 char	*f_strjoin(char *s1, char *s2);
-char	**f_split(char *s, char c);
+char	**f_split(char *s, char c,char c1);
 void	*f_calloc(size_t count, size_t size);
 t_shell   *init(char **envi);
 int pars(t_shell **cmd,char *input);
@@ -163,7 +163,7 @@ int check_internal_builtins(t_exec_cmd **s,t_environment **env);
 // char **expand_f(char **s,t_env *env);
 // char *expand_chesk(char *s,t_env *env);
 size_t	f_strlen2d(char **str);
-char *ft_expand(char *s, char **envi);
+// char *ft_expand(char *s, char **envi);
 // char *ft_expand(char *s, t_env *env);
 bool    handel_comond(char **words,t_exec_cmd **comond,t_environment **env);
 int get_exit(int sts, bool set);

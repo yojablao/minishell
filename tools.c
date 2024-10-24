@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:50:24 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/23 23:22:14 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/25 00:35:26 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,28 @@ void ft_printf_a(t_list *a)
 		tmp = tmp -> next;
 	}
 }
+
+
+char **correct_cmd(char **args, int *j) 
+{
+    char **split_args = f_split(args[0],' ','\t');
+ 
+    int original_count = *j;
+    int split_count = 0;
+    while (split_args[split_count] != NULL)
+        split_count++;
+    char **new_args = master((original_count + split_count + 1) * sizeof(char *), 1);
+    if (!new_args)
+        return NULL;
+    int i = 0;
+    for (int k = 0; k < split_count; k++)
+        new_args[i++] = split_args[k];
+    for (int l = 1; l < original_count; l++)
+        new_args[i++] = args[l];
+    // new_args[i] = NULL;  
+    *j = i; 
+    return new_args;
+}
 char **ft_joinlist(t_list *a,t_environment **env)
 {
 	if (!a) return NULL; 
@@ -121,7 +143,10 @@ char **ft_joinlist(t_list *a,t_environment **env)
 	int p = ft_lstsize(a);
 	char **words = master(sizeof(char *) * (p + 1), 1); 
 	if (!words) return NULL; 
+	bool flage;
+	flage = true;
 	int i = 0;
+	ft_printf_a(a);
 	while (a)
 	{
 		tmp = ft_expand1(a->content,(*env)->env);
@@ -131,19 +156,25 @@ char **ft_joinlist(t_list *a,t_environment **env)
 				words[i] = tmp;
 			else
 				words[i] = f_strdup(a->content);
-			i++;     
+			i++;
+			if(!flage)
+				words = correct_cmd(words, &i);
 		}
 		s = a->stat;
 		a = a->next;        
 	}
 	words[i] = NULL; 
+		for (int j = 0; j < i; j++)
+		{
+			printf("------>%s\n",words[j]);
+		}
 	return words; 
 }
 void filehandler(t_exec_cmd **s)
 {
 	if ((*s)->infd != 0)
 	{ 
-		printf("%d\n", (*s)->infd);
+		// printf("%d\n", (*s)->infd);
 		if (dup2((*s)->infd, STDIN_FILENO) == -1)
 		{
 			perror(strerror(errno));

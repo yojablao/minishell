@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:53:57 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/24 04:31:34 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/24 22:40:28 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char **init_mult_cmd(t_list *a, int p)
         a = a->next;
     }
     if (line_parsed)
-        comond = f_split(line_parsed,'|');
+        comond = f_split(line_parsed,'|','|');
     return (comond);
 }
 t_exec_cmd	*aloc_comond(t_exec_cmd *s)
@@ -202,9 +202,11 @@ void comnond_err(char *s)
 bool comond_init(t_shell **cmd)
 {
 	char **comond;
-    // int i = 0;
+    // int i = -1;
 
     comond = ft_joinlist((*cmd)->a,&(*cmd)->env);
+    // while(comond[++i])
+    //     printf("---%s--\n",comond[i]);
     if(!comond[0])
         return(false);
 
@@ -235,8 +237,8 @@ bool init_pipe_line(t_shell **cmd)
 
 	while(comond[++i])
 	{
-        str = ft_expand(comond[i],(*cmd)->env->env);
-		if(handel_comond(f_split(str,' '),&(*cmd)->cmd,&(*cmd)->env))
+        str = ft_expand1(comond[i],(*cmd)->env->env);
+		if(handel_comond(f_split(str,' ','\t'),&(*cmd)->cmd,&(*cmd)->env))
         {
 		    (*cmd)->cmd->cmd = find_comond((*cmd)->cmd->args[0],&(*cmd)->env->lenv);
             if((*cmd)->cmd->cmd)

@@ -9,3 +9,10 @@ yojablao+HOME
 expected
 bash-3.2$ echo $USER+$HOME
 yojablao+/Users/yojablao
+
+
+
+
+signals 
+Cntr+D 130/131
+cntr+C 130/131

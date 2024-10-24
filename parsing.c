@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:39 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/23 23:30:47 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/24 22:40:46 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static int pipe_check(t_list *a)
 int pars(t_shell **cmd,char *input)
 {
     if (!syntax(input,cmd))
-		return (printf("syntax error\n"), -1);
-    // ft_printf_a((*cmd)->a);
+		return (get_exit(258,0),printf("syntax error\n"), -1);
+    ft_printf_a((*cmd)->a);
 	(*cmd)->cmd = aloc_comond((*cmd)->cmd);
 	if(!(*cmd)->cmd || !(*cmd)->a)
 		return -1;
@@ -51,6 +51,11 @@ int pars(t_shell **cmd,char *input)
     }
 }
 
+// char **fix_it(char **args)
+// {
+//     //args[0]; spliting
+//     ///add spleted args[0]; to args;
+// }
 bool handel_comond(char **words, t_exec_cmd **comond, t_environment **env)
 {
     char **args;  
@@ -74,7 +79,7 @@ bool handel_comond(char **words, t_exec_cmd **comond, t_environment **env)
         }
     }
     args[j] = NULL;
-    (*comond)->args = args;
+    (*comond)->args  = args;
     return true;
 }
 
@@ -85,7 +90,7 @@ static char *find_pexec(char *comond,char *value)
     int i;
 
     i = -1;
-    fullpath = f_split(value, ':');
+    fullpath = f_split(value, ':',':');
     while(fullpath[++i] != NULL)
     {
         fullpath[i] =  f_strjoin(fullpath[i],"/");

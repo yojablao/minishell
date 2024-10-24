@@ -96,7 +96,7 @@ char	*f_strjoin(char *s1, char *s2)
 	return (r);
 }
 
-char	*ft_mysep1(char *s1, char c)
+char	*ft_mysep1(char *s1, char *f)
 {
 	char	*result;
 	size_t	lword;
@@ -104,7 +104,7 @@ char	*ft_mysep1(char *s1, char c)
 
 	result = NULL;
 	lword = 0;
-	while (s1[lword] && s1[lword] != c)
+	while (s1[lword] && s1[lword] != f[0] && s1[lword] != f[1])
 	{
 		if (s1[lword] == 39 || s1[lword] == 34)
 		{
@@ -125,7 +125,7 @@ char	*ft_mysep1(char *s1, char c)
 	return (result);
 }
 
-char	**my_copy1(char **new, char *s, int x, char c)
+char	**my_copy1(char **new, char *s, int x, char *f)
 {
 	t_member_split sp;
 
@@ -133,15 +133,15 @@ char	**my_copy1(char **new, char *s, int x, char c)
 	sp.tmp = NULL;
 	while (*s && sp.n < x)
 	{
-		while (*s == c && *s)
+		while ((*s == f[0] || *s == f[1]) &&  *s)
 			s++;
 		if (*s != '\0')
 		{
-			sp.tmp = ft_mysep1(s, c);
+			sp.tmp = ft_mysep1(s, f);
 
 			new[sp.n++] = sp.tmp;
 		}
-		while (*s != c && *s)
+		while ((*s != f[0] && *s != f[1]) && *s)
 		{
 			if (*s == 34 || *s == 39)
 			{
@@ -156,19 +156,51 @@ char	**my_copy1(char **new, char *s, int x, char c)
 	return (new);
 }
 
-char	**f_split(char *s, char c)
+
+int ft_counter2(char *s, char *f)
+{
+    size_t i = 0;
+    size_t cnt = 0;
+
+	if(!s || !*s)
+		return(0);
+    while (s[i])
+    {
+        while ((s[i] == f[0] || s[i] == f[1] )&& s[i] != '\0')
+            i++;
+        if (s[i] != '\0')
+        {
+            cnt++;
+            while (s[i] != f[0] && s[i] != f[1] && s[i] != '\0')
+            {
+                if (s[i] == 39 || s[i] == 34)
+                {
+					skip_betw_quotes(s, &i);
+					i++;
+				}
+                else
+                    i++;
+            }
+        }
+    }
+    return cnt;
+}
+char	**f_split(char *s, char c, char c1)
 {
 	char	**new;
 	int		x;
+	char f[2];
 
 	if (!s)
 		return (NULL);
+	f[0] = c;
+	f[1] = c1;
 	new = NULL;
-	x = ft_counter(s, c);
+	x = ft_counter2(s, f);
 	new = (char **)f_calloc(x + 1, sizeof(char *));
 	if (!new)
 		return (NULL);
-	new = my_copy1(new, s, x, c);
+	new = my_copy1(new, s, x, f);
 	return (new);
 }
 

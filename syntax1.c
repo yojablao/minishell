@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:46:07 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/22 21:17:13 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/24 22:29:55 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,7 @@ int syntax(char *str,t_shell **cmd)
 	ft_full_list(&(*cmd)->a, new, 32);
 	if (ft_check_grammer((*cmd)->a) == 0)
 		return(0);
+	// ft_expand1(str,)
 	return (1);
 }
 /*
