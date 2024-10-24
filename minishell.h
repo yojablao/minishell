@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/22 18:25:38 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/24 18:11:33 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void free2d(char **s);
 int out_redirect(char *file);
 int in_redirect(char *file);
 // bool    handel_comond(char *cmd,t_exec_cmd **comond,char **env);
-char *expand(char *s,char **envo);
+// char *expand(char *s,char **envo);
 int    ft_herdoc(char *del,char **env);
 void filehandler(t_exec_cmd **s);
 bool    child(t_exec_cmd **s,t_shell *data);
@@ -170,5 +170,8 @@ int get_exit(int sts, bool set);
 char *ft_expand1(char *s, char **envi);
 void add_key_env(t_env **env, char *key, char *value);
 void comnond_err(char *s);
+int exice(t_exec_cmd **cmd,int type,t_shell **info);
+void close_open_fd(t_exec_cmd **data);
+void exit_builting(char **args);
 
 #endif

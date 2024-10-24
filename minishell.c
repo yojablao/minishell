@@ -6,19 +6,29 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 00:56:39 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/23 01:56:45 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/24 18:16:03 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void close_open_fd(t_shell *data)
+void close_open_fd(t_exec_cmd **data)
 {
-    t_exec_cmd *cmd = data->cmd;
+
+    t_exec_cmd *cmd = (*data);
+        if(cmd->infd != 0)
+            close(cmd->infd);
+        if(cmd->outfd != 1)
+            close(cmd->outfd);
+        cmd = cmd->next;
+}
+void close_open_fd_1(t_exec_cmd **data)
+{
+    t_exec_cmd *cmd = (*data);
     while(cmd)
     {
         if(cmd->infd != 0)
-            close(data->cmd->infd);
+            close(cmd->infd);
         if(cmd->outfd != 1)
             close(cmd->outfd);
         cmd = cmd->next;
@@ -27,9 +37,8 @@ void close_open_fd(t_shell *data)
 
 int check_internal_builtins(t_exec_cmd **s,t_environment **env)
 {
-    (void)env;
-    (void)s;
-    
+    if(ft_strcmp((*s)->args[0],"exit") == 0)
+        return(exit_builting((*s)->args),add_to_env(&(*env)->lenv,"_",(*s)->args[0],0),1);
     if(ft_strcmp((*s)->args[0],"unset") == 0)
         return( un_set_builting(s,env),add_to_env(&(*env)->lenv,"_",(*s)->args[0],0),1);
     if(ft_strcmp((*s)->args[0],"cd") == 0)
@@ -45,6 +54,7 @@ int check_internal_builtins(t_exec_cmd **s,t_environment **env)
 void fail_case(char *fail)
 {
     perror(fail);
+    get_exit(1,0);
     exit(EXIT_FAILURE);   
 }
 int     exic(t_exec_cmd **s,t_shell **data)
@@ -88,12 +98,12 @@ void dup_pipe(t_shell *data, int curr_cmd)
     if (curr_cmd > 0)
     {
         if (dup2(data->prev[0], STDIN_FILENO) == -1)
-            ft_putstr_fd("wa222\n", 2);
+            fail_case("minishell: dup2 failed\n");
     }
     if (curr_cmd < data->n_pipe)
     {
         if (dup2(data->curr[1], STDOUT_FILENO) == -1)
-            ft_putstr_fd("wa333\n", 2);
+            fail_case("minishell: dup2 failed\n");
     }
     if (data->curr)
     {
@@ -106,9 +116,11 @@ void dup_pipe(t_shell *data, int curr_cmd)
         close(data->prev[1]);
     }
 }
+
 void setup_pipe_and_fork(t_exec_cmd *cmd, t_shell *data, int curr_cmd)
 {
     pid_t pid;
+    
     if (cmd->next != NULL)
     {
         if (pipe(data->curr) == -1)
@@ -127,16 +139,16 @@ void setup_pipe_and_fork(t_exec_cmd *cmd, t_shell *data, int curr_cmd)
 }
 void close_ans_update(t_shell **data, int curr_cmd)
 {
-        if ((*data)->prev[0] != -1)
-        {
-            close((*data)->prev[0]);
-            close((*data)->prev[1]);
-        }
-        if (curr_cmd != (*data)->n_pipe)
-        {
-            (*data)->prev[0] = (*data)->curr[0];
-            (*data)->prev[1] = (*data)->curr[1];
-        }
+    if ((*data)->prev[0] != -1)
+    {
+        close((*data)->prev[0]);
+        close((*data)->prev[1]);
+    }
+    if (curr_cmd != (*data)->n_pipe)
+    {
+        (*data)->prev[0] = (*data)->curr[0];
+        (*data)->prev[1] = (*data)->curr[1];
+    }
     
 }
 void pipe_line(t_exec_cmd **s, t_shell  **data)
@@ -157,6 +169,7 @@ void pipe_line(t_exec_cmd **s, t_shell  **data)
     {
         setup_pipe_and_fork(cmd, *data, curr_cmd);
         close_ans_update(data,curr_cmd);
+        close_open_fd(&cmd);
         curr_cmd++;
         cmd = cmd->next; 
     }
@@ -171,63 +184,16 @@ int get_exit(int sts, bool set)
 }
 int exice(t_exec_cmd **cmd,int type,t_shell **info)
 {
-    ft_print_stack(*cmd);
+    // ft_print_stack(*cmd);
 	if(type == 2)
 		pipe_line(cmd,info);
 	else
-		exic(cmd,info);
-    close_open_fd((*info));
+    {
+		exic(cmd,info);    
+        close_open_fd(cmd);
+    }
+    
     return 1;
 }
-int main(int ac, char **av, char **env)
-{
-    char    *input = NULL;
-    t_shell *data;
-    int     flage;
-    int     stdin_backup = -1;
-    char    prompt[] = "\x1B[36mminishell\x1B[0m : ";
 
-    (void)ac;
-    (void)av;
-    data = init(env);
-    if (!data)
-        return 1;
-    
-    while (1)
-    {
-        stdin_backup = dup(STDIN_FILENO);
-        if (stdin_backup == -1)
-        {
-            perror("dup");
-            break;
-        }
-        input = readline(prompt);
-        if (!input)
-        {
-            if (stdin_backup != -1)
-            {
-                dup2(stdin_backup, STDIN_FILENO);
-                close(stdin_backup);
-            }
-            continue; 
-        }
-        if (*input)
-        {
-            add_history(input);
-            flage = pars(&data, input);
-            if (flage != -1)
-                exice(&data->cmd, flage, &data);
-        }
-        if (stdin_backup != -1)
-        {
-            dup2(stdin_backup, STDIN_FILENO);
-            close(stdin_backup);
-        }
-
-        free(input);
-    }
-
-    // free_data(&data);
-    return (0);
-}
 

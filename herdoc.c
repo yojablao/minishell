@@ -6,15 +6,13 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:33 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/22 21:50:48 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/24 03:04:22 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-
-#include "minishell.h"
 
 void	free2d(char **s)
 {
@@ -54,7 +52,7 @@ static char	*read_it(const char *del, int *fd, char **env, bool flage)
 	{
 		line = readline("\033[95m heredoc> \033[0m");
 		tmp = line;
-		if (!line || ft_strcmp(line, (char *)del) == 0)
+		if (!line || !ft_strcmp(line, (char *)del))
 		{
 			free(line);
 			break ;

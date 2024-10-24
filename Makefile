@@ -6,7 +6,7 @@
 #    By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/21 15:23:56 by yojablao          #+#    #+#              #
-#    Updated: 2024/10/23 15:25:06 by yojablao         ###   ########.fr        #
+#    Updated: 2024/10/23 22:41:45 by yojablao         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,15 +15,20 @@ SOURCES = $(shell find . -name "*.c")
 OBJECTS = $(SOURCES:.c=.o)
 
 CC = cc
-CFLAGS =   -Wall -Wextra -Werror  -g -fsanitize=address
+CFLAGS =   #-Wall -Wextra -Werror  -g -fsanitize=address
 
-READ = -lreadline
+
+
+READLINE_L = ~/.brew/opt/readline/lib
+READLINE_I = ~/.brew/opt/readline/include
+
+LDFLAG = -L $(READLINE_L) -lreadline
+
 $(NAME) : $(OBJECTS) 
-	$(CC) $(CFLAGS) $(READ) $(OBJECTS) -o $(NAME)
+	$(CC) $(CFLAGS) $(LDFLAG) $(OBJECTS) -o $(NAME)
 
-%.o : %.c fractol.h
-	$(CC) $(CFLAGS) -c $< -o $@ 
-
+%.o : %.c minishell.h
+	$(CC) $(CFLAGS) -c -I $(READLINE_I)  $< -o $@ 
 all: $(NAME)
 
 clean:

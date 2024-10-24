@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:53:57 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/22 18:37:20 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/24 04:31:34 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,17 @@ char **creat_env(void)
 void update_shell_lvl(t_env **env)
 {
     char *value;
-    int i;
+
     value = extract_value((*env),"SHLVL");
-    i = ft_atoi(value);
-    value = ft_itoa(i + 1);
+    if(!value || !*value || ft_atoi(value) > 999)
+        return (add_to_env(env,"SHLVL","1",0));
+    if (ft_atoi(value) == 2147483647)
+        return (add_to_env(env,"SHLVL","0",0));
+    if (ft_atoi(value) < 0)
+        return (add_to_env(env,"SHLVL","0",0));
+    if(ft_atoi(value) == 999)
+        return (add_to_env(env,"SHLVL","",0));
+    value = ft_itoa(ft_atoi(value) + 1);
     add_to_env(env,"SHLVL",value,0);
     free(value);
 }
@@ -146,36 +153,45 @@ int typecheck(char *word,t_exec_cmd **comond)
         return(4);
     }
     return(0);
-    
 }
-bool handel_redirect(int *j,char **words ,t_exec_cmd **comond,char **env)
+static bool	handle_infd(int type, int *j, char **words, t_exec_cmd **cmd, char **env)
 {
-    int type = typecheck(words[*j],comond);
-    if(type  == 1)
-    {
-        (*comond)->infd =  ft_herdoc(words[++(*j)],env);
-        if((*comond)->infd == -1)
-            return (perror(words[(*j)]) ,false);   
-    }
-    else if(type == 2)
-    {
-        (*comond)->infd = in_redirect(words[++(*j)]);
-        if((*comond)->infd == -1)
-            return (perror(words[(*j)]) ,false);
-    }
-    else if(type == 3)
-    {
-        (*comond)->outfd = out_redirect(words[++(*j)]);
-        if((*comond)->outfd == -1)
-            return (perror(words[(*j)]) ,false);
-    }
-    else if(type == 4)
-    {
-        (*comond)->outfd = append(words[++(*j)]);
-        if((*comond)->outfd == -1)
-            return (perror(words[(*j)]) ,false);
-    }
-    return (true);
+	if (type == 1)
+		(*cmd)->infd = ft_herdoc(words[++(*j)], env);
+	else
+		(*cmd)->infd = in_redirect(words[++(*j)]);
+	if ((*cmd)->infd == -1)
+	{
+		perror(words[(*j)]);
+		return (false);
+	}
+	return (true);
+}
+
+static bool	handle_outfd(int type, int *j, char **words, t_exec_cmd **cmd)
+{
+	if (type == 3)
+		(*cmd)->outfd = out_redirect(words[++(*j)]);
+	else
+		(*cmd)->outfd = append(words[++(*j)]);
+	if ((*cmd)->outfd == -1)
+	{
+		perror(words[(*j)]);
+		return (false);
+	}
+	return (true);
+}
+
+bool	handel_redirect(int *j, char **words, t_exec_cmd **cmd, char **env)
+{
+	int	type;
+
+	type = typecheck(words[*j], cmd);
+	if (type == 1 || type == 2)
+		return (handle_infd(type, j, words, cmd, env));
+	else if (type == 3 || type == 4)
+		return (handle_outfd(type, j, words, cmd));
+	return (true);
 }
 void comnond_err(char *s)
 {
@@ -194,10 +210,10 @@ bool comond_init(t_shell **cmd)
 
 	if (!handel_comond(comond,&(*cmd)->cmd,&(*cmd)->env))
         return (get_exit(1,0),false);
+    if(!(*cmd)->cmd->args[0])
+        return (close_open_fd(&(*cmd)->cmd),false);
     if(check_internal_builtins(&(*cmd)->cmd,&(*cmd)->env) == 1)
         return false;
-    // if(!(*cmd)->cmd->args[0])
-    //     return(false);
 	(*cmd)->cmd->cmd = find_comond((*cmd)->cmd->args[0],&(*cmd)->env->lenv);
     if(!(*cmd)->cmd->cmd)
     {
@@ -226,6 +242,8 @@ bool init_pipe_line(t_shell **cmd)
             if((*cmd)->cmd->cmd)
                 add_to_env(&(*cmd)->env->lenv,"_",(*cmd)->cmd->cmd ,0);
         }
+        else
+            return false;
         if(comond[i + 1] != NULL)
 		    (*cmd)->cmd->next = aloc_comond((*cmd)->head);
         else

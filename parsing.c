@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:39 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/22 21:51:31 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/23 23:30:47 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int pars(t_shell **cmd,char *input)
 {
     if (!syntax(input,cmd))
 		return (printf("syntax error\n"), -1);
+    // ft_printf_a((*cmd)->a);
 	(*cmd)->cmd = aloc_comond((*cmd)->cmd);
 	if(!(*cmd)->cmd || !(*cmd)->a)
 		return -1;
@@ -37,7 +38,8 @@ int pars(t_shell **cmd,char *input)
 	(*cmd)->n_pipe = pipe_check((*cmd)->a);
 	if((*cmd)->n_pipe > 0)
 	{
-        init_pipe_line(cmd);
+        if(init_pipe_line(cmd) == false)
+            return -1;
 		(*cmd)->cmd = (*cmd)->head;
 		return(2);
 	}

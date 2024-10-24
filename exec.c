@@ -21,8 +21,10 @@ bool bulting(t_exec_cmd **s,t_shell *data)
 }
 bool    child(t_exec_cmd **cmd,t_shell *data)
 {
-	if ((*cmd)->args[0][0] == '\2')
+	if ((*cmd)->args[0] &&(*cmd)->args[0][0] == '\2')
 		return (1);
+	if(!(*cmd)->args[0] || !(*cmd)->args[0][0])
+		exit(0);
     filehandler(cmd);
 	if(bulting(cmd,data))
 	{
@@ -39,7 +41,7 @@ bool    child(t_exec_cmd **cmd,t_shell *data)
     if(execve((*cmd)->cmd, (*cmd)->args, data->env->env) == -1)
     {
         printf("Error: %s: Permission denied\n", (*cmd)->args[0]);
-		get_exit(1,0);
+		get_exit(126,0);
 		exit(126);
     }
     return(EXIT_SUCCESS);

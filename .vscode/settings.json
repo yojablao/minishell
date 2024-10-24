@@ -62,6 +62,8 @@
     "algorithm": "c",
     "fcntl.h": "c",
     "locale": "c",
-    "__mutex_base": "c"
+    "__mutex_base": "c",
+    "unistd.h": "c",
+    "stdlib.h": "c"
   }
 }
