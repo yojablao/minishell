@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/25 02:41:03 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/26 00:11:17 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,8 @@ int    ft_herdoc(char *del,t_environment **env);
 void filehandler(t_exec_cmd **s);
 bool    child(t_exec_cmd **s,t_shell *data);
 int append(char *file);
-char **ft_joinlist(t_list **ab,t_environment **env);
+// char **ft_joinlist(t_list **ab,t_environment **env);
+char **ft_joinlist(t_list **lst, t_environment **env, int status);
 int count_words(char **words);
 bool    pasabel(char *c);
 void    *master(size_t size, int flag);
@@ -176,8 +177,8 @@ void add_key_env(t_env **env, char *key, char *value);
 void comnond_err(char *s);
 int exice(t_exec_cmd **cmd,int type,t_shell **info);
 void close_open_fd(t_exec_cmd **data);
-void exit_builting(char **args);
+void exit_builting(char **args,bool flage);
 char **correct_cmd(char **args, int *j);
 void    handling_sig(int ac);
-
+void close_open_fd_1(t_exec_cmd **data);
 #endif

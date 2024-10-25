@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 15:55:23 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/03 09:34:07 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/25 05:26:52 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ char	*ft_strdup(const char *s1)
 {
 	char	*new;
 	int		i;
-
+	if(!s1)
+		return (NULL);
 	new = (char *)malloc(sizeof (char) * ft_strlen(s1) + 1);
 	if (new == NULL)
 		return (NULL);

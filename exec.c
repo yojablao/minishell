@@ -1,59 +1,73 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/26 00:25:23 by yojablao          #+#    #+#             */
+/*   Updated: 2024/10/26 00:25:32 by yojablao         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-bool bulting(t_exec_cmd **s,t_shell *data)
+bool bulting(t_exec_cmd **s, t_shell *data)
 {
-	if(ft_strcmp( (*s)->args[0],"echo") == 0)
-        return(echo((*s)->args),1);
-    else if(ft_strcmp((*s)->args[0],"unset") == 0)
-        return( un_set_builting(s,&data->env),1);
-    else if(ft_strcmp((*s)->args[0],"cd") == 0)
-        return(cd_builting(s,&data->env),1);
-    else if(ft_strcmp((*s)->args[0],"export") == 0)
-        return(export_builtin((*s)->args,&data->env),1);
-    else if(ft_strcmp((*s)->args[0],"env") == 0)
-        return( env_build(data->env->lenv),1);
-	else if(ft_strcmp( (*s)->args[0],"env") == 0)
-		return (env_build(data->env->lenv),1);
-	else if(ft_strcmp( (*s)->args[0],"pwd") == 0)
-		return(pwd_builting(data->env->lenv),1);
+	if (ft_strcmp((*s)->args[0], "echo") == 0)
+		return (echo((*s)->args), 1);
+	if (ft_strcmp((*s)->args[0], "exit") == 0)
+		return (exit_builting((*s)->args, 0), 1);
+	else if (ft_strcmp((*s)->args[0], "unset") == 0)
+		return (un_set_builting(s, &data->env), 1);
+	else if (ft_strcmp((*s)->args[0], "cd") == 0)
+		return (cd_builting(s, &data->env), 1);
+	else if (ft_strcmp((*s)->args[0], "export") == 0)
+		return (export_builtin((*s)->args, &data->env), 1);
+	else if (ft_strcmp((*s)->args[0], "env") == 0)
+		return (env_build(data->env->lenv), 1);
+	else if (ft_strcmp((*s)->args[0], "pwd") == 0)
+		return (pwd_builting(data->env->lenv), 0);
 	else
 		return 0;
 }
-bool    child(t_exec_cmd **cmd,t_shell *data)
+bool child(t_exec_cmd **cmd, t_shell *data)
 {
-	if ((*cmd)->args && (*cmd)->args[0] &&(*cmd)->args[0][0] == '\2')
+	if ((*cmd)->args && (*cmd)->args[0] && (*cmd)->args[0][0] == '\2')
 		return (1);
-	if(!(*cmd)->args[0] || !(*cmd)->args[0][0])
+	if (!(*cmd)->args[0] || !(*cmd)->args[0][0])
 		exit(0);
-    filehandler(cmd);
-	if(bulting(cmd,data))
+	filehandler(cmd);
+	if (bulting(cmd, data))
 	{
-		add_to_env(&data->env->lenv,"_",(*cmd)->args[0],0);
-		get_exit(0,0);
+		add_to_env(&data->env->lenv, "_", (*cmd)->args[0], 0);
+		get_exit(0, 0);
 		exit(0);
 	}
-    if ((*cmd)->cmd == NULL && (*cmd)->args[0]) {
-        comnond_err((*cmd)->args[0]);
-        return(get_exit(127,0),exit(127),false);
-    }
-	else if((*cmd)->cmd == NULL && (*cmd)->args == NULL)
+	if ((*cmd)->cmd == NULL && (*cmd)->args[0])
+	{
+		comnond_err((*cmd)->args[0]);
+		return (get_exit(127, 0), exit(127), false);
+	}
+	else if ((*cmd)->cmd == NULL && (*cmd)->args == NULL)
 		exit(1);
-    if(execve((*cmd)->cmd, (*cmd)->args, data->env->env) == -1)
-    {
-        printf("Error: %s: Permission denied\n", (*cmd)->args[0]);
-		get_exit(126,0);
+	if (execve((*cmd)->cmd, (*cmd)->args, data->env->env) == -1)
+	{
+		// perror(strerror(errno));
+		// printf("Error: %s: Permission denied\n", (*cmd)->args[0]);
+		get_exit(126, 0);
 		exit(126);
-    }
-    return(EXIT_SUCCESS);
+	}
+	return (EXIT_SUCCESS);
 }
-char	*f_strdup(const char *s1)
+char *f_strdup(const char *s1)
 {
-	char	*new;
-	int		i;
+	char *new;
+	int i;
 
 	if (s1 == NULL)
 		return (NULL);
-	new = (char *)master(sizeof (char) * ft_strlen(s1) + 1,1);
+	new = (char *)master(sizeof(char) * ft_strlen(s1) + 1, 1);
 	if (new == NULL)
 		return (NULL);
 	i = 0;
@@ -65,20 +79,20 @@ char	*f_strdup(const char *s1)
 	new[i] = '\0';
 	return (new);
 }
-char	*f_strjoin(char *s1, char *s2)
+char *f_strjoin(char *s1, char *s2)
 {
-	char		*r;
-	size_t		ls1;
-	size_t		ls2;
-	size_t		t;
-	size_t		i;
-	
+	char *r;
+	size_t ls1;
+	size_t ls2;
+	size_t t;
+	size_t i;
+
 	if (s1 == NULL && s2 == NULL)
 		return (f_strdup(""));
 	if (!s2 && s1)
-		return(f_strdup(s1));
+		return (f_strdup(s1));
 	if (!s1 && s2)
-		return(f_strdup(s2));
+		return (f_strdup(s2));
 	i = 0;
 	ls1 = ft_strlen(s1) + 1;
 	ls2 = ft_strlen(s2);
@@ -86,7 +100,7 @@ char	*f_strjoin(char *s1, char *s2)
 	{
 		return (f_strdup(""));
 	}
-	r = (char *)master((ls1 + ls2) * sizeof(char),1);
+	r = (char *)master((ls1 + ls2) * sizeof(char), 1);
 	if (!r)
 	{
 		return (NULL);
@@ -96,11 +110,11 @@ char	*f_strjoin(char *s1, char *s2)
 	return (r);
 }
 
-char	*ft_mysep1(char *s1, char *f)
+char *ft_mysep1(char *s1, char *f)
 {
-	char	*result;
-	size_t	lword;
-	size_t	i;
+	char *result;
+	size_t lword;
+	size_t i;
 
 	result = NULL;
 	lword = 0;
@@ -108,10 +122,10 @@ char	*ft_mysep1(char *s1, char *f)
 	{
 		if (s1[lword] == 39 || s1[lword] == 34)
 		{
-			skip_betw_quotes(s1,&lword);
-			lword++; 
+			skip_betw_quotes(s1, &lword);
+			lword++;
 		}
-        else
+		else
 			lword++;
 	}
 	result = ft_my_malloc(lword + 1);
@@ -125,7 +139,7 @@ char	*ft_mysep1(char *s1, char *f)
 	return (result);
 }
 
-char	**my_copy1(char **new, char *s, int x, char *f)
+char **my_copy1(char **new, char *s, int x, char *f)
 {
 	t_member_split sp;
 
@@ -133,7 +147,7 @@ char	**my_copy1(char **new, char *s, int x, char *f)
 	sp.tmp = NULL;
 	while (*s && sp.n < x)
 	{
-		while ((*s == f[0] || *s == f[1]) &&  *s)
+		while ((*s == f[0] || *s == f[1]) && *s)
 			s++;
 		if (*s != '\0')
 		{
@@ -156,39 +170,38 @@ char	**my_copy1(char **new, char *s, int x, char *f)
 	return (new);
 }
 
-
 int ft_counter2(char *s, char *f)
 {
-    size_t i = 0;
-    size_t cnt = 0;
+	size_t i = 0;
+	size_t cnt = 0;
 
-	if(!s || !*s)
-		return(0);
-    while (s[i])
-    {
-        while ((s[i] == f[0] || s[i] == f[1] )&& s[i] != '\0')
-            i++;
-        if (s[i] != '\0')
-        {
-            cnt++;
-            while (s[i] != f[0] && s[i] != f[1] && s[i] != '\0')
-            {
-                if (s[i] == 39 || s[i] == 34)
-                {
+	if (!s || !*s)
+		return (0);
+	while (s[i])
+	{
+		while ((s[i] == f[0] || s[i] == f[1]) && s[i] != '\0')
+			i++;
+		if (s[i] != '\0')
+		{
+			cnt++;
+			while (s[i] != f[0] && s[i] != f[1] && s[i] != '\0')
+			{
+				if (s[i] == 39 || s[i] == 34)
+				{
 					skip_betw_quotes(s, &i);
 					i++;
 				}
-                else
-                    i++;
-            }
-        }
-    }
-    return cnt;
+				else
+					i++;
+			}
+		}
+	}
+	return cnt;
 }
-char	**f_split(char *s, char c, char c1)
+char **f_split(char *s, char c, char c1)
 {
-	char	**new;
-	int		x;
+	char **new;
+	int x;
 	char f[2];
 
 	if (!s)
@@ -203,5 +216,3 @@ char	**f_split(char *s, char c, char c1)
 	new = my_copy1(new, s, x, f);
 	return (new);
 }
-
-

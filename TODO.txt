@@ -9,6 +9,9 @@ yojablao+HOME
 expected
 bash-3.2$ echo $USER+$HOME
 yojablao+/Users/yojablao
+cd minishell
+git clone https://github.com/LucasKuhn/minishell_tester.git
+cd minishell_tester
 
 
 
@@ -16,3 +19,11 @@ yojablao+/Users/yojablao
 signals 
 Cntr+D 130/131
 cntr+C 130/131
+
+
+
+ls > 0  | cat << ls
+0: Permission denied
+
+echo DF > $gd
+Bad address

@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 00:56:39 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/25 03:43:54 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/26 00:24:24 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,91 +16,90 @@ void close_open_fd(t_exec_cmd **data)
 {
 
     t_exec_cmd *cmd = (*data);
-        if(cmd->infd != 0)
-            close(cmd->infd);
-        if(cmd->outfd != 1)
-            close(cmd->outfd);
-        cmd = cmd->next;
+    if (cmd->infd != 0)
+        close(cmd->infd);
+    if (cmd->outfd != 1)
+        close(cmd->outfd);
+    cmd = cmd->next;
 }
 void close_open_fd_1(t_exec_cmd **data)
 {
     t_exec_cmd *cmd = (*data);
-    while(cmd)
+    while (cmd)
     {
-        if(cmd->infd != 0)
+        if (cmd->infd != 0)
             close(cmd->infd);
-        if(cmd->outfd != 1)
+        if (cmd->outfd != 1)
             close(cmd->outfd);
         cmd = cmd->next;
     }
 }
 
-int check_internal_builtins(t_exec_cmd **s,t_environment **env)
+int check_internal_builtins(t_exec_cmd **s, t_environment **env)
 {
-    if(ft_strcmp((*s)->args[0],"exit") == 0)
-        return(exit_builting((*s)->args),add_to_env(&(*env)->lenv,"_",(*s)->args[0],0),1);
-    if(ft_strcmp((*s)->args[0],"unset") == 0)
-        return( un_set_builting(s,env),add_to_env(&(*env)->lenv,"_",(*s)->args[0],0),1);
-    if(ft_strcmp((*s)->args[0],"cd") == 0)
-        return( cd_builting(s,env),add_to_env(&(*env)->lenv,"_",(*s)->args[0],0),1);
-    if(ft_strcmp((*s)->args[0],"export") == 0)
-        return(export_builtin((*s)->args,env),add_to_env(&(*env)->lenv,"_",(*s)->args[0],0),1);
-    if(ft_strcmp((*s)->args[0],"env") == 0)
-        return( env_build((*env)->lenv),add_to_env(&(*env)->lenv,"_",(*s)->args[0],0),1);
-    if(ft_strcmp((*s)->args[0],"pwd") == 0 || ft_strcmp((*s)->args[0],"PWD") == 0)
-        return( pwd_builting((*env)->lenv),add_to_env(&(*env)->lenv,"_",(*s)->args[0],0),1);
-    return(0);
+    if (ft_strcmp((*s)->args[0], "exit") == 0)
+        return (exit_builting((*s)->args, 1), add_to_env(&(*env)->lenv, "_", (*s)->args[0], 0), 1);
+    if (ft_strcmp((*s)->args[0], "unset") == 0)
+        return (un_set_builting(s, env), add_to_env(&(*env)->lenv, "_", (*s)->args[0], 0), 1);
+    if (ft_strcmp((*s)->args[0], "cd") == 0)
+        return (cd_builting(s, env), add_to_env(&(*env)->lenv, "_", (*s)->args[0], 0), 1);
+    if (ft_strcmp((*s)->args[0], "export") == 0)
+        return (export_builtin((*s)->args, env), add_to_env(&(*env)->lenv, "_", (*s)->args[0], 0), 1);
+    if (ft_strcmp((*s)->args[0], "env") == 0)
+        return (env_build((*env)->lenv), add_to_env(&(*env)->lenv, "_", (*s)->args[0], 0), 1);
+    if (ft_strcmp((*s)->args[0], "pwd") == 0 || ft_strcmp((*s)->args[0], "PWD") == 0)
+        return (pwd_builting((*env)->lenv), add_to_env(&(*env)->lenv, "_", (*s)->args[0], 0), 1);
+    return (0);
 }
 void fail_case(char *fail)
 {
     perror(fail);
-    get_exit(1,0);
-    exit(EXIT_FAILURE);   
+    get_exit(1, 0);
+    exit(EXIT_FAILURE);
 }
 
-void    child_sig(int sig)
+void child_sig(int sig)
 {
     if (sig == SIGQUIT)
         printf("Quit: 3");
     printf("\n");
 }
-void handel_wait_sig(pid_t pid)
+int handel_wait_sig(pid_t pid)
 {
-    int status;    
-        waitpid(pid,&status,0);
-        if (WIFEXITED(status))
-            status = WEXITSTATUS(status);
-        get_exit(status,0);
-        // else if (WIFSIGNALED(status))
-        // {
-        //     if (WTERMSIG(status) == SIGQUIT)
-        //         return (printf("Quit: 3\n"), WEXITSTATUS(status) + 128);
-        //     else if (WTERMSIG(status) == SIGINT)
-        //         return (printf("\n"), WEXITSTATUS(status) + 128);
-        // }
+    int status;
+    waitpid(pid, &status, 0);
+    if (WIFEXITED(status))
+        return (WEXITSTATUS(status));
+    else if (WIFSIGNALED(status))
+    {
+        if (WTERMSIG(status) == SIGQUIT)
+            return (printf("Quit: 3\n"), WEXITSTATUS(status) + 128);
+        else if (WTERMSIG(status) == SIGINT)
+            return (printf("\n"), WEXITSTATUS(status) + 128);
+    }
+    return (0);
 }
-int     exic(t_exec_cmd **s,t_shell **data)
+int exic(t_exec_cmd **s, t_shell **data)
 {
     pid_t pid;
 
-    signal(SIGINT, child_sig);
-    signal(SIGQUIT, child_sig);
-    pid  = fork();
-    if(pid == -1)
-        return(1);
-    if(pid == 0)
+    signal(SIGINT, SIG_IGN);
+    pid = fork();
+    if (pid == -1)
+        return (1);
+    if (pid == 0)
     {
-        if(child(s,(*data)) == EXIT_FAILURE)
-            return(1);
+        signal(SIGINT, SIG_DFL);
+        signal(SIGQUIT, SIG_DFL);
+        if (child(s, (*data)) == EXIT_FAILURE)
+            return (1);
     }
     else
-        handel_wait_sig(pid);
-    signal(SIGINT, handling_sig);
-    signal(SIGQUIT, SIG_IGN);
-    return(0);
+        get_exit(handel_wait_sig(pid), 0);
+    return (0);
 }
 
-void    pipe_handle(t_shell *sh, int curr_cmd)
+void pipe_handle(t_shell *sh, int curr_cmd)
 {
     if (curr_cmd == 0)
         sh->prev = NULL;
@@ -131,30 +130,32 @@ void dup_pipe(t_shell *data, int curr_cmd)
     }
 }
 
-
 void setup_pipe_and_fork(t_exec_cmd *cmd, t_shell *data, int curr_cmd)
 {
     pid_t pid;
-    
+
     if (cmd->next != NULL)
     {
         if (pipe(data->curr) == -1)
             fail_case("pipe creation failed");
     }
-    signal(SIGINT, child_sig);
-    signal(SIGQUIT, child_sig);
+    // signal(SIGINT, child_sig);
+    // signal(SIGQUIT, child_sig);
+    signal(SIGINT, SIG_IGN);
     pid = fork();
     if (pid == -1)
         fail_case("fork failed");
     if (pid == 0)
     {
+        signal(SIGINT, SIG_DFL);
+        signal(SIGQUIT, SIG_DFL);
         pipe_handle(data, curr_cmd);
-        dup_pipe(data,curr_cmd);
+        dup_pipe(data, curr_cmd);
         child(&cmd, data);
         exit(0);
     }
-    signal(SIGINT, handling_sig);
-    signal(SIGQUIT, SIG_IGN);
+    // signal(SIGINT, handling_sig);
+    // signal(SIGQUIT, SIG_IGN);
 }
 void close_ans_update(t_shell **data, int curr_cmd)
 {
@@ -168,9 +169,8 @@ void close_ans_update(t_shell **data, int curr_cmd)
         (*data)->prev[0] = (*data)->curr[0];
         (*data)->prev[1] = (*data)->curr[1];
     }
-    
 }
-void pipe_line(t_exec_cmd **s, t_shell  **data)
+void pipe_line(t_exec_cmd **s, t_shell **data)
 {
     int curr[2];
     int prev[2];
@@ -184,15 +184,16 @@ void pipe_line(t_exec_cmd **s, t_shell  **data)
     curr_cmd = 0;
     (*data)->curr = curr;
     (*data)->prev = prev;
-    while(cmd != NULL)
+    while (cmd != NULL)
     {
         setup_pipe_and_fork(cmd, *data, curr_cmd);
-        close_ans_update(data,curr_cmd);
+        close_ans_update(data, curr_cmd);
         close_open_fd(&cmd);
         curr_cmd++;
-        cmd = cmd->next; 
+        cmd = cmd->next;
     }
-    while(wait(NULL) > 0);
+    while (wait(NULL) > 0)
+        ;
 }
 int get_exit(int sts, bool set)
 {
@@ -201,18 +202,16 @@ int get_exit(int sts, bool set)
         status = sts;
     return (status);
 }
-int exice(t_exec_cmd **cmd,int type,t_shell **info)
+int exice(t_exec_cmd **cmd, int type, t_shell **info)
 {
-    // ft_print_stack(*cmd);
-	if(type == 2)
-		pipe_line(cmd,info);
-	else
+    ft_print_stack(*cmd);
+    if (type == 2)
+        pipe_line(cmd, info);
+    else
     {
-		exic(cmd,info);    
+        exic(cmd, info);
         close_open_fd(cmd);
     }
-    
+
     return 1;
 }
-
-

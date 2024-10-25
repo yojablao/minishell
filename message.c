@@ -6,73 +6,73 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 11:12:57 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/25 03:46:37 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/26 00:24:37 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strrange(char *s, int start, int end)
+char *ft_strrange(char *s, int start, int end)
 {
-	int		i;
-	char	*str;
+    int i;
+    char *str;
 
-	str = master(end - start + 1,1);
-	i = 0;
-	while (start < end)
-		str[i++] = s[start++];
+    str = master(end - start + 1, 1);
+    i = 0;
+    while (start < end)
+        str[i++] = s[start++];
     str[i] = '\0';
-	return (str);
+    return (str);
 }
 //////////Handle empty double quotes ("") directly (which you already do), but there are potential edge cases when quotes are misaligned or nested.
-bool	special_letter(char l)
+bool special_letter(char l)
 {
-	char	*s;
-	int		i;
+    char *s;
+    int i;
 
-	i = 0;
+    i = 0;
     if (l == 0)
         return true;
-	s = "=/*-+@!#%^.*:";
-	if (l == ' ' || (l >= 9 && l <= 13))
-		return (true);
-	while (s[i])
-	{
-		if (s[i] == l)
-			return (true);
-		i++;
-	}
-	return (false);
+    s = "=/*-+@!#%^.*:";
+    if (l == ' ' || (l >= 9 && l <= 13))
+        return (true);
+    while (s[i])
+    {
+        if (s[i] == l)
+            return (true);
+        i++;
+    }
+    return (false);
 }
 // bool valid_env_char(char c)
 // {
 //     return (ft_isalnum(c) || c == '_');
 // }
-char	*get_key(char *s)
+char *get_key(char *s)
 {
-	// t_env	e;
-	int			i;
-    int         start;
-    int         end;
-	char		*str;
+    // t_env	e;
+    int i;
+    int start;
+    int end;
+    char *str;
 
-	i = 0;
-	end = 0;
-	start = 0;
-	while (s[i])
-	{
-		if (s[i] == '$')
-		{
-			start = i++;
-			while (s[i] && !special_letter(s[i]) && s[i] != '$' && s[i] != '\'' && s[i] != '\"')
-			    i++;
-			end = i;
-			break ;
-		}
-		i++;
-	}
-	str = ft_strrange(s, start, end);
-	return (str);
+    i = 0;
+    end = 0;
+    start = 0;
+    while (s[i])
+    {
+        if (s[i] == '$')
+        {
+            start = i++;
+            while (s[i] && !special_letter(s[i]) && s[i] != '$' && s[i] != '\'' && s[i] != '\"')
+                i++;
+            end = i;
+            break;
+        }
+        i++;
+    }
+    str = ft_strrange(s, start, end);
+    return (str);
 }
 char *expand_exit_status(int status)
 {
@@ -139,7 +139,7 @@ char *expanding_valuess(char *key, t_env *env)
         if (!ft_strcmp(tmp->key, key) && env->flage == 1)
         {
             value = f_strdup(f_remove_spaces(tmp->value));
-            return(value);
+            return (value);
         }
         tmp = tmp->next;
     }
@@ -149,139 +149,14 @@ char *expanding_valuess(char *key, t_env *env)
 int checkexpand(char *s)
 {
     int i = 0;
-    while(s[i])
+    while (s[i])
     {
-        if(s[i]== '$')
+        if (s[i] == '$')
             return 1;
         i++;
     }
     return 0;
 }
-// char *ft_expand1(char *s, char **envi)
-// {
-//     int i = 0;
-//     int end;
-//     int start;
-//     char *buffer = NULL;
-//     char *tmp;
-//     char *value;
-//     char *key;
-//     t_env *env;
-
-//     env = env_set(envi);
-//     while (s[i])
-//     {
-//         if (s[i] == '\'')
-//         {
-//             start = i++;
-//             while (s[i] && s[i] != '\'')
-//                 i++;
-//             end = i;
-//             tmp = ft_strrange(s, start + 1, end);
-//             buffer= f_strjoin(buffer, tmp);
-//         }
-//         else if (s[i] == '\"')
-//         {
-//             if (s[i + 1] == '\"')
-//                 i++;
-//             else
-//             {
-//                 start = i++;
-//                 while (s[i] && s[i] != '\"')
-//                     i++;
-//                 end = i--;
-//                 tmp = ft_strrange(s, start + 1, end);
-//                 if (checkexpand(tmp))
-//                 {
-//                     int j = 0;
-//                     while (tmp[j])
-//                     {
-//                         if (tmp[j] == '$' && special_letter(tmp[j + 1]) == false)
-//                         {
-//                         key = get_key(tmp + j);
-//                         j += ft_strlen(key) - 1;
-//                         value = expanding_valuess(key + 1, env);
-//                         buffer = f_strjoin(buffer, value);
-//                         printf("here\n");
-//                         }
-//                         else if (tmp[j] == '$' && special_letter(tmp[j + 1]) == true)
-//                         {
-//                             start = j;
-//                             j++;
-//                             while (tmp[j] && tmp[j] != '$')
-//                                 j++;
-//                             end = j--;
-//                             value = ft_strrange(tmp, start,end);
-//                             buffer = f_strjoin(buffer, value);
-//                         }
-//                         else
-//                         {
-//                             start = j;
-//                             while (tmp[j] && tmp[j] != '$')
-//                                 j++;
-//                             end = j--;
-//                             value = ft_strrange(tmp, start,end);
-//                             buffer = f_strjoin(buffer, value);
-//                         }
-//                         j++;
-//                     }
-//                 }
-//                 else
-//                     buffer = f_strjoin(buffer, tmp);
-//                 i++;
-//             }
-//         }
-//         else if (s[i] == '$')
-//         {
-//             if (s[i + 1] == '$')
-//             {
-//                 buffer = f_strjoin(buffer, ft_strdup("$"));
-//                 i++;
-//             }
-//             else if (special_letter(s[i + 1]) == true)
-//             {
-//                 start = i;
-//                 i++;
-//                 while(s[i] && s[i] != '$' && s[i] != '\'' && s[i] != '"')
-//                     i++;
-//                 end = i--;
-//                 value = ft_strrange(s, start,end);
-//                 buffer = f_strjoin(buffer, value);
-//             }
-//             else if (s[i + 1] == '?')
-//             {
-//                 tmp = ft_itoa(get_exit(0,1));
-//                 buffer = f_strjoin(buffer,tmp);
-//                 free(tmp);
-//                 i++;
-//             }
-//             else
-//             {
-//                 key = get_key(s + i);
-//                 i += ft_strlen(key) - 1;
-//                 tmp = expanding_valuess(key + 1, env);
-//                 buffer = f_strjoin(buffer, tmp);
-//             }
-//         }
-//         else 
-//         {
-//             start = i;
-//             while (s[i] && s[i] != '\'' && s[i] != '\"' && s[i] != '$')
-//                 i++;
-//             end = i--;
-//             tmp = ft_strrange(s, start, end);
-//             buffer = f_strjoin(buffer, tmp);
-//         }
-//         if (s[i])
-//             i++;
-//     }
-//     if (buffer[0] == 0)
-//         return (NULL);
-//     return (buffer);
-// }
-
-//---------------------------------//
-// Handle simple quote expansion
 
 char *handle_single_quote(char *s, int *i, char *buffer)
 {
@@ -297,19 +172,19 @@ char *handle_single_quote(char *s, int *i, char *buffer)
     return (f_strjoin(buffer, tmp));
 }
 
-char	*join_buffer(char *tmp, int *j, int start)
+char *join_buffer(char *tmp, int *j, int start)
 {
-	char	*value;
-	char	*buffer;
-	int		end;
+    char *value;
+    char *buffer;
+    int end;
 
-	buffer = NULL;
-	while (tmp[*j] && tmp[*j] != '$')
-		(*j)++;
-	end = (*j)--;
-	value = ft_strrange(tmp, start, end);
-	buffer = f_strjoin(buffer, value);
-	return (buffer);
+    buffer = NULL;
+    while (tmp[*j] && tmp[*j] != '$')
+        (*j)++;
+    end = (*j)--;
+    value = ft_strrange(tmp, start, end);
+    buffer = f_strjoin(buffer, value);
+    return (buffer);
 }
 
 char *handle_double_quote_content(char *tmp, int *j, t_env *env, char *buffer)
@@ -328,14 +203,14 @@ char *handle_double_quote_content(char *tmp, int *j, t_env *env, char *buffer)
     }
     else if (tmp[*j] == '$' && special_letter(tmp[*j + 1]) == true)
     {
-		start = *j;
-		(*j)++;
+        start = *j;
+        (*j)++;
         buffer = join_buffer(tmp, j, start);
     }
     else
     {
         start = *j;
-		buffer = join_buffer(tmp, j, start);
+        buffer = join_buffer(tmp, j, start);
     }
     return (buffer);
 }
@@ -366,11 +241,10 @@ char *handle_double_quote(char *s, int *i, t_env *env, char *buffer)
         (*i)++;
     end = (*i)--;
     tmp = ft_strrange(s, start + 1, end);
-    //printf("tmp ;%s;\n",tmp);
     if (checkexpand(tmp))
-        {
-            buffer =  process_double_quote(tmp, env, buffer);
-        }
+    {
+        buffer = process_double_quote(tmp, env, buffer);
+    }
     else
         buffer = f_strjoin(buffer, tmp);
     return (buffer);
@@ -405,7 +279,7 @@ char *handle_dollar(char *s, int *i, t_env *env, char *buffer)
     if (special_letter(s[*i + 1]) == true)
     {
         start = (*i)++;
-        while(s[*i] && s[*i] != '$' && s[*i] != '\'' && s[*i] != '"')
+        while (s[*i] && s[*i] != '$' && s[*i] != '\'' && s[*i] != '"')
             (*i)++;
         end = (*i)--;
         value = ft_strrange(s, start, end);
@@ -432,7 +306,7 @@ char *handle_normal_text(char *s, int *i, char *buffer)
     return (f_strjoin(buffer, tmp));
 }
 
-char *ft_expand1(char *s, char **envi,t_env *lenv)
+char *ft_expand1(char *s, char **envi, t_env *lenv)
 {
     int i;
     char *buffer;
@@ -449,7 +323,7 @@ char *ft_expand1(char *s, char **envi,t_env *lenv)
             buffer = handle_double_quote(s, &i, env, buffer);
         else if (s[i] == '$')
             buffer = handle_dollar(s, &i, env, buffer);
-        else 
+        else
             buffer = handle_normal_text(s, &i, buffer);
         if (s[i])
             i++;

@@ -6,60 +6,60 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:46:07 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/24 22:29:55 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/26 00:23:27 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	skip_betw_quotes(char *str, size_t *i)
+void skip_betw_quotes(char *str, size_t *i)
 {
-	char	quot_char;
+	char quot_char;
 
 	quot_char = str[*i];
-	 (*i)++;
-    while (str[*i] && str[*i] != quot_char)
-        (*i)++;
+	(*i)++;
+	while (str[*i] && str[*i] != quot_char)
+		(*i)++;
 }
-char	*skip_betw_quotes2(char *str)
+char *skip_betw_quotes2(char *str)
 {
 	if (*str == 34)
-    {
-        str++;
-        while (*str && *str != 34 )
-        	str++;
-    }
-    else if (*str == 39)
-    {
-        str++;
-        while (*str && *str != 39)
-            str++;
-    }
-	return(str);
+	{
+		str++;
+		while (*str && *str != 34)
+			str++;
+	}
+	else if (*str == 39)
+	{
+		str++;
+		while (*str && *str != 39)
+			str++;
+	}
+	return (str);
 }
 size_t skip_betw_quotes3(char *str, size_t *i)
 {
-    char quote_char = str[*i];
+	char quote_char = str[*i];
 	size_t len = 0;
 
-    len++;
-    (*i)++;
-    while (str[*i] && str[*i] != quote_char)
-    {
-        len++;
-        (*i)++;
-    }
-     len++;
-    return len;
+	len++;
+	(*i)++;
+	while (str[*i] && str[*i] != quote_char)
+	{
+		len++;
+		(*i)++;
+	}
+	len++;
+	return len;
 }
 
-size_t  ft_count_operators(char *str)
+size_t ft_count_operators(char *str)
 {
-	size_t	i;
+	size_t i;
 	size_t c;
 	i = 0;
 	c = 0;
-    while (str[i])
+	while (str[i])
 	{
 		if (str[i] == 34 || str[i] == 39)
 			skip_betw_quotes(str, &i);
@@ -77,25 +77,25 @@ size_t  ft_count_operators(char *str)
 				i++;
 			c++;
 		}
-		i++;	
+		i++;
 	}
 	return (c * 2);
 }
 
-char    *ft_handel_spaces_allocation(char *str)
+char *ft_handel_spaces_allocation(char *str)
 {
-    char *new;
+	char *new;
 	size_t len1;
-    size_t len2;
+	size_t len2;
 
 	new = NULL;
-    len2 = ft_count_operators(str);
-	len1  = ft_strlen(str) + len2;
+	len2 = ft_count_operators(str);
+	len1 = ft_strlen(str) + len2;
 	new = ft_my_malloc(len1 + 1);
-	return(new);
+	return (new);
 }
 
-int	ft_check_quotes(char *str)
+int ft_check_quotes(char *str)
 {
 	size_t i;
 
@@ -106,13 +106,13 @@ int	ft_check_quotes(char *str)
 		{
 			skip_betw_quotes(str, &i);
 			if (str[i] == '\0')
-				return(0);
+				return (0);
 		}
 		i++;
 	}
 	return (1);
 }
-void	ft_write_bet_quotes(char *str, char *new, int *i, int *j)
+void ft_write_bet_quotes(char *str, char *new, int *i, int *j)
 {
 	char l;
 
@@ -128,7 +128,7 @@ void	ft_write_bet_quotes(char *str, char *new, int *i, int *j)
 	new[(*j)++] = str[(*i)];
 }
 
-void	add_spaces(char c, char *new, int *j, int v)
+void add_spaces(char c, char *new, int *j, int v)
 {
 	if (v == 0)
 	{
@@ -145,7 +145,7 @@ void	add_spaces(char c, char *new, int *j, int v)
 	}
 }
 
-void	ft_add_spaces(char *str, char *new)
+void ft_add_spaces(char *str, char *new)
 {
 	int i = 0;
 	int j = 0;
@@ -165,7 +165,7 @@ void	ft_add_spaces(char *str, char *new)
 	new[j] = '\0';
 }
 
-int	ft_check_her(char *str)
+int ft_check_her(char *str)
 {
 	size_t i;
 
@@ -174,43 +174,42 @@ int	ft_check_her(char *str)
 	{
 		if (str[i] == 39 || str[i] == 34)
 			skip_betw_quotes(str, &i);
-		if(str[i] == '>' && str[i + 1] == '>' && str[i + 2] == '>')
+		if (str[i] == '>' && str[i + 1] == '>' && str[i + 2] == '>')
 			return (0);
-		if (str[i] == '<' && str[i + 1] == '<' && 
+		if (str[i] == '<' && str[i + 1] == '<' &&
 			str[i + 2] == '<')
 			return (0);
 		i++;
 	}
-	return(1);
+	return (1);
 }
 char *rm_escap_char(char *s)
 {
-    int i = 0;
-    int j = 0;
-    int single_q = 0;
-    int double_q = 0;
+	int i = 0;
+	int j = 0;
+	int single_q = 0;
+	int double_q = 0;
 
-    char *res = master(ft_strlen(s) + 1,1);
-    if (!res)
-        return (NULL);
-    while (s[i])
-    {
-        if (s[i] == '\'' && !double_q)
-            single_q = !single_q;
-        else if (s[i] == '"' && single_q == 0)
-            double_q = !double_q;
-        else
-            res[j++] = s[i];
-        i++;
-    }
-    res[i] = '\0';
-    return (res);
+	char *res = master(ft_strlen(s) + 1, 1);
+	if (!res)
+		return (NULL);
+	while (s[i])
+	{
+		if (s[i] == '\'' && !double_q)
+			single_q = !single_q;
+		else if (s[i] == '"' && single_q == 0)
+			double_q = !double_q;
+		else
+			res[j++] = s[i];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
 }
 
-
-int syntax(char *str,t_shell **cmd)
+int syntax(char *str, t_shell **cmd)
 {
-    char *new;
+	char *new;
 	char *expend;
 
 	new = NULL;
@@ -218,17 +217,16 @@ int syntax(char *str,t_shell **cmd)
 	(*cmd)->a = NULL;
 	if (!ft_check_quotes(str) || !ft_check_her(str))
 		return (0);
-    new = ft_handel_spaces_allocation(str);
+	new = ft_handel_spaces_allocation(str);
 	ft_add_spaces(str, new);
 	ft_full_list(&(*cmd)->a, new, 32);
 	if (ft_check_grammer((*cmd)->a) == 0)
-		return(0);
-	// ft_expand1(str,)
+		return (0);
 	return (1);
 }
 /*
 split ("|");0 done;
-char **allcmd == echo $DFdf > $USER 
+char **allcmd == echo $DFdf > $USER
 char **cmd = echo \0
 char **red = > file > hamrachi
 */
