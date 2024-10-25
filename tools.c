@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:50:24 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/25 00:35:26 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/25 02:50:55 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,53 +135,53 @@ char **correct_cmd(char **args, int *j)
     *j = i; 
     return new_args;
 }
-char **ft_joinlist(t_list *a,t_environment **env)
+
+char **ft_joinlist(t_list **a,t_environment **env)
 {
+	// t_list *a = *ab;
 	if (!a) return NULL; 
 	int s = -1;
 	char *tmp;
-	int p = ft_lstsize(a);
+	int p = ft_lstsize(*a);
 	char **words = master(sizeof(char *) * (p + 1), 1); 
-	if (!words) return NULL; 
-	bool flage;
-	flage = true;
 	int i = 0;
-	ft_printf_a(a);
-	while (a)
+	// ft_printf_a(a);
+	while ((*a) && (*a)->stat != 0)
 	{
-		tmp = ft_expand1(a->content,(*env)->env);
+		tmp = ft_expand1((*a)->content,(*env)->env,(*env)->lenv);
 		if (tmp && *tmp)
 		{
 			if (s == -1 || s != 4)
 				words[i] = tmp;
 			else
-				words[i] = f_strdup(a->content);
+				words[i] = f_strdup((*a)->content);
 			i++;
-			if(!flage)
+			if((*env)->lenv->flage)
 				words = correct_cmd(words, &i);
 		}
-		s = a->stat;
-		a = a->next;        
+		s = (*a)->stat;
+		*a = (*a)->next;        
 	}
+	// {
+	// 	ft_joinlist_pipe(a->next,env,cmd)
+	// }
+	if(*a && (*a)->stat == 0)
+		*a = (*a)->next;
 	words[i] = NULL; 
-		for (int j = 0; j < i; j++)
-		{
-			printf("------>%s\n",words[j]);
-		}
+
+	// ab = &a;
 	return words; 
 }
 void filehandler(t_exec_cmd **s)
 {
 	if ((*s)->infd != 0)
 	{ 
-		// printf("%d\n", (*s)->infd);
 		if (dup2((*s)->infd, STDIN_FILENO) == -1)
 		{
 			perror(strerror(errno));
 			exit(EXIT_FAILURE);
 		}
 		close((*s)->infd); 
-			// sleep(20);
 	}
 	if ((*s)->outfd != 1) {  
 		if (dup2((*s)->outfd, 1) == -1) {

@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 10:15:24 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/24 22:12:57 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/25 02:25:51 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,12 @@ void	ft_print_stack(t_exec_cmd *a)
     {
 		i = -1;
        printf("content ==> %s\n", tmp->cmd);
-	   while (tmp->args[++i])
-    		printf("args ==> %s\n", tmp->args[i]);
+	   if(tmp->args)
+	   {
+
+	   		while (tmp->args[++i])
+    			printf("args ==> %s\n", tmp->args[i]);
+	   }
 
         tmp = tmp->next;
     }

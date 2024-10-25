@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/24 22:11:50 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/25 02:41:03 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_env
     char *key;
     char *value;
     bool valid;
+    int flage;
     struct s_env *next;
 } t_env;
 
@@ -100,7 +101,9 @@ typedef struct top
     int     *curr;
     int     *prev;
 }t_shell;
- 
+
+int g_sig;
+
 t_list	*f_lstnew(void *content);
 char    *ft_my_malloc( size_t len);
 // void	ft_free(t_list *a, char *s1, char *s2);
@@ -125,11 +128,11 @@ int out_redirect(char *file);
 int in_redirect(char *file);
 // bool    handel_comond(char *cmd,t_exec_cmd **comond,char **env);
 // char *expand(char *s,char **envo);
-int    ft_herdoc(char *del,char **env);
+int    ft_herdoc(char *del,t_environment **env);
 void filehandler(t_exec_cmd **s);
 bool    child(t_exec_cmd **s,t_shell *data);
 int append(char *file);
-char **ft_joinlist(t_list *a,t_environment **env);
+char **ft_joinlist(t_list **ab,t_environment **env);
 int count_words(char **words);
 bool    pasabel(char *c);
 void    *master(size_t size, int flag);
@@ -141,8 +144,9 @@ t_shell   *init(char **envi);
 int pars(t_shell **cmd,char *input);
 t_exec_cmd	*aloc_comond(t_exec_cmd *s);
 char **init_mult_cmd(t_list *a, int p);
+// char **init_mult_cmd(t_list *a, t_environment **env);
 void free_data(t_shell **shell);
-bool handel_redirect(int *j,char **words ,t_exec_cmd **comond,char **env);
+bool handel_redirect(int *j,char **words ,t_exec_cmd **comond,t_environment **env);
 bool init_pipe_line(t_shell **cmd);
 
 bool comond_init(t_shell **cmd);
@@ -167,11 +171,13 @@ size_t	f_strlen2d(char **str);
 // char *ft_expand(char *s, t_env *env);
 bool    handel_comond(char **words,t_exec_cmd **comond,t_environment **env);
 int get_exit(int sts, bool set);
-char *ft_expand1(char *s, char **envi);
+char *ft_expand1(char *s, char **envi,t_env *lenv);
 void add_key_env(t_env **env, char *key, char *value);
 void comnond_err(char *s);
 int exice(t_exec_cmd **cmd,int type,t_shell **info);
 void close_open_fd(t_exec_cmd **data);
 void exit_builting(char **args);
+char **correct_cmd(char **args, int *j);
+void    handling_sig(int ac);
 
 #endif

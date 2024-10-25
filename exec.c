@@ -21,7 +21,7 @@ bool bulting(t_exec_cmd **s,t_shell *data)
 }
 bool    child(t_exec_cmd **cmd,t_shell *data)
 {
-	if ((*cmd)->args[0] &&(*cmd)->args[0][0] == '\2')
+	if ((*cmd)->args && (*cmd)->args[0] &&(*cmd)->args[0][0] == '\2')
 		return (1);
 	if(!(*cmd)->args[0] || !(*cmd)->args[0][0])
 		exit(0);

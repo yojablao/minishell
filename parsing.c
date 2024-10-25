@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:39 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/24 22:40:46 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/25 02:33:58 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int pars(t_shell **cmd,char *input)
 {
     if (!syntax(input,cmd))
 		return (get_exit(258,0),printf("syntax error\n"), -1);
-    ft_printf_a((*cmd)->a);
+    // ft_printf_a((*cmd)->a);
 	(*cmd)->cmd = aloc_comond((*cmd)->cmd);
 	if(!(*cmd)->cmd || !(*cmd)->a)
 		return -1;
@@ -69,7 +69,7 @@ bool handel_comond(char **words, t_exec_cmd **comond, t_environment **env)
         return false;
     while (words[i] != NULL)
     {
-        if (!handel_redirect(&i, words, comond, (*env)->env))
+        if (!handel_redirect(&i, words, comond, env))
             return false;
         else if(words[i] != NULL)
         {
@@ -80,6 +80,9 @@ bool handel_comond(char **words, t_exec_cmd **comond, t_environment **env)
     }
     args[j] = NULL;
     (*comond)->args  = args;
+    // j = 0;
+    // while(args[j])
+    //     printf("%s\n",args[j++]);
     return true;
 }
 

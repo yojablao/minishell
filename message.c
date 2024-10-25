@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 11:12:57 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/25 00:11:57 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/25 03:46:37 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,11 +117,11 @@ char *f_remove_spaces(char *str)
         // Set flag to add space before next word
         need_space = (str[i] != '\0');
     }
-    printf("res [%s]\n",res);
+    // printf("res [%s]\n",res);
     return (res);
 }
 
-char *expanding_valuess(char *key, t_env *env, int flag)
+char *expanding_valuess(char *key, t_env *env)
 {
     t_env *tmp;
     char *value;
@@ -131,12 +131,12 @@ char *expanding_valuess(char *key, t_env *env, int flag)
         return (f_strdup(key + 1));
     while (tmp)
     {
-        if (!ft_strcmp(tmp->key, key) && flag == 0)
+        if (!ft_strcmp(tmp->key, key) && env->flage == 0)
         {
             value = f_strdup(tmp->value);
             return (value);
         }
-        if (!ft_strcmp(tmp->key, key) && flag == 1)
+        if (!ft_strcmp(tmp->key, key) && env->flage == 1)
         {
             value = f_strdup(f_remove_spaces(tmp->value));
             return(value);
@@ -290,11 +290,9 @@ char *handle_single_quote(char *s, int *i, char *buffer)
     char *tmp;
 
     start = (*i)++;
-    printf("start -> %d\n",start);
     while (s[*i] && s[*i] != '\'')
         (*i)++;
     end = *i;
-    printf("end -> %d\n",end);
     tmp = ft_strrange(s, start + 1, end);
     return (f_strjoin(buffer, tmp));
 }
@@ -324,7 +322,8 @@ char *handle_double_quote_content(char *tmp, int *j, t_env *env, char *buffer)
     {
         key = get_key(tmp + (*j));
         (*j) += ft_strlen(key) - 1;
-        value = expanding_valuess(key + 1, env, 0);
+        env->flage = 0;
+        value = expanding_valuess(key + 1, env);
         buffer = f_strjoin(buffer, value);
     }
     else if (tmp[*j] == '$' && special_letter(tmp[*j + 1]) == true)
@@ -414,7 +413,8 @@ char *handle_dollar(char *s, int *i, t_env *env, char *buffer)
     }
     key = get_key(s + *i);
     *i += ft_strlen(key) - 1;
-    tmp = expanding_valuess(key + 1, env, 1);
+    env->flage = 1;
+    tmp = expanding_valuess(key + 1, env);
     return (f_strjoin(buffer, tmp));
 }
 
@@ -432,7 +432,7 @@ char *handle_normal_text(char *s, int *i, char *buffer)
     return (f_strjoin(buffer, tmp));
 }
 
-char *ft_expand1(char *s, char **envi)
+char *ft_expand1(char *s, char **envi,t_env *lenv)
 {
     int i;
     char *buffer;
@@ -454,6 +454,7 @@ char *ft_expand1(char *s, char **envi)
         if (s[i])
             i++;
     }
+    lenv->flage = env->flage;
     if (buffer && buffer[0] == 0)
         return (NULL);
     return (buffer);

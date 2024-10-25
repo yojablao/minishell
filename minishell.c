@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 00:56:39 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/24 21:44:44 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/25 03:43:54 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,16 @@ void fail_case(char *fail)
     get_exit(1,0);
     exit(EXIT_FAILURE);   
 }
-int     exic(t_exec_cmd **s,t_shell **data)
-{
-    int     status;
-    pid_t pid;
 
-    pid  = fork();
-    if(pid == -1)
-        return(1);
-    if(pid == 0)
-    {
-        if(child(s,(*data)) == EXIT_FAILURE)
-            return(1);
-    }
-    else
-    {
+void    child_sig(int sig)
+{
+    if (sig == SIGQUIT)
+        printf("Quit: 3");
+    printf("\n");
+}
+void handel_wait_sig(pid_t pid)
+{
+    int status;    
         waitpid(pid,&status,0);
         if (WIFEXITED(status))
             status = WEXITSTATUS(status);
@@ -83,7 +78,25 @@ int     exic(t_exec_cmd **s,t_shell **data)
         //     else if (WTERMSIG(status) == SIGINT)
         //         return (printf("\n"), WEXITSTATUS(status) + 128);
         // }
+}
+int     exic(t_exec_cmd **s,t_shell **data)
+{
+    pid_t pid;
+
+    signal(SIGINT, child_sig);
+    signal(SIGQUIT, child_sig);
+    pid  = fork();
+    if(pid == -1)
+        return(1);
+    if(pid == 0)
+    {
+        if(child(s,(*data)) == EXIT_FAILURE)
+            return(1);
     }
+    else
+        handel_wait_sig(pid);
+    signal(SIGINT, handling_sig);
+    signal(SIGQUIT, SIG_IGN);
     return(0);
 }
 
@@ -118,6 +131,7 @@ void dup_pipe(t_shell *data, int curr_cmd)
     }
 }
 
+
 void setup_pipe_and_fork(t_exec_cmd *cmd, t_shell *data, int curr_cmd)
 {
     pid_t pid;
@@ -127,6 +141,8 @@ void setup_pipe_and_fork(t_exec_cmd *cmd, t_shell *data, int curr_cmd)
         if (pipe(data->curr) == -1)
             fail_case("pipe creation failed");
     }
+    signal(SIGINT, child_sig);
+    signal(SIGQUIT, child_sig);
     pid = fork();
     if (pid == -1)
         fail_case("fork failed");
@@ -137,6 +153,8 @@ void setup_pipe_and_fork(t_exec_cmd *cmd, t_shell *data, int curr_cmd)
         child(&cmd, data);
         exit(0);
     }
+    signal(SIGINT, handling_sig);
+    signal(SIGQUIT, SIG_IGN);
 }
 void close_ans_update(t_shell **data, int curr_cmd)
 {
@@ -185,7 +203,7 @@ int get_exit(int sts, bool set)
 }
 int exice(t_exec_cmd **cmd,int type,t_shell **info)
 {
-    ft_print_stack(*cmd);
+    // ft_print_stack(*cmd);
 	if(type == 2)
 		pipe_line(cmd,info);
 	else

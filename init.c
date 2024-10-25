@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:53:57 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/24 22:40:28 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/25 03:43:40 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,9 @@ char **init_mult_cmd(t_list *a, int p)
                 
             }
             tmp = line_parsed;
+            
             line_parsed = f_strjoin(line_parsed ," ");
+            
         }
         a = a->next;
     }
@@ -154,7 +156,7 @@ int typecheck(char *word,t_exec_cmd **comond)
     }
     return(0);
 }
-static bool	handle_infd(int type, int *j, char **words, t_exec_cmd **cmd, char **env)
+static bool	handle_infd(int type, int *j, char **words, t_exec_cmd **cmd, t_environment **env)
 {
 	if (type == 1)
 		(*cmd)->infd = ft_herdoc(words[++(*j)], env);
@@ -182,7 +184,7 @@ static bool	handle_outfd(int type, int *j, char **words, t_exec_cmd **cmd)
 	return (true);
 }
 
-bool	handel_redirect(int *j, char **words, t_exec_cmd **cmd, char **env)
+bool	handel_redirect(int *j, char **words, t_exec_cmd **cmd, t_environment **env)
 {
 	int	type;
 
@@ -204,7 +206,7 @@ bool comond_init(t_shell **cmd)
 	char **comond;
     // int i = -1;
 
-    comond = ft_joinlist((*cmd)->a,&(*cmd)->env);
+    comond = ft_joinlist(&(*cmd)->a,&(*cmd)->env);
     // while(comond[++i])
     //     printf("---%s--\n",comond[i]);
     if(!comond[0])
@@ -227,18 +229,83 @@ bool comond_init(t_shell **cmd)
         add_to_env(&(*cmd)->env->lenv,"_",(*cmd)->cmd->cmd,0);
     return (true);
 }
+// char **init_mult_cmd(t_list *a, t_environment **env)
+// {
+//     char **comond;
+    
+//     if (!a)
+//         return NULL;
+
+//     comond = ft_joinlist(a, env);
+    
+//     if (comond && comond[0] != NULL)
+//         comond = f_split(comond[0], '|', '|');
+    
+//     return comond;
+// }
+// bool init_pipe_line(t_shell **cmd)
+// {
+//     char **comond;
+//     int i = 0;
+
+//     // Use ft_joinlist to join command strings and expand environment variables
+//    
+    
+//     if (!comond || !comond[0])  // Check if there are no commands
+//         return false;
+//     i = -1;
+//     while (comond[++i])
+//     {
+//         // Split the expanded command by spaces and tabs into arguments
+//         if (handel_comond(f_split(comond[i], ' ', '\t'), &(*cmd)->cmd, &(*cmd)->env))
+//         {
+//             // Find the command in the PATH
+//             (*cmd)->cmd->cmd = find_comond((*cmd)->cmd->args[0], &(*cmd)->env->lenv);
+//             if ((*cmd)->cmd->cmd)  // If the command exists
+//             {
+//                 // Update the environment with the last executed command
+//                 add_to_env(&(*cmd)->env->lenv, "_", (*cmd)->cmd->cmd, 0);
+//             }
+//             else  // If command is not found, print an error
+//             {
+//                 comnond_err((*cmd)->cmd->args[0]);
+//                 get_exit(127, 0);
+//                 return false;
+//             }
+//         }
+//         else
+//         {
+//             return false;  // Command handling failed, return false
+//         }
+
+//         // If there is another command in the pipeline, allocate space for it
+//         if (comond[i + 1] != NULL)
+//         {
+//             (*cmd)->cmd->next = aloc_comond((*cmd)->head);
+//         }
+//         else
+//         {
+//             (*cmd)->cmd->next = NULL;  // No more commands, break out of the loop
+//             break;
+//         }
+
+//         // Move to the next command in the pipeline
+//         if (!(*cmd)->cmd->next)
+//             return false;  // Memory allocation failed
+//         (*cmd)->cmd = (*cmd)->cmd->next;
+//     }
+
+//     return true;
+// }
 bool init_pipe_line(t_shell **cmd)
 {
     char ** comond;
-    int i = 0;
-    comond = init_mult_cmd((*cmd)->a,(*cmd)->n_pipe);
-    i = -1;
-    char *str;
+    int j = 0;
 
-	while(comond[++i])
+	while((*cmd)->n_pipe >= j)
 	{
-        str = ft_expand1(comond[i],(*cmd)->env->env);
-		if(handel_comond(f_split(str,' ','\t'),&(*cmd)->cmd,&(*cmd)->env))
+        comond = ft_joinlist(&(*cmd)->a, &(*cmd)->env);
+		if(handel_comond(comond,&(*cmd)->cmd,&(*cmd)->env))
         {
 		    (*cmd)->cmd->cmd = find_comond((*cmd)->cmd->args[0],&(*cmd)->env->lenv);
             if((*cmd)->cmd->cmd)
@@ -246,7 +313,7 @@ bool init_pipe_line(t_shell **cmd)
         }
         else
             return false;
-        if(comond[i + 1] != NULL)
+        if((*cmd)->n_pipe >= j + 1)
 		    (*cmd)->cmd->next = aloc_comond((*cmd)->head);
         else
         {
@@ -256,6 +323,7 @@ bool init_pipe_line(t_shell **cmd)
 		if(!(*cmd)->cmd->next)
 			return false;
 	    (*cmd)->cmd = (*cmd)->cmd->next;
+        j++;
 	}
 	return true;
 }
