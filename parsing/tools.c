@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:50:24 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/26 08:55:27 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/26 08:58:19 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void add_env(t_env **head, char *key, char *value)
 	t_env *new_env;
 	t_env *tmp;
 
-	new_env = master(sizeof(t_env), 1);
+	new_env = (t_env *)master(sizeof(t_env), 1);
 	new_env->key = f_strdup(key);
 	new_env->value = f_strdup(value);
 	new_env->valid = 1;
@@ -106,6 +106,7 @@ bool pasabel(char *c)
 char **correct_cmd(char **args, int *j)
 {
 	char **split_args;
+	char **new_args;
 	int original_count;
 	int split_count;
 	int i;
@@ -118,7 +119,7 @@ char **correct_cmd(char **args, int *j)
 	split_args = f_split(args[0], ' ', '\t');
 	while (split_args[split_count] != NULL)
 		split_count++;
-	char **new_args = master((original_count + split_count + 1) * sizeof(char *), 1);
+	new_args = master((original_count + split_count + 1) * sizeof(char *), 1);
 	while (k < split_count)
 		new_args[i++] = split_args[k++];
 	k = 1;
