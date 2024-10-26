@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:50:24 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/26 08:58:19 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/26 08:59:45 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ void filehandler(t_exec_cmd **s)
 	{
 		if (dup2((*s)->infd, STDIN_FILENO) == -1)
 		{
-			perror(strerror(errno));
+			// perror(strerror(errno));
 			exit(EXIT_FAILURE);
 		}
 		close((*s)->infd);
@@ -190,7 +190,7 @@ void filehandler(t_exec_cmd **s)
 	{
 		if (dup2((*s)->outfd, 1) == -1)
 		{
-			perror(strerror(errno));
+			// perror(strerror(errno));
 			exit(EXIT_FAILURE);
 		}
 		close((*s)->outfd);
