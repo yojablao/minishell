@@ -6,11 +6,11 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:46:07 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/26 00:23:27 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/26 08:54:54 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void skip_betw_quotes(char *str, size_t *i)
 {

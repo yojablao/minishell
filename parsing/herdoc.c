@@ -6,11 +6,11 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:33 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/26 00:25:15 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/26 08:53:42 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int g_sig;
 

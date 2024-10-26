@@ -6,11 +6,11 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 00:56:39 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/26 00:24:24 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/26 08:53:28 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void close_open_fd(t_exec_cmd **data)
 {
@@ -27,9 +27,9 @@ void close_open_fd_1(t_exec_cmd **data)
     t_exec_cmd *cmd = (*data);
     while (cmd)
     {
-        if (cmd->infd != 0)
+        if (cmd->infd != -1 && cmd->infd != 0)
             close(cmd->infd);
-        if (cmd->outfd != 1)
+        if (cmd->outfd != 1 && cmd->infd != -1)
             close(cmd->outfd);
         cmd = cmd->next;
     }
@@ -130,7 +130,7 @@ void dup_pipe(t_shell *data, int curr_cmd)
     }
 }
 
-void setup_pipe_and_fork(t_exec_cmd *cmd, t_shell *data, int curr_cmd)
+pid_t setup_pipe_and_fork(t_exec_cmd *cmd, t_shell *data, int curr_cmd)
 {
     pid_t pid;
 
@@ -154,6 +154,7 @@ void setup_pipe_and_fork(t_exec_cmd *cmd, t_shell *data, int curr_cmd)
         child(&cmd, data);
         exit(0);
     }
+    return (pid);
     // signal(SIGINT, handling_sig);
     // signal(SIGQUIT, SIG_IGN);
 }
@@ -175,6 +176,8 @@ void pipe_line(t_exec_cmd **s, t_shell **data)
     int curr[2];
     int prev[2];
     int curr_cmd;
+    int status;
+    pid_t pid;
     t_exec_cmd *cmd = (*s);
 
     prev[0] = -1;
@@ -186,14 +189,15 @@ void pipe_line(t_exec_cmd **s, t_shell **data)
     (*data)->prev = prev;
     while (cmd != NULL)
     {
-        setup_pipe_and_fork(cmd, *data, curr_cmd);
+        pid = setup_pipe_and_fork(cmd, *data, curr_cmd);
         close_ans_update(data, curr_cmd);
         close_open_fd(&cmd);
         curr_cmd++;
         cmd = cmd->next;
     }
-    while (wait(NULL) > 0)
+    while (waitpid(pid,&status,0) > 0)
         ;
+    get_exit(status,0);
 }
 int get_exit(int sts, bool set)
 {
@@ -204,7 +208,7 @@ int get_exit(int sts, bool set)
 }
 int exice(t_exec_cmd **cmd, int type, t_shell **info)
 {
-    ft_print_stack(*cmd);
+    // ft_print_stack(*cmd);
     if (type == 2)
         pipe_line(cmd, info);
     else

@@ -6,11 +6,11 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 00:25:23 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/26 00:25:32 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/26 08:53:07 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 bool bulting(t_exec_cmd **s, t_shell *data)
 {

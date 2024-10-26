@@ -6,11 +6,11 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:53:57 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/26 00:25:07 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/26 08:53:14 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char **creat_env(void)
 {
@@ -163,6 +163,7 @@ static bool handle_infd(int type, int *j, char **words, t_exec_cmd **cmd, t_envi
         (*cmd)->infd = in_redirect(words[++(*j)]);
     if ((*cmd)->infd == -1)
     {
+        ft_putstr_fd("minishell: ",2);
         perror(words[(*j)]);
         return (false);
     }

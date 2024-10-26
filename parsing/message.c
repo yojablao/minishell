@@ -6,11 +6,11 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 11:12:57 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/26 00:24:37 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/26 08:53:57 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char *ft_strrange(char *s, int start, int end)
 {
@@ -33,7 +33,7 @@ bool special_letter(char l)
     i = 0;
     if (l == 0)
         return true;
-    s = "=/*-+@!#%^.*:";
+    s = "-=/*+@!#%^.*:";
     if (l == ' ' || (l >= 9 && l <= 13))
         return (true);
     while (s[i])
@@ -44,13 +44,9 @@ bool special_letter(char l)
     }
     return (false);
 }
-// bool valid_env_char(char c)
-// {
-//     return (ft_isalnum(c) || c == '_');
-// }
+
 char *get_key(char *s)
 {
-    // t_env	e;
     int i;
     int start;
     int end;
@@ -92,32 +88,21 @@ char *f_remove_spaces(char *str)
     res = NULL;
     i = 0;
     need_space = 0;
-
-    // Skip leading spaces
     while (str[i] && (str[i] == ' ' || str[i] == '\t'))
         i++;
-
     while (str[i])
     {
-        // If we need a space and there's more content ahead
         if (need_space == 1 && str[i] != ' ' && str[i] != '\t' && res != NULL)
             res = f_strjoin(res, f_strdup(" "));
-
-        // Get the word
         start = i;
         while (str[i] && str[i] != ' ' && str[i] != '\t')
             i++;
         value = ft_strrange(str, start, i);
         res = f_strjoin(res, value);
-
-        // Skip consecutive spaces
         while (str[i] && (str[i] == ' ' || str[i] == '\t'))
             i++;
-
-        // Set flag to add space before next word
         need_space = (str[i] != '\0');
     }
-    // printf("res [%s]\n",res);
     return (res);
 }
 

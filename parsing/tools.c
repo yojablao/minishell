@@ -6,13 +6,12 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:50:24 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/26 00:23:01 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/26 08:55:27 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
- #include <errno.h>
-// #include <string.h>
+#include "../minishell.h"
+//  #include <errno.h>
 
 char *f_substr(char const *s, unsigned int start, size_t len)
 {
@@ -173,41 +172,11 @@ char **ft_joinlist(t_list **lst, t_environment **env, int status)
 	return (words);
 }
 
-// char **add_to_word(int *i,char *s,t_environment **env);
-// char **ft_joinlist(t_list **a,t_environment **env,int s)
-// {
-// 	char *tmp;
-// 	int i;
-// 	char **words;
-
-// 	i = ft_lstsize(*a);
-// 	words = master(sizeof(char *) * (i + 1), 1);
-// 	i = 0;
-// 	while ((*a) && (*a)->stat != 0)
-// 	{
-// 		tmp = ft_expand1((*a)->content,(*env)->env,(*env)->lenv);
-// 		if (tmp && *tmp)
-// 		{
-// 			// add_to_word(words,&i,s,env);
-// 			if (s == -1 || s != 4)
-// 				words[i] = tmp;
-// 			else
-// 				words[i] = f_strdup((*a)->content);
-// 			i++;
-// 			if((*env)->lenv->flage)
-// 				words = correct_cmd(words, &i);
-// 		}
-// 		s = (*a)->stat;
-// 		*a = (*a)->next;
-// 	}
-// 	if(*a && (*a)->stat == 0)
-// 		*a = (*a)->next;
-// 	words[i] = NULL;
-// 	return words;
-// }
 void filehandler(t_exec_cmd **s)
 {
-	if ((*s)->infd != 0)
+	if ((*s)->infd == -1 ||  (*s)->outfd == -1)
+		exit(EXIT_FAILURE);
+	if ((*s)->infd != 0 && (*s)->infd != -1)
 	{
 		if (dup2((*s)->infd, STDIN_FILENO) == -1)
 		{
@@ -216,7 +185,7 @@ void filehandler(t_exec_cmd **s)
 		}
 		close((*s)->infd);
 	}
-	if ((*s)->outfd != 1)
+	if ((*s)->outfd != 1 && (*s)->outfd != -1)
 	{
 		if (dup2((*s)->outfd, 1) == -1)
 		{

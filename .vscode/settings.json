@@ -55,15 +55,5 @@
   "C_Cpp_Runner.useLeakSanitizer": false,
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
-  "C_Cpp_Runner.msvcSecureNoWarnings": false,
-  "files.associations": {
-    "minishell.h": "c",
-    "_xlocale.h": "c",
-    "algorithm": "c",
-    "fcntl.h": "c",
-    "locale": "c",
-    "__mutex_base": "c",
-    "unistd.h": "c",
-    "stdlib.h": "c"
-  }
+  "C_Cpp_Runner.msvcSecureNoWarnings": false
 }
