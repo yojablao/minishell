@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:06:47 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/26 00:24:55 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/27 18:01:56 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ t_env *env_cpy(t_env *env)
     {
         t_env *node = malloc(sizeof(t_env));
         if (!node)
-            exit(1); // Handle memory allocation failure
-
+            exit(1);
         node->key = ft_strdup(tmp->key);
         node->value = ft_strdup(tmp->value);
         node->valid = tmp->valid;
@@ -105,7 +104,6 @@ static void save_env(t_environment **env)
     buffer[i] = NULL;
     lenv = env_cpy((*env)->lenv);
     master(0, 0);
-    // (*env)->lenv = env_set(buffer);
     (*env)->lenv = env_cpy_v2(lenv);
     (*env)->env = join_to_env((*env)->lenv);
     free_env(lenv);
@@ -162,7 +160,8 @@ static void minishell_loop(t_shell **data, char *prompt)
 int main(int ac, char **av, char **env)
 {
     t_shell *data;
-    char prompt[] = "\x1B[36mminishell\x1B[0m : ";
+    char prompt[] = "\001\033[1;32m\002minishell\001\033[0m\002 : ";
+
 
     (void)ac;
     (void)av;

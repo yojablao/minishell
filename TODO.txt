@@ -27,3 +27,14 @@ ls > 0  | cat << ls
 
 echo DF > $gd
 Bad address
+
+echo -nnnnnnnnf hkbcik
+
+minishell : cat << ok$$$"" > delimeter should be the (ok$$)
+ heredoc> ok
+ heredoc> ok$
+ heredoc> ok$$
+ heredoc> ok$$$
+
+ cat $"$ok"  should be like that bash-3.2$ cat $"$ok"
+cat: : No such file or directory

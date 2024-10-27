@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:33 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/26 08:53:42 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:04:45 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static char *read_it(const char *del, int *fd, t_environment **env, bool flage)
 	char *tmp;
 	char *line;
 	fullline = NULL;
+	printf("%s\n",del);
 
 	if (g_sig == 1)
 		return (NULL);

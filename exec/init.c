@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:53:57 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/26 08:53:14 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:32:52 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_environment *env_setup(char **envi)
     {
         env->env = creat_env();
         env->lenv = env_set(env->env);
-        add_key_env(&env->lenv, "PATH", defaultpath);
+        add_key_env(&env->lenv, "PATH", DEFAULT_PATH);
         env->env = join_to_env(env->lenv);
     }
     else
@@ -208,6 +208,7 @@ bool comond_init(t_shell **cmd)
     comond = ft_joinlist(&(*cmd)->a, &(*cmd)->env, -1);
     if (!comond[0])
         return (false);
+        // while (1);
     if (!handel_comond(comond, &(*cmd)->cmd, &(*cmd)->env))
         return (get_exit(1, 0), false);
     if (!(*cmd)->cmd->args[0])

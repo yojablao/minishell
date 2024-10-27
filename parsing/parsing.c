@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:39 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/26 08:54:03 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:47:23 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ int pars(t_shell **cmd, char *input)
         return -1;
     (*cmd)->head = (*cmd)->cmd;
     (*cmd)->n_pipe = pipe_check((*cmd)->a);
+    if((*cmd)->n_pipe > 1390)
+        return(ft_putstr_fd("bash: fork: Resource temporarily unavailable\n",2),-1);
+    
     if ((*cmd)->n_pipe > 0)
     {
         if (init_pipe_line(cmd) == false)

@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:50:24 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/26 08:59:45 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:45:54 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,8 @@ char **ft_joinlist(t_list **lst, t_environment **env, int status)
 	}
 	if (*lst && (*lst)->stat == 0)
 		*lst = (*lst)->next;
+
+		
 	words[index] = NULL;
 	return (words);
 }

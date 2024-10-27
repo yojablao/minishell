@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 11:12:57 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/26 08:53:57 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/27 17:45:43 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,12 @@ char *handle_double_quote_content(char *tmp, int *j, t_env *env, char *buffer)
     char *value;
     int start;
 
-    if (tmp[*j] == '$' && special_letter(tmp[*j + 1]) == false)
+    if (tmp[*j] == '$' && tmp[*j + 1] == '?')
+    {
+        value = ft_itoa(get_exit(0, 1));
+        buffer = f_strjoin(buffer, value);
+    }
+    else if (tmp[*j] == '$' && special_letter(tmp[*j + 1]) == false)
     {
         key = get_key(tmp + (*j));
         (*j) += ft_strlen(key) - 1;
@@ -199,6 +204,7 @@ char *handle_double_quote_content(char *tmp, int *j, t_env *env, char *buffer)
     }
     return (buffer);
 }
+
 
 char *process_double_quote(char *tmp, t_env *env, char *buffer)
 {
@@ -240,7 +246,7 @@ char *handle_dollar_special(char *s, int *i, char *buffer)
     char *tmp;
 
     if (s[*i + 1] == '$')
-        return ((*i)++, f_strjoin(buffer, ft_strdup("$")));
+        return ((*i)++, f_strjoin(buffer, f_strdup("$")));
     if (s[*i + 1] == '?')
     {
         tmp = ft_itoa(get_exit(0, 1));
@@ -302,6 +308,7 @@ char *ft_expand1(char *s, char **envi, t_env *lenv)
     env = env_set(envi);
     while (s[i])
     {
+        
         if (s[i] == '\'')
             buffer = handle_single_quote(s, &i, buffer);
         else if (s[i] == '\"')
