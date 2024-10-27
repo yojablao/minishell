@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:53:57 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/27 17:32:52 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/27 18:16:44 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,9 +173,9 @@ static bool handle_infd(int type, int *j, char **words, t_exec_cmd **cmd, t_envi
 static bool handle_outfd(int type, int *j, char **words, t_exec_cmd **cmd)
 {
     if (type == 3)
-        (*cmd)->outfd = out_redirect(words[++(*j)]);
-    else
         (*cmd)->outfd = append(words[++(*j)]);
+    else
+        (*cmd)->outfd = out_redirect(words[++(*j)]);
     if ((*cmd)->outfd == -1)
     {
         perror(words[(*j)]);

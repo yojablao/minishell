@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:50:24 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/27 17:45:54 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/27 18:15:09 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ bool pasabel(char *c)
 	if (ft_strcmp(c, "<") == 0)
 		return (false);
 	if (ft_strcmp(c, "<<") == 0)
+		return (false);
+	if (ft_strcmp(c, ">>") == 0)
 		return (false);
 	if (ft_strcmp(c, ">") == 0)
 		return (false);
