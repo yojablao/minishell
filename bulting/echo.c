@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 00:26:46 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/26 00:28:41 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/28 04:05:19 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int check_option(char **word, int *i)
 }
 void print_echo(char **input, bool flage, int i)
 {
+	if(flage == false)
+		i--;
 	while (input[i])
 	{
 		printf("%s", input[i]);
@@ -64,6 +66,7 @@ void echo(char **input)
 		return;
 	}
 	option = check_option(input, &i);
+	printf("%d->>\n",i);
 	if (!input[i] && option)
 	{
 		get_exit(1, 0);
