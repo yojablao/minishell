@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:53:57 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/27 18:16:44 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/28 21:42:59 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,8 @@ static bool handle_infd(int type, int *j, char **words, t_exec_cmd **cmd, t_envi
     {
         ft_putstr_fd("minishell: ",2);
         perror(words[(*j)]);
+        get_exit(1,0);
+
         return (false);
     }
     return (true);
@@ -195,11 +197,22 @@ bool handel_redirect(int *j, char **words, t_exec_cmd **cmd, t_environment **env
         return (handle_outfd(type, j, words, cmd));
     return (true);
 }
-void comnond_err(char *s)
+void comnond_err(char *s,t_env *env)
 {
-    ft_putstr_fd("minishell:  ", 2);
-    ft_putstr_fd(s, 2);
-    ft_putstr_fd(": command not found\n", 2);
+    char *tmp ;
+    tmp = extract_value(env,"PATH");
+    if(tmp)
+    {
+        ft_putstr_fd("minishell:  ", 2);
+        ft_putstr_fd(s, 2);
+        ft_putstr_fd(": command not found\n", 2);
+    }
+    else
+    {
+        ft_putstr_fd("minishell:  ", 2);
+        ft_putstr_fd(s, 2);
+        ft_putstr_fd(" No such file or directory\n",2);
+    }
 }
 bool comond_init(t_shell **cmd)
 {
@@ -210,18 +223,14 @@ bool comond_init(t_shell **cmd)
         return (false);
         // while (1);
     if (!handel_comond(comond, &(*cmd)->cmd, &(*cmd)->env))
-        return (get_exit(1, 0), false);
+        return (false);
     if (!(*cmd)->cmd->args[0])
         return (close_open_fd(&(*cmd)->cmd), false);
     if (check_internal_builtins(&(*cmd)->cmd, &(*cmd)->env) == 1)
-        return false;
+        return (false);
     (*cmd)->cmd->cmd = find_comond((*cmd)->cmd->args[0], &(*cmd)->env->lenv);
     if (!(*cmd)->cmd->cmd)
-    {
-        comnond_err((*cmd)->cmd->args[0]);
-        get_exit(127, 0);
         return (false);
-    }
     else
         add_to_env(&(*cmd)->env->lenv, "_", (*cmd)->cmd->cmd, 0);
     return (true);
@@ -242,7 +251,7 @@ bool init_pipe_line(t_shell **cmd)
                 add_to_env(&(*cmd)->env->lenv, "_", (*cmd)->cmd->cmd, 0);
         }
         else
-            return (get_exit(1, 0), false);
+            return (false);
         if ((*cmd)->n_pipe >= j + 1)
             (*cmd)->cmd->next = aloc_comond((*cmd)->head);
         else

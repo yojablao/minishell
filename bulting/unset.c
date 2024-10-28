@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 00:25:41 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/26 00:28:17 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/28 08:47:41 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ bool un_set_builting(t_exec_cmd **s, t_environment **env)
 		un_set((*s)->args[i], env);
 		i++;
 	}
+	get_exit(0, 0);
 	return (true);
 }
 bool check_exs(t_env **tmp, char *key, char *value, bool add)

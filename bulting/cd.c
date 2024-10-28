@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 20:53:27 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/26 00:30:50 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/28 09:40:04 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char *cd_to_path(char *path, bool flag, int gard)
 			ft_putstr_fd("cd: No such file or directory: ", 2);
 			ft_putstr_fd(path, 2);
 			ft_putstr_fd("\n", 2);
+			get_exit(1,0);
 		}
 		get_exit(1, 0);
 		return (NULL);
@@ -88,4 +89,5 @@ void cd_builting(t_exec_cmd **s, t_environment **env)
 		gard = 0;
 		old = cd_to_path(extract_value((*env)->lenv, "HOME"), 1, gard);
 	}
+	get_exit(0, 0);
 }

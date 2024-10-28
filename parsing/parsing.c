@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:39 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/28 03:57:31 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/28 21:42:38 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ static int pipe_check(t_list *a)
     return (i);
 }
 
-int pars(t_shell **cmd, char *input)
+int parsing_input(t_shell **cmd, char *input)
 {
     if (!syntax(input, cmd))
         return (get_exit(258, 0), printf("syntax error\n"), -1);
-        ft_printf_a((*cmd)->a);
+        // ft_printf_a((*cmd)->a);
     (*cmd)->cmd = aloc_comond((*cmd)->cmd);
+    (*cmd)->head =(*cmd)->cmd;
     if (!(*cmd)->cmd || !(*cmd)->a)
         return -1;
     (*cmd)->head = (*cmd)->cmd;
@@ -42,7 +43,7 @@ int pars(t_shell **cmd, char *input)
     if ((*cmd)->n_pipe > 0)
     {
         if (init_pipe_line(cmd) == false)
-            return (get_exit(1, 0), -1);
+            return (-1);
         (*cmd)->cmd = (*cmd)->head;
         return (2);
     }
@@ -67,7 +68,8 @@ bool handel_comond(char **words, t_exec_cmd **comond, t_environment **env)
         return false;
     while (words[i] != NULL)
     {
-        if (!handel_redirect(&i, words, comond, env) && (*comond)->next)
+        // if (! && (*comond)->next)
+        if(!handel_redirect(&i, words, comond, env))
             return (false);
         else if (words[i] != NULL)
         {
@@ -106,8 +108,37 @@ char *find_comond(char *comond, t_env **env)
 {
     t_env *tmp;
 
-    if (!comond)
-        return NULL;
+    if (comond[0] == '.' && comond[1])
+    {
+        return (comond);
+        
+    }
+    else if(comond[0] == '.' && !comond[1])
+    {
+        ft_putstr_fd("minshell: .: filename argument required\n",2);
+        ft_putstr_fd(".: usage: . filename [arguments]\n",2);
+        get_exit(2,0);
+        return(NULL);
+    }
+    if (ft_strchr(comond, '/'))
+    {
+        if (comond[ft_strlen(comond) - 1] == '/')
+        {
+            ft_putstr_fd("minishell: ", 2);
+            ft_putstr_fd(comond, 2);
+            ft_putstr_fd(": is a directory\n", 2);
+            get_exit(126, 0);
+            return NULL;
+        }
+        else
+        {
+            ft_putstr_fd("minishell: ", 2);
+            ft_putstr_fd(comond, 2);
+            if (access(comond, X_OK))
+                ft_putstr_fd(": No such file or directory\n", 2);
+            return NULL;
+        }
+    }
     tmp = (*env);
     if (ft_strchr(comond, '/'))
         return (comond);
@@ -121,7 +152,16 @@ char *find_comond(char *comond, t_env **env)
             tmp = tmp->next;
     }
     if ((ft_strcmp(tmp->key, "PATH")) == 0)
-        return (find_pexec(comond, tmp->value));
+    {
+        char *tmp1 = find_pexec(comond, tmp->value);
+        if(tmp1 == NULL)
+        {
+                comnond_err(comond,*env);
+                get_exit(127, 0);   
+        }
+        else
+            return(tmp1);
+    }
     return (NULL);
 }
 size_t f_strlen2d(char **str)

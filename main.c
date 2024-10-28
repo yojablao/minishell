@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:06:47 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/27 18:01:56 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/28 20:59:28 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ static void process_input(char *input, t_shell **data)
     if (*input)
     {
         add_history(input);
-        flage = pars(data, input);
+        flage = parsing_input(data, input);
         if (g_sig == 1)
             close_open_fd_1(&(*data)->cmd);
         if (flage != -1 && g_sig == 0)
@@ -169,6 +169,11 @@ int main(int ac, char **av, char **env)
     if (!data)
         return (1);
     rl_catch_signals = 0;
+    // if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+    // {
+    //     write(2, "not a tty!\n", 12);
+    //     return (0);
+    // }
     minishell_loop(&data, prompt);
 
     return (0);

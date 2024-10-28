@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 19:47:10 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/26 00:28:31 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/28 09:07:33 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ void print_error(char *error_msg, char *identifier, char *command)
 	ft_putstr_fd(identifier, 2);
 	ft_putstr_fd("`: ", 2);
 	ft_putstr_fd(error_msg, 2);
+	get_exit(1,0);
 }
 
 bool find_target(char *str, char c)

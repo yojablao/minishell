@@ -6,7 +6,7 @@
 #    By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/21 15:23:56 by yojablao          #+#    #+#              #
-#    Updated: 2024/10/25 05:27:47 by yojablao         ###   ########.fr        #
+#    Updated: 2024/10/28 06:21:17 by yojablao         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ SOURCES = $(shell find . -name "*.c")
 OBJECTS = $(SOURCES:.c=.o)
 
 CC = cc
-CFLAGS =   -Wall -Wextra -Werror  -g #-fsanitize=address
+CFLAGS =   -Wall -Wextra -Werror  -g -fsanitize=address
 
 
 

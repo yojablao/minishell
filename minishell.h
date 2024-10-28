@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/26 09:17:31 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/28 21:08:42 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef struct s_shell
 
 extern int          g_sig;
 
+void print_error(char *error_msg, char *identifier, char *command);
 t_list			*f_lstnew(void *content);
 char			*ft_my_malloc(size_t len);
 int				syntax(char *str, t_shell **cmd);
@@ -118,7 +119,6 @@ int				ft_check_grammer(t_list *a);
 
 t_env			*env_set(char **envi);
 char			*f_substr(char const *s, unsigned int start, size_t len);
-
 char			*find_comond(char *comond, t_env **env);
 void			free2d(char **s);
 int				out_redirect(char *file);
@@ -136,7 +136,7 @@ char			*f_strjoin(char *s1, char *s2);
 char			**f_split(char *s, char c, char c1);
 void			*f_calloc(size_t count, size_t size);
 t_shell			*init(char **envi);
-int				pars(t_shell **cmd, char *input);
+int				parsing_input(t_shell **cmd, char *input);
 t_exec_cmd		*aloc_comond(t_exec_cmd *s);
 char			**init_mult_cmd(t_list *a, int p);
 void			free_data(t_shell **shell);
@@ -160,14 +160,30 @@ int				check_internal_builtins(t_exec_cmd **s, t_environment **env);
 size_t			f_strlen2d(char **str);
 bool			handel_comond(char **words, t_exec_cmd **comond, t_environment **env);
 int				get_exit(int sts, bool set);
-char			*ft_expand1(char *s, char **envi, t_env *lenv);
+// char			*ft_expand1(char *s, char **envi, t_env *lenv);
 void			add_key_env(t_env **env, char *key, char *value);
-void			comnond_err(char *s);
+void			comnond_err(char *s,t_env *env);
 int				exice(t_exec_cmd **cmd, int type, t_shell **info);
 void			close_open_fd(t_exec_cmd **data);
 void			exit_builting(char **args, bool flage);
 char			**correct_cmd(char **args, int *j);
 void			handling_sig(int ac);
 void			close_open_fd_1(t_exec_cmd **data);
+char	*f_strtrim(char const *s1, char const *set);
+//------------expanding fuctions--------//
+char    *ft_expand1(char *s, char **envi,t_env *lenv);
+char	*process_double_quote(char *tmp, t_env *env, char *buffer);
+char	*handle_d_q_content(char *tmp, int *j, t_env *env, char *buffer);
+char	*join_buffer(char *tmp, int *j, int start, char	*buffer);
+char	*handle_single_quote(char *s, int *i, char *buffer);
+char	*expanding_values(char *key, t_env *env);
+
+char	*f_remove_spaces(char *str);
+char	*get_key(char *s);
+bool	special_letter(char l);
+char	*ft_strrange(char *s, int start, int end);
+
+char	*expand_exit_status(int status);
+int     checkexpand(char *s);
 
 #endif

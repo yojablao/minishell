@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   expandingtools2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/26 00:26:56 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/28 09:10:47 by yojablao         ###   ########.fr       */
+/*   Created: 2024/10/26 18:21:01 by hamrachi          #+#    #+#             */
+/*   Updated: 2024/10/26 18:39:01 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void pwd_builting(t_env *l)
+int	checkexpand(char *s)
 {
+	int	i;
 
-	char BUFFER[1024];
-	char *path;
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '$')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+char	*expand_exit_status(int status)
+{
+	char	*str;
 
-	path = getcwd(BUFFER, sizeof(BUFFER));
-	if (path == NULL)
-		path = extract_value(l, "PWD");
-	get_exit(0, 0);
-	printf("%s\n", path);
+	str = ft_itoa(status);
+	return (str);
 }

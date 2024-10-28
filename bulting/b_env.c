@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 00:26:36 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/26 00:31:13 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/28 09:11:12 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ int env_build(t_env *env)
 		}
 		env = env->next;
 	}
+	get_exit(0, 0);
 	return (0);
 }
