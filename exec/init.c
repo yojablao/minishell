@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:53:57 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/28 21:42:59 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:49:35 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,14 @@ static bool handle_infd(int type, int *j, char **words, t_exec_cmd **cmd, t_envi
 {
     if (type == 1)
         (*cmd)->infd = ft_herdoc(words[++(*j)], env);
-    else
+    if(type != 1 && !words[*j + 1])
+    {
+        ft_putstr_fd("minishell: ",1);
+        ft_putstr_fd(": ambiguous redirect\n",2);
+        get_exit(1,0);
+        return (false);
+    }
+    else if(type != 1)
         (*cmd)->infd = in_redirect(words[++(*j)]);
     if ((*cmd)->infd == -1)
     {
@@ -180,7 +187,9 @@ static bool handle_outfd(int type, int *j, char **words, t_exec_cmd **cmd)
         (*cmd)->outfd = out_redirect(words[++(*j)]);
     if ((*cmd)->outfd == -1)
     {
+        ft_putstr_fd("minishell: ",2);
         perror(words[(*j)]);
+        get_exit(1,0);
         return (false);
     }
     return (true);
@@ -189,7 +198,6 @@ static bool handle_outfd(int type, int *j, char **words, t_exec_cmd **cmd)
 bool handel_redirect(int *j, char **words, t_exec_cmd **cmd, t_environment **env)
 {
     int type;
-
     type = typecheck(words[*j], cmd);
     if (type == 1 || type == 2)
         return (handle_infd(type, j, words, cmd, env));
@@ -219,9 +227,6 @@ bool comond_init(t_shell **cmd)
     char **comond;
 
     comond = ft_joinlist(&(*cmd)->a, &(*cmd)->env, -1);
-    if (!comond[0])
-        return (false);
-        // while (1);
     if (!handel_comond(comond, &(*cmd)->cmd, &(*cmd)->env))
         return (false);
     if (!(*cmd)->cmd->args[0])
@@ -249,9 +254,11 @@ bool init_pipe_line(t_shell **cmd)
             (*cmd)->cmd->cmd = find_comond((*cmd)->cmd->args[0], &(*cmd)->env->lenv);
             if ((*cmd)->cmd->cmd)
                 add_to_env(&(*cmd)->env->lenv, "_", (*cmd)->cmd->cmd, 0);
+            else if(!internel_builting((*cmd)->cmd->args[0]))
+                (*cmd)->cmd->args[0][0] = '\0';
         }
-        else
-            return (false);
+        // else
+            // return (false);
         if ((*cmd)->n_pipe >= j + 1)
             (*cmd)->cmd->next = aloc_comond((*cmd)->head);
         else

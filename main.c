@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:06:47 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/28 20:59:28 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/29 09:45:56 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ void free_env(t_env *env)
             free(env->key);
         if (env->value)
             free(env->value);
-        // if (env->valid)
-        //     free(env->valid);
         free(env);
         env = tmp;
     }
@@ -113,7 +111,7 @@ static void process_input(char *input, t_shell **data)
 {
     int flage;
 
-    if (*input)
+    if (input && *input)
     {
         add_history(input);
         flage = parsing_input(data, input);
@@ -145,7 +143,7 @@ static void minishell_loop(t_shell **data, char *prompt)
         org_in = dup(STDIN_FILENO);
         if (!input)
         {
-            printf("exit");
+            printf("exit\n");
             close(org_in);
             exit(0);
         }
@@ -162,13 +160,11 @@ int main(int ac, char **av, char **env)
     t_shell *data;
     char prompt[] = "\001\033[1;32m\002minishell\001\033[0m\002 : ";
 
-
     (void)ac;
     (void)av;
     data = init(env);
     if (!data)
         return (1);
-    rl_catch_signals = 0;
     // if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
     // {
     //     write(2, "not a tty!\n", 12);

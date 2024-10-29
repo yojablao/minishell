@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:43:59 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/28 09:58:55 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/29 05:36:12 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,14 @@ bool multi_argiment(char **args)
 		// printf("%d\n", get_exit(0, 1));
 		exit(255);
 	}
+	if (args[2])
+	{
+		ft_putstr_fd("minishell : exit: too many arguments\n", 2);
+		return (get_exit(1, 0),0);
+	}
 	exit_status = ft_atoi(trim) % 256;
 	get_exit(exit_status, 0);
-	ft_putstr_fd("exit", 2);
+	ft_putstr_fd("exit\n", 2);
 	exit(get_exit(0, 1));
 }
 void exit_builting(char **args, bool flage)
@@ -55,7 +60,7 @@ void exit_builting(char **args, bool flage)
 	if (!args[1])
 	{
 		if (flage)
-			ft_putstr_fd("exit\n", 1);
+			ft_putstr_fd("exit\n", 2);
 		get_exit(0, 0);
 		exit(0);
 	}

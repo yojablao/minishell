@@ -39,7 +39,7 @@ char	*handle_dollar_special(char *s, int *i, char *buffer)
 
 	tmp = NULL;
 	if (s[*i + 1] == '$')
-		return ((*i)++, f_strjoin(buffer, ft_strdup("$")));
+		return ((*i)++, f_strjoin(buffer, f_strdup("$")));
 	if (s[*i + 1] == '?')
 	{
 		tmp = ft_itoa(get_exit(0, 1));
@@ -104,15 +104,10 @@ char	*ft_expand1(char *s, char **envi, t_env *lenv)
 	env->flage = 0;
 	while (s[i])
 	{
-		// printf("s->>>%s\n",&s[i]);
-		// printf("buffer->>%s\n",buffer);
 		if (s[i] == '\'')
 			buffer = handle_single_quote(s, &i, buffer);
 		else if (s[i] == '\"')
-		{
 			buffer = handle_double_quote(s, &i, env, buffer);
-			// printf("I --> %d\n", i);
-		}
 		else if (s[i] == '$')
 			buffer = handle_dollar(s, &i, env, buffer);
 		else
@@ -121,8 +116,7 @@ char	*ft_expand1(char *s, char **envi, t_env *lenv)
 			i++;
 	}
 	lenv->flage = env->flage;
-	if (buffer && buffer[0] == 0)
+	if (buffer && !*buffer)
 		return (NULL);
-	//printf("buffer->>%s\n",buffer);
 	return (buffer);
 }

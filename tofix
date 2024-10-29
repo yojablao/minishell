@@ -1,0 +1,58 @@
+      spaces                                                    ;done
+[1]    29208 segmentation fault  ./minishell
+           /tab  
+minishell:              : command not found                                                             ;done
+
+minishell : << '':                                                                                ;done
+------ urs
+ls ""
+----bash 
+ls ""
+ls: : No such file or directory
+
+------ urs // exit stats
+minishell : << l << l 
+ heredoc> l
+ heredoc> asdfsfdsf
+ heredoc> sdfdsf
+ heredoc> l
+minishell : echo $?
+1
+--- bash
+bash-3.2$ << l << l
+> asdfsf
+> l
+> sdfdsfs
+> l
+
+
+--urs
+minishell : << '':                                                                                ;done
+[1]    31334 segmentation fault  ./minishell
+--urs
+minishell : unset PATH
+--bash
+bash-3.2$ unset PATH
+bash-3.2$ ks
+bash: ks: No such file or directory
+--
+
+ export > file1 should send the output to the file1
+ and fd leaks in redirections
+
+ ---
+minishell : ls '' | sdfsdf
+minishell:  sdfsdf: command not found
+minishell:  sdfsdf: command not found
+
+----
+top | top ctrl + \
+
+
+bash-3.2$ < $lol
+bash: $lol: ambiguous redirect
+minishell : < $lol
+minishell: Bad address
+
+minishell : << $lol
+Segmentation fault: 11

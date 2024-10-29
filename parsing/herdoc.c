@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:33 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/28 08:55:25 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:16:03 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static char *read_it(const char *del, int *fd, t_environment **env, bool flage)
 	{
 		line = readline("\033[95m heredoc> \033[0m");
 		tmp = line;
-		if (!line || !ft_strcmp(line, (char *)del))
+		if (!line || (ft_strcmp(line, (char *)del) == -1 && !*line) || !ft_strcmp(line, (char *)del ))
 		{
 			free(line);
 			break;
@@ -126,6 +126,10 @@ int ft_herdoc(char *del, t_environment **env)
 	int fd;
 	int flage;
 
+	if(!del)
+		del = f_strdup("");
+	printf("%s\n",del);
+	// if(del[0] == $)
 	flage = check_qoutes(del);
 	if (flage == false)
 		f(del);

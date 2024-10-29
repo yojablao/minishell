@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:39 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/28 21:42:38 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:06:07 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int parsing_input(t_shell **cmd, char *input)
 {
     if (!syntax(input, cmd))
         return (get_exit(258, 0), printf("syntax error\n"), -1);
-        // ft_printf_a((*cmd)->a);
     (*cmd)->cmd = aloc_comond((*cmd)->cmd);
     (*cmd)->head =(*cmd)->cmd;
     if (!(*cmd)->cmd || !(*cmd)->a)
@@ -65,10 +64,9 @@ bool handel_comond(char **words, t_exec_cmd **comond, t_environment **env)
     j = 0;
     args = master(sizeof(char *) * (count_words(words) + 1), 1);
     if (!args)
-        return false;
+        return true;
     while (words[i] != NULL)
     {
-        // if (! && (*comond)->next)
         if(!handel_redirect(&i, words, comond, env))
             return (false);
         else if (words[i] != NULL)
@@ -89,6 +87,8 @@ static char *find_pexec(char *comond, char *value)
     char **fullpath;
     int i;
 
+    
+
     i = -1;
     fullpath = f_split(value, ':', ':');
     while (fullpath[++i] != NULL)
@@ -106,14 +106,10 @@ static char *find_pexec(char *comond, char *value)
 }
 char *find_comond(char *comond, t_env **env)
 {
-    t_env *tmp;
 
-    if (comond[0] == '.' && comond[1])
-    {
-        return (comond);
-        
-    }
-    else if(comond[0] == '.' && !comond[1])
+    // if (comond[0] == '.' && comond[1])
+    //     return (comond);
+    if(comond[0] == '.' && !comond[1])
     {
         ft_putstr_fd("minshell: .: filename argument required\n",2);
         ft_putstr_fd(".: usage: . filename [arguments]\n",2);
@@ -136,33 +132,39 @@ char *find_comond(char *comond, t_env **env)
             ft_putstr_fd(comond, 2);
             if (access(comond, X_OK))
                 ft_putstr_fd(": No such file or directory\n", 2);
+            get_exit(127, 0);
             return NULL;
         }
     }
-    tmp = (*env);
-    if (ft_strchr(comond, '/'))
-        return (comond);
-    while (tmp != NULL && (ft_strcmp(tmp->key, "PATH")) != 0)
-    {
-        if ((ft_strcmp(tmp->key, "PATH")) == 0)
-            break;
-        if (tmp->next == NULL)
-            break;
-        else
-            tmp = tmp->next;
-    }
-    if ((ft_strcmp(tmp->key, "PATH")) == 0)
-    {
-        char *tmp1 = find_pexec(comond, tmp->value);
+    char *path;
+    path = extract_value((*env),"PATH");
+    if(path)
+    { 
+        char *tmp1 = find_pexec(comond, path);
         if(tmp1 == NULL)
         {
                 comnond_err(comond,*env);
                 get_exit(127, 0);   
+                return(NULL);
         }
         else
             return(tmp1);
     }
-    return (NULL);
+    else
+        return(comond);
+    return(NULL);
+    // while (tmp != NULL && (ft_strcmp(tmp->key, "PATH")) != 0)
+    // {
+    //     if ((ft_strcmp(tmp->key, "PATH")) == 0)
+    //         break;
+    //     if (tmp->next == NULL)
+    //         break;
+    //     else
+    //         tmp = tmp->next;
+    // }
+    // if ((ft_strcmp(tmp->key, "PATH")) == 0)
+    // {
+    // }
 }
 size_t f_strlen2d(char **str)
 {

@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:50:24 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/27 18:15:09 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:20:43 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,18 @@ char *select_word(char *content, char *expanded, int status)
 	else
 		return f_strdup(content);
 }
+bool empty_Q(char *s)
+{
+	int i = 0;
+	while (s[i])
+	{
+		if(s[i] != '\''  && s[i] != '\"')
+			return(0);
+		i++;
+	}
+	return(1);
+	
+}
 char **ft_joinlist(t_list **lst, t_environment **env, int status)
 {
 	int index;
@@ -159,13 +171,20 @@ char **ft_joinlist(t_list **lst, t_environment **env, int status)
 	words = master(sizeof(char *) * (ft_lstsize(*lst) + 1), 1);
 	while (*lst && (*lst)->stat != 0)
 	{
-		expanded = ft_expand1((*lst)->content, (*env)->env, (*env)->lenv);
-		if (expanded && *expanded)
+		if(index > 0 && empty_Q((*lst)->content))
+			words[index++] = ft_strdup("\0");
+		else
 		{
-			words[index++] = select_word((*lst)->content, expanded, status);
-			if ((*env)->lenv->flage)
-				words = correct_cmd(words, &index);
-		}
+			
+			expanded = ft_expand1((*lst)->content, (*env)->env, (*env)->lenv);
+			if ((expanded && *expanded)  || status == 4)
+			{
+				words[index++] = select_word((*lst)->content, expanded, status);
+				if ((*env)->lenv->flage)
+					words = correct_cmd(words, &index);
+			}
+			
+		}	
 		status = (*lst)->stat;
 		*lst = (*lst)->next;
 	}

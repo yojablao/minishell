@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 00:25:23 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/28 21:44:27 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/29 09:32:05 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool child(t_exec_cmd **cmd, t_shell *data)
 {
 	if ((*cmd)->args && (*cmd)->args[0] && (*cmd)->args[0][0] == '\2')
 		return (1);
-	if (!(*cmd)->args[0] || !(*cmd)->args[0][0])
+	if ((*cmd)->args && (!(*cmd)->args[0] || !(*cmd)->args[0][0]))
 		exit(0);
 	filehandler(cmd);
 	if (bulting(cmd, data))
@@ -56,8 +56,8 @@ bool child(t_exec_cmd **cmd, t_shell *data)
 	{
 		// perror(strerror(errno));
 		printf("Error: %s: Permission denied\n", (*cmd)->args[0]);
-		get_exit(126, 0);
-		exit(126);
+		get_exit(127, 0);
+		exit(127);
 	}
 	return (EXIT_SUCCESS);
 }

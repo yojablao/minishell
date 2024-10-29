@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/28 21:08:42 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/29 09:23:00 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void			skip_betw_quotes(char *str, size_t *i);
 char			*skip_betw_quotes2(char *str);
 int				ft_check_grammer(t_list *a);
 
+bool internel_builting(char *s);
 t_env			*env_set(char **envi);
 char			*f_substr(char const *s, unsigned int start, size_t len);
 char			*find_comond(char *comond, t_env **env);
@@ -136,6 +137,7 @@ char			*f_strjoin(char *s1, char *s2);
 char			**f_split(char *s, char c, char c1);
 void			*f_calloc(size_t count, size_t size);
 t_shell			*init(char **envi);
+int handel_wait_sig(pid_t pid,int status,bool p);
 int				parsing_input(t_shell **cmd, char *input);
 t_exec_cmd		*aloc_comond(t_exec_cmd *s);
 char			**init_mult_cmd(t_list *a, int p);
