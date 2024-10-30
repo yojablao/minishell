@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:33 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 10:50:23 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:27:06 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	hrdc_sig(int sig)
 	g_sig = 1;
 }
 
-static char	*read_it(const char *del, int *fd, t_environment **env, bool flage)
+static char	*read_it(const char *del, int *fd, t_environment **env, bool flage,char *file)
 {
 	char	*fullline;
 	char	*tmp;
@@ -83,7 +83,7 @@ static char	*read_it(const char *del, int *fd, t_environment **env, bool flage)
 	fullline = NULL;
 	if (g_sig == 1)
 		return (NULL);
-	*fd = open("/tmp/lo.txt", O_CREAT | O_RDWR | O_TRUNC, 0644);
+	*fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (*fd == -1)
 		perror("open fail \n");
 	signal(SIGINT, hrdc_sig);
@@ -120,25 +120,30 @@ bool	check_qoutes(char *str)
 	return (true);
 }
 
-int	ft_herdoc(char *del, t_environment **env)
+int	ft_herdoc(char *del, t_environment **env,int index)
 {
 	char	*fullline;
 	int		fd;
 	int		flage;
+	char 	*s;
+	char 	*indx;
 
+	indx = ft_itoa(index);
 	if (!del)
 		del = f_strdup("");
 	flage = check_qoutes(del);
+	s = f_strjoin("file",indx);
+	free(indx);
 	if (flage == false)
 		f(del);
-	fullline = read_it(del, &fd, env, flage);
+	fullline = read_it(del, &fd, env, flage,s);
 	if (fullline)
 	{
 		if (write(fd, fullline, ft_strlen(fullline)) == -1)
 			return (perror("Error writing to file"), close(fd), -1);
 	}
 	close(fd);
-	fd = open("/tmp/lo.txt", O_RDONLY);
+	fd = open(s, O_RDONLY);
 	if (fd == -1)
 		return (perror("Error reopening heredoc file for reading"), -1);
 	return (fd);

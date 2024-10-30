@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:53:57 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 12:53:35 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:21:35 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ static bool	handle_infd(int type, int *j, char **words, t_exec_cmd **cmd,
 		t_environment **env)
 {
 	if (type == 1)
-		(*cmd)->infd = ft_herdoc(words[++(*j)], env);
+		(*cmd)->infd = ft_herdoc(words[++(*j)], env,*j);
 	if (type != 1 && !words[*j + 1])
 	{
 		ft_putstr_fd("minishell: ", 1);
