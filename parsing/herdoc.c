@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:33 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 17:27:06 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:47:15 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ bool	check_qoutes(char *str)
 	return (true);
 }
 
-int	ft_herdoc(char *del, t_environment **env,int index)
+int	ft_herdoc(char *del, t_environment **env)
 {
 	char	*fullline;
 	int		fd;
@@ -128,7 +128,7 @@ int	ft_herdoc(char *del, t_environment **env,int index)
 	char 	*s;
 	char 	*indx;
 
-	indx = ft_itoa(index);
+	indx = ft_itoa((*env)->lenv->flage);
 	if (!del)
 		del = f_strdup("");
 	flage = check_qoutes(del);

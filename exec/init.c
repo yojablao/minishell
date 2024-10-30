@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:53:57 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 17:21:35 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:55:55 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,20 @@ char	**creat_env(void)
 void	update_shell_lvl(t_env **env)
 {
 	char	*value;
+	int		lvl;
 
 	value = extract_value((*env), "SHLVL");
-	if (!value || !*value || ft_atoi(value) > 999)
+	
+	lvl = ft_atoi(value);
+	if (!value || !*value || lvl > 999)
 		return (add_to_env(env, "SHLVL", "1", 0));
-	if (ft_atoi(value) == 2147483647)
+	if (lvl == 2147483647)
 		return (add_to_env(env, "SHLVL", "0", 0));
-	if (ft_atoi(value) < 0)
+	if (lvl < 0)
 		return (add_to_env(env, "SHLVL", "0", 0));
-	if (ft_atoi(value) == 999)
+	if (lvl == 999)
 		return (add_to_env(env, "SHLVL", "", 0));
-	value = ft_itoa(ft_atoi(value) + 1);
+	value = ft_itoa(lvl + 1);
 	add_to_env(env, "SHLVL", value, 0);
 	free(value);
 }
@@ -59,6 +62,7 @@ t_environment	*env_setup(char **envi)
 	else
 	{
 		env->lenv = env_set(envi);
+		env->lenv->flage = 0;
 		update_shell_lvl(&env->lenv);
 	}
 	if (!env->lenv)
@@ -162,7 +166,7 @@ static bool	handle_infd(int type, int *j, char **words, t_exec_cmd **cmd,
 		t_environment **env)
 {
 	if (type == 1)
-		(*cmd)->infd = ft_herdoc(words[++(*j)], env,*j);
+		(*cmd)->infd = ft_herdoc(words[++(*j)], env );
 	if (type != 1 && !words[*j + 1])
 	{
 		ft_putstr_fd("minishell: ", 1);
@@ -260,6 +264,7 @@ bool	init_pipe_line(t_shell **cmd)
 	while ((*cmd)->n_pipe >= j)
 	{
 		comond = ft_joinlist(&(*cmd)->a, &(*cmd)->env, -1);
+		(*cmd)->env->lenv->flage += j;
 		if (handel_comond(comond, &(*cmd)->cmd, &(*cmd)->env))
 		{
 			if (!internel_builting((*cmd)->cmd->args[0]))
