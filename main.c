@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:06:47 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 11:20:47 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 12:41:52 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ int main(int ac, char **av, char **env)
     t_shell *data;
     char prompt[] = "\001\033[1;32m\002minishell\001\033[0m\002 : ";
 
+    // printf("pid %d\n", getpid());
     (void)ac;
     (void)av;
     data = init(env);

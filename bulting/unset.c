@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 00:25:41 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/28 08:47:41 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 14:12:27 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,29 @@ char **join_to_env(t_env *env)
 bool un_set_builting(t_exec_cmd **s, t_environment **env)
 {
 	int i;
+	int	err;
+	
+	err = 0;
 	i = 1;
 	if (!(*s))
 		return false;
 	if (!(*env)->lenv)
 		(*env)->lenv = env_set((*env)->env);
-
 	while ((*s)->args[i])
 	{
-		un_set((*s)->args[i], env);
+		if(is_valid_identifier((*s)->args[i],1) == 0)
+			un_set((*s)->args[i], env);
+		else
+		{
+			print_error("not a valid identifier\n", (*s)->args[i], "unset");
+			err = 1;
+		}
 		i++;
 	}
-	get_exit(0, 0);
+	if (err)
+		get_exit(1, 0);
+	else
+		get_exit(0, 0);
 	return (true);
 }
 bool check_exs(t_env **tmp, char *key, char *value, bool add)

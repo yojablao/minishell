@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 00:56:39 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/30 11:29:21 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 14:29:45 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void close_open_fd(t_exec_cmd **data)
         close(cmd->infd);
     if (cmd->infd != -1 && cmd->outfd != 1)
         close(cmd->outfd);
-    cmd = cmd->next;
 }
 void close_open_fd_1(t_exec_cmd **data)
 {
@@ -47,7 +46,7 @@ bool internel_builting(char *s)
 {
     if (ft_strcmp(s, "exit") == 0 || ft_strcmp(s, "unset") == 0 || ft_strcmp(s, "cd") == 0 || ft_strcmp(s, "export") == 0)
         return(1);
-    else if (ft_strcmp(s, "env") == 0 || ft_strcmp(s, "pwd") == 0 || ft_strcmp(s, "echo") == 0)
+    else if (ft_strcmp(s, "env") == 0 || ft_strcmp(s, "pwd") == 0 )
         return(1);
     else
         return(0);   
@@ -98,15 +97,15 @@ int handel_wait_sig(pid_t pid,int status,bool p)
         waitpid(pid, &status, 0);
     if (WIFEXITED(status))
         return WEXITSTATUS(status);
-
     else if (WIFSIGNALED(status))
     {
         int signal = WTERMSIG(status);
+        if (signal == SIGPIPE)
+            return (0);
         if (signal == SIGQUIT)
             printf("Quit: 3\n");
         else if (signal == SIGINT)
             printf("\n");
-
         return 128 + signal;
     }
     return 0;
@@ -245,6 +244,7 @@ int get_exit(int sts, bool set)
 }
 int exice(t_exec_cmd **cmd, int type, t_shell **info)
 {
+
     if (type == 2)
         pipe_line(cmd, info);
     else

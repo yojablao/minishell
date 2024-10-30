@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 00:25:23 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 10:47:51 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 14:32:48 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ bool bulting(t_exec_cmd **s, t_shell *data)
 	else if (ft_strcmp((*s)->args[0], "env") == 0)
 		return (env_build(data->env->lenv), 1);
 	else if (ft_strcmp((*s)->args[0], "pwd") == 0)
-		return (pwd_builting(data->env->lenv), 0);
+		return (pwd_builting(data->env->lenv), 1);
 	else
 		return 0;
 }
@@ -54,9 +54,9 @@ void handel_errer(char *cmd)
 			get_exit(126, 0);
 			exit(126);
 	}
-		perror(cmd);
-		get_exit(errno, 0);
-		exit(errno);
+	perror(cmd);
+	get_exit(errno, 0);
+	exit(1);
 }
 bool child(t_exec_cmd **cmd, t_shell *data)
 {
@@ -71,7 +71,7 @@ bool child(t_exec_cmd **cmd, t_shell *data)
 		get_exit(0, 0);
 		exit(0);
 	}
-	if ((*cmd)->cmd == NULL && (*cmd)->args[0])
+	else if ((*cmd)->cmd == NULL && (*cmd)->args[0])
 	{
 		comnond_err((*cmd)->args[0],data->env->lenv);
 		return (get_exit(127, 0), exit(127), false);
@@ -79,11 +79,7 @@ bool child(t_exec_cmd **cmd, t_shell *data)
 	else if ((*cmd)->cmd == NULL && (*cmd)->args == NULL)
 		exit(1);
 	if (execve((*cmd)->cmd, (*cmd)->args, data->env->env) == -1)
-	{
-
 		handel_errer((*cmd)->cmd);
-		
-	}
 	return (EXIT_SUCCESS);
 }
 char *f_strdup(const char *s1)

@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:53:57 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 11:29:09 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 12:53:35 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ static bool handle_infd(int type, int *j, char **words, t_exec_cmd **cmd, t_envi
         ft_putstr_fd("minishell: ",2);
         perror(words[(*j)]);
         get_exit(1,0);
-        if((*cmd)->outfd != -1 &&(*cmd)->outfd != 0)
+        if((*cmd)->outfd != -1 && (*cmd)->outfd != 1)
             close((*cmd)->outfd);
 
         return (false);

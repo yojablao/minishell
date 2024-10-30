@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:39 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 11:23:04 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 12:33:38 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ bool handel_comond(char **words, t_exec_cmd **comond, t_environment **env)
                 args[j++] = words[i];
             i++;
         }
+
     }
     args[j] = NULL;
     (*comond)->args = args;

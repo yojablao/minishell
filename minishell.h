@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/30 10:27:06 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 12:02:36 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ char	*handle_d_q_content(char *tmp, int *j, t_env *env, char *buffer);
 char	*join_buffer(char *tmp, int *j, int start, char	*buffer);
 char	*handle_single_quote(char *s, int *i, char *buffer);
 char	*expanding_values(char *key, t_env *env);
-
+int is_valid_identifier(char *command, int mybool);
 char	*f_remove_spaces(char *str);
 char	*get_key(char *s);
 bool	special_letter(char l);
