@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:39 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 04:35:32 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:33:53 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int parsing_input(t_shell **cmd, char *input)
     {
         if (init_pipe_line(cmd) == false)
             return (-1);
+
+        
         (*cmd)->cmd = (*cmd)->head;
         return (2);
     }
@@ -107,15 +109,15 @@ static char *find_pexec(char *comond, char *value)
 char *find_comond(char *comond, t_env **env)
 {
 
-    // if (comond[0] == '.' && comond[1])
-    //     return (comond);
-    if(comond[0] == '.' && !comond[1])
-    {
-        ft_putstr_fd("minshell: .: filename argument required\n",2);
-        ft_putstr_fd(".: usage: . filename [arguments]\n",2);
-        get_exit(2,0);
-        return(NULL);
-    }
+    if (!comond)
+        return (NULL);
+    // if(comond[0] == '.' && !comond[1])
+    // {
+    //     ft_putstr_fd("minshell: .: filename argument required\n",2);
+    //     ft_putstr_fd(".: usage: . filename [arguments]\n",2);
+    //     get_exit(2,0);
+    //     return(NULL);
+    // }
     if (ft_strchr(comond, '/'))
     {
         if (comond[ft_strlen(comond) - 1] == '/')
@@ -128,11 +130,8 @@ char *find_comond(char *comond, t_env **env)
         }
         else
         {
-            // ft_putstr_fd("minishell: ", 2);
-            // ft_putstr_fd(comond, 2);
             if (access(comond, X_OK))
                 ft_putstr_fd(": No such file or directory\n", 2);
-            // get_exit(127, 0);
             return comond;
         }
     }
@@ -153,18 +152,6 @@ char *find_comond(char *comond, t_env **env)
     else
         return(comond);
     return(NULL);
-    // while (tmp != NULL && (ft_strcmp(tmp->key, "PATH")) != 0)
-    // {
-    //     if ((ft_strcmp(tmp->key, "PATH")) == 0)
-    //         break;
-    //     if (tmp->next == NULL)
-    //         break;
-    //     else
-    //         tmp = tmp->next;
-    // }
-    // if ((ft_strcmp(tmp->key, "PATH")) == 0)
-    // {
-    // }
 }
 size_t f_strlen2d(char **str)
 {

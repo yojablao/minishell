@@ -38,3 +38,21 @@ minishell : cat << ok$$$"" > delimeter should be the (ok$$)
 
  cat $"$ok"  should be like that bash-3.2$ cat $"$ok"
 cat: : No such file or directory
+
+cd | $DASLKMDSALKM
+cd | ''
+
+$DSALKMD | $DSALKMS
+exit stat on 'ls | dsalkmdlsam'
+
+cat << '' (leaks)
+b>b<b (i think ccc > ccc 'file to itself')
+
+cd | unset (unset not found)
+
+ cd | export ''
+minishell:  export: command not found
+minishell: cd: HOME not set: Bad address
+minishell: export: ``: not a valid identifier
+
+export ''

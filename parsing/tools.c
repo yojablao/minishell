@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:50:24 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/29 13:20:43 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 09:57:42 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ char **ft_joinlist(t_list **lst, t_environment **env, int status)
 	while (*lst && (*lst)->stat != 0)
 	{
 		if(index > 0 && empty_Q((*lst)->content))
-			words[index++] = ft_strdup("\0");
+			words[index++] = f_strdup("\0");
 		else
 		{
 			

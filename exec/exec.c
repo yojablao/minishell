@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 00:25:23 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 04:24:53 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:47:51 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,33 @@ bool bulting(t_exec_cmd **s, t_shell *data)
 	else
 		return 0;
 }
+void handel_errer(char *cmd)
+{
+	struct stat path_stat;
+
+	if (stat(cmd, &path_stat) == -1)
+	{
+			perror(cmd);  
+			get_exit(errno == ENOENT ? 127 : errno, 0);
+			exit(errno == ENOENT ? 127 : errno);
+	}
+	if (S_ISDIR(path_stat.st_mode))
+	{
+			errno = EISDIR;    
+			perror(cmd);  
+			get_exit(126, 0);
+			exit(126);
+	}
+	if (errno == EACCES)
+	{
+			perror(cmd); 
+			get_exit(126, 0);
+			exit(126);
+	}
+		perror(cmd);
+		get_exit(errno, 0);
+		exit(errno);
+}
 bool child(t_exec_cmd **cmd, t_shell *data)
 {
 	if ((*cmd)->args && (*cmd)->args[0] && (*cmd)->args[0][0] == '\2')
@@ -53,9 +80,9 @@ bool child(t_exec_cmd **cmd, t_shell *data)
 		exit(1);
 	if (execve((*cmd)->cmd, (*cmd)->args, data->env->env) == -1)
 	{
-		perror(strerror(errno));
-		get_exit(127, 0);
-		exit(127);
+
+		handel_errer((*cmd)->cmd);
+		
 	}
 	return (EXIT_SUCCESS);
 }

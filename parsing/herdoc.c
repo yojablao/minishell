@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:33 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/29 13:16:03 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:50:23 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ static char *read_it(const char *del, int *fd, t_environment **env, bool flage)
 	char *tmp;
 	char *line;
 	fullline = NULL;
-	// printf("%s\n",del);
 
 	if (g_sig == 1)
 		return (NULL);
@@ -128,8 +127,6 @@ int ft_herdoc(char *del, t_environment **env)
 
 	if(!del)
 		del = f_strdup("");
-	printf("%s\n",del);
-	// if(del[0] == $)
 	flage = check_qoutes(del);
 	if (flage == false)
 		f(del);
