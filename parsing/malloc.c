@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 04:55:36 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/26 08:53:52 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:09:26 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	free_all(void **arr)
 
 void	*master(size_t size, int flag)
 {
+	(void)size;
 	static void	*arr[INT32_MAX];
 	static int	i = 0;
 	void		*ptr;

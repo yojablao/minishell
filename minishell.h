@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/30 12:02:36 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:15:06 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+# include <stdio.h>
 # include <errno.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdbool.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <sys/fcntl.h>
 # include <sys/stat.h>
@@ -119,6 +119,7 @@ void						ft_free_stack(t_list *a);
 void						skip_betw_quotes(char *str, size_t *i);
 char						*skip_betw_quotes2(char *str);
 int							ft_check_grammer(t_list *a);
+void						save_env(t_environment **env);
 
 bool						internel_builting(char *s);
 t_env						*env_set(char **envi);
