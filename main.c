@@ -6,13 +6,13 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:06:47 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 15:13:56 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:08:38 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int			g_sig = 0;
+
 
 static void	process_input(char *input, t_shell **data)
 {
@@ -35,6 +35,7 @@ void	handling_sig(int ac)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	g_sig = 1;
 	(void)ac;
 }
 
@@ -43,12 +44,14 @@ static void	minishell_loop(t_shell **data, char *prompt)
 	char	*input;
 	int		org_in;
 
+	rl_catch_signals = 0 ;
 	signal(SIGINT, handling_sig);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
-		g_sig = 0;
 		input = readline(prompt);
+		if(g_sig)
+			get_exit(1,0);
 		org_in = dup(STDIN_FILENO);
 		if (!input)
 		{
@@ -56,6 +59,7 @@ static void	minishell_loop(t_shell **data, char *prompt)
 			close(org_in);
 			exit(0);
 		}
+		g_sig = 0;
 		process_input(input, data);
 		free(input);
 		dup2(org_in, STDIN_FILENO);

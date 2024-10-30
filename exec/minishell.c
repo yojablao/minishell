@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 00:56:39 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/30 14:29:45 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:06:41 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,6 @@ int	exic(t_exec_cmd **s, t_shell **data)
 {
 	pid_t	pid;
 
-	// Ignore SIGINT in the parent process
-	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == -1)
 		return (1);
@@ -134,10 +132,15 @@ int	exic(t_exec_cmd **s, t_shell **data)
 		signal(SIGQUIT, SIG_DFL);
 		// Execute child process logic
 		if (child(s, (*data)) == EXIT_FAILURE)
-			return (1); // If child execution fails, return error
+			return (1);
 	}
 	else
+	{
+		signal(SIGINT, SIG_IGN);
 		get_exit(handel_wait_sig(pid, 0, 0), 0);
+		signal(SIGINT, handling_sig);
+		
+	}
 	return (0);
 }
 

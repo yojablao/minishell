@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:43:59 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/29 05:36:12 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 16:40:06 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,13 @@ bool	multi_argiment(char **args)
 	int		exit_status;
 	char	*trim;
 
-	// int i;
 	trim = f_strtrim(args[1], " ");
-	// printf("%s\n",trim);
 	if (!check_is_number(trim))
 	{
 		ft_putstr_fd("exit\n", 2);
 		ft_putstr_fd("minishell : exit: ", 2);
 		ft_putstr_fd(args[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-		// printf("%d\n", get_exit(0, 1));
 		exit(255);
 	}
 	if (args[2])
@@ -62,8 +59,8 @@ void	exit_builting(char **args, bool flage)
 	{
 		if (flage)
 			ft_putstr_fd("exit\n", 2);
-		get_exit(0, 0);
-		exit(0);
+		
+		exit(get_exit(0, 1));
 	}
 	if (!multi_argiment(args))
 		return ;
