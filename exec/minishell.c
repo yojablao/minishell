@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 00:56:39 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/30 10:41:20 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 11:29:21 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,13 +245,10 @@ int get_exit(int sts, bool set)
 }
 int exice(t_exec_cmd **cmd, int type, t_shell **info)
 {
-    // ft_print_stack(*cmd);
     if (type == 2)
         pipe_line(cmd, info);
     else
-    {
         exic(cmd, info);
-    }
     close_open_fd_1(&(*info)->head);
-    return 1;
+    return (1);
 }

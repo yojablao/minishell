@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:39 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 10:33:53 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 11:23:04 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,13 @@ bool handel_comond(char **words, t_exec_cmd **comond, t_environment **env)
     i = 0;
     j = 0;
     args = master(sizeof(char *) * (count_words(words) + 1), 1);
-    if (!args)
-        return true;
     while (words[i] != NULL)
     {
         if(!handel_redirect(&i, words, comond, env))
+        {
+            close_open_fd(comond);
             return (false);
+        }
         else if (words[i] != NULL)
         {
             if (i == 0 || (i >= 1 && pasabel(words[i - 1]) == true))

@@ -56,3 +56,7 @@ minishell: cd: HOME not set: Bad address
 minishell: export: ``: not a valid identifier
 
 export ''
+
+
+ls > 1 > 2 >3 < 4 > 5
+cat << "'"

@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:06:47 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 10:13:34 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 11:20:47 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ static void process_input(char *input, t_shell **data)
         add_history(input);
         flage = parsing_input(data, input);
         if (flage == -1)
-            close_open_fd_1(&(*data)->cmd);
+            close_open_fd(&(*data)->cmd);
         if (flage != -1 && g_sig == 0)
             exice(&(*data)->cmd, flage, data);
     }
