@@ -1,2 +1,0 @@
-ltrkngh
-rtklh
