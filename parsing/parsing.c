@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:39 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/29 13:06:07 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 04:35:32 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,12 +128,12 @@ char *find_comond(char *comond, t_env **env)
         }
         else
         {
-            ft_putstr_fd("minishell: ", 2);
-            ft_putstr_fd(comond, 2);
+            // ft_putstr_fd("minishell: ", 2);
+            // ft_putstr_fd(comond, 2);
             if (access(comond, X_OK))
                 ft_putstr_fd(": No such file or directory\n", 2);
-            get_exit(127, 0);
-            return NULL;
+            // get_exit(127, 0);
+            return comond;
         }
     }
     char *path;

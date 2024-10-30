@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 00:25:23 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/29 09:32:05 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/30 04:24:53 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,9 @@ bool child(t_exec_cmd **cmd, t_shell *data)
 	}
 	else if ((*cmd)->cmd == NULL && (*cmd)->args == NULL)
 		exit(1);
-	// printf("%s\n",(*cmd)->cmd);
 	if (execve((*cmd)->cmd, (*cmd)->args, data->env->env) == -1)
 	{
-		// perror(strerror(errno));
-		printf("Error: %s: Permission denied\n", (*cmd)->args[0]);
+		perror(strerror(errno));
 		get_exit(127, 0);
 		exit(127);
 	}
