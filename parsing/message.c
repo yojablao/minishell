@@ -1,14 +1,25 @@
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        :::      ::::::::   */
-// /*   message.c                                          :+:      :+:    :+:   */
-// /*                                                    +:+ +:+         +:+     */
-// /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
-// /*                                                +#+#+#+#+#+   +#+           */
-// /*   Created: 2024/10/08 11:12:57 by hamrachi          #+#    #+#             */
-// /*   Updated: 2024/10/28 05:21:42 by yojablao         ###   ########.fr       */
-// /*                                                                            */
-// /* ************************************************************************** */
+//
+	/* ************************************************************************** */
+//
+	/*                                                                            */
+//
+	/*                                                        :::      ::::::::   */
+//
+	/*   message.c                                          :+:      :+:    :+:   */
+// /*                                                    +:+ +:+        
+	+:+     */
+// /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+      
+	+#+        */
+// /*                                                +#+#+#+#+#+  
+	+#+           */
+//
+	/*   Created: 2024/10/08 11:12:57 by hamrachi          #+#    #+#             */
+//
+	/*   Updated: 2024/10/28 05:21:42 by yojablao         ###   ########.fr       */
+//
+	/*                                                                            */
+//
+	/* ************************************************************************** */
 
 // #include "../minishell.h"
 
@@ -24,7 +35,8 @@
 //     str[i] = '\0';
 //     return (str);
 // }
-// //////////Handle empty double quotes ("") directly (which you already do), but there are potential edge cases when quotes are misaligned or nested.
+// //////////Handle empty double quotes ("") directly (which you already do),
+	but there are potential edge cases when quotes are misaligned or nested.
 // bool special_letter(char l)
 // {
 //     char *s;
@@ -32,7 +44,7 @@
 
 //     i = 0;
 //     if (l == 0)
-//         return true;
+//         return (true);
 //     s = "-=/*+@!#%^.*:";
 //     if (l == ' ' || (l >= 9 && l <= 13))
 //         return (true);
@@ -60,10 +72,11 @@
 //         if (s[i] == '$')
 //         {
 //             start = i++;
-//             while (s[i] && !special_letter(s[i]) && s[i] != '$' && s[i] != '\'' && s[i] != '\"')
+//             while (s[i] && !special_letter(s[i]) && s[i] != '$'
+	&& s[i] != '\'' && s[i] != '\"')
 //                 i++;
 //             end = i;
-//             break;
+//             break ;
 //         }
 //         i++;
 //     }
@@ -92,7 +105,8 @@
 //         i++;
 //     while (str[i])
 //     {
-//         if (need_space == 1 && str[i] != ' ' && str[i] != '\t' && res != NULL)
+//         if (need_space == 1 && str[i] != ' ' && str[i] != '\t'
+	&& res != NULL)
 //             res = f_strjoin(res, f_strdup(" "));
 //         start = i;
 //         while (str[i] && str[i] != ' ' && str[i] != '\t')
@@ -137,10 +151,10 @@
 //     while (s[i])
 //     {
 //         if (s[i] == '$')
-//             return 1;
+//             return (1);
 //         i++;
 //     }
-//     return 0;
+//     return (0);
 // }
 
 // char *handle_single_quote(char *s, int *i, char *buffer)
@@ -172,7 +186,8 @@
 //     return (buffer);
 // }
 
-// char *handle_double_quote_content(char *tmp, int *j, t_env *env, char *buffer)
+// char *handle_double_quote_content(char *tmp, int *j, t_env *env,
+	char *buffer)
 // {
 //     char *key;
 //     char *value;
@@ -205,7 +220,6 @@
 //     return (buffer);
 // }
 
-
 // char *process_double_quote(char *tmp, t_env *env, char *buffer)
 // {
 //     int j;
@@ -230,7 +244,7 @@
 //     start = (*i)++;
 //     while (s[*i] && s[*i] != '\"')
 //         (*i)++;
-    
+
 //     end = (*i)--;
 //     (*i)++;
 //     tmp = ft_strrange(s, start + 1, end);
@@ -310,7 +324,7 @@
 //     env = env_set(envi);
 //     while (s[i])
 //     {
-        
+
 //         if (s[i] == '\'')
 //             buffer = handle_single_quote(s, &i, buffer);
 //         else if (s[i] == '\"')

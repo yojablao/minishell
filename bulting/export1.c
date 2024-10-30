@@ -12,11 +12,12 @@
 
 #include "../minishell.h"
 
-bool find_target(char *str, char c);
-void export_print(char **tab)
+bool	find_target(char *str, char c);
+void	export_print(char **tab)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
+
 	i = -1;
 	while (tab[++i])
 	{
@@ -29,7 +30,7 @@ void export_print(char **tab)
 				if (tab[i][j] == '=')
 				{
 					printf("=\"%s\"", &tab[i][j + 1]);
-					break;
+					break ;
 				}
 				ft_putchar_fd(tab[i][j], 1);
 				j++;
@@ -40,11 +41,11 @@ void export_print(char **tab)
 			printf("%s\n", tab[i]);
 	}
 }
-void print_export(char **tab, int size)
+void	print_export(char **tab, int size)
 {
-	int i;
-	int j;
-	char *temp;
+	int		i;
+	int		j;
+	char	*temp;
 
 	i = 0;
 	while (i < size)
@@ -65,10 +66,11 @@ void print_export(char **tab, int size)
 	export_print(tab);
 }
 
-int sizeenv(char **env)
+int	sizeenv(char **env)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	if (!env)
 		return (0);
 	while (env[i])
@@ -76,10 +78,11 @@ int sizeenv(char **env)
 	return (i);
 }
 
-int is_valid_identifier(char *command, int mybool)
+int	is_valid_identifier(char *command, int mybool)
 {
-	int j = -1;
+	int	j;
 
+	j = -1;
 	if (!ft_isalpha(command[0]) && command[0] != '_')
 		return (1);
 	while (command[++j])
@@ -96,7 +99,7 @@ int is_valid_identifier(char *command, int mybool)
 	return (0);
 }
 
-void print_error(char *error_msg, char *identifier, char *command)
+void	print_error(char *error_msg, char *identifier, char *command)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(command, 2);
@@ -104,13 +107,14 @@ void print_error(char *error_msg, char *identifier, char *command)
 	ft_putstr_fd(identifier, 2);
 	ft_putstr_fd("`: ", 2);
 	ft_putstr_fd(error_msg, 2);
-	get_exit(1,0);
+	get_exit(1, 0);
 }
 
-bool find_target(char *str, char c)
+bool	find_target(char *str, char c)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (str[i])
 	{
 		if (str[i] == c)
@@ -120,14 +124,14 @@ bool find_target(char *str, char c)
 	return (false);
 }
 
-void add_key_env(t_env **env, char *key, char *value)
+void	add_key_env(t_env **env, char *key, char *value)
 {
-	t_env *new_node;
-	t_env *tmp;
+	t_env	*new_node;
+	t_env	*tmp;
 
 	new_node = master(sizeof(t_env), 1);
 	if (!new_node)
-		return;
+		return ;
 	new_node->key = f_strdup(key);
 	new_node->value = f_strdup(value);
 	new_node->valid = 0;
@@ -135,7 +139,7 @@ void add_key_env(t_env **env, char *key, char *value)
 	if (*env == NULL)
 	{
 		*env = new_node;
-		return;
+		return ;
 	}
 	tmp = *env;
 	while (tmp->next)
@@ -143,28 +147,30 @@ void add_key_env(t_env **env, char *key, char *value)
 	tmp->next = new_node;
 	// printf("%s\n",tmp->next->value);
 }
-int key_exists(char *str, t_env *env)
+int	key_exists(char *str, t_env *env)
 {
-	t_env *tmp;
+	t_env	*tmp;
+
 	tmp = env;
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->key, str) == 0)
-			return true;
+			return (true);
 		tmp = tmp->next;
 	}
-	return false;
+	return (false);
 }
 // void update_env(t_environment **top_env)
 // {
 // 	// free2d((*top_env)->env);
 // }
-void add_or_update(t_environment **env, char *s)
+void	add_or_update(t_environment **env, char *s)
 {
-	int i = 0;
-	char *key;
-	char *value;
+	int		i;
+	char	*key;
+	char	*value;
 
+	i = 0;
 	while (s[i])
 	{
 		if (s[i] == '+' && s[i + 1] == '=')
@@ -173,7 +179,7 @@ void add_or_update(t_environment **env, char *s)
 			key = f_strdup(s);
 			value = f_strdup(&s[i + 2]);
 			add_to_env(&(*env)->lenv, key, value, 1);
-			return;
+			return ;
 		}
 		else if (s[i] == '=')
 		{
@@ -181,12 +187,12 @@ void add_or_update(t_environment **env, char *s)
 			key = f_strdup(s);
 			value = f_strdup(&s[i + 1]);
 			add_to_env(&(*env)->lenv, key, value, 0);
-			return;
+			return ;
 		}
 		i++;
 	}
 }
-int validation(char **str, int i, t_environment **env)
+int	validation(char **str, int i, t_environment **env)
 {
 	if (is_valid_identifier(str[i], 0) == 1)
 		return (1);
@@ -199,10 +205,10 @@ int validation(char **str, int i, t_environment **env)
 	}
 	return (0);
 }
-int export_builtin(char **str, t_environment **env)
+int	export_builtin(char **str, t_environment **env)
 {
-	int i;
-	bool flage;
+	int		i;
+	bool	flage;
 
 	flage = false;
 	if (!str)

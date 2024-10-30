@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-bool bulting(t_exec_cmd **s, t_shell *data)
+bool	bulting(t_exec_cmd **s, t_shell *data)
 {
 	if (ft_strcmp((*s)->args[0], "echo") == 0)
 		return (echo((*s)->args), 1);
@@ -29,36 +29,36 @@ bool bulting(t_exec_cmd **s, t_shell *data)
 	else if (ft_strcmp((*s)->args[0], "pwd") == 0)
 		return (pwd_builting(data->env->lenv), 1);
 	else
-		return 0;
+		return (0);
 }
-void handel_errer(char *cmd)
+void	handel_errer(char *cmd)
 {
-	struct stat path_stat;
+	struct stat	path_stat;
 
 	if (stat(cmd, &path_stat) == -1)
 	{
-			perror(cmd);  
-			get_exit(errno == ENOENT ? 127 : errno, 0);
-			exit(errno == ENOENT ? 127 : errno);
+		perror(cmd);
+		get_exit(errno == ENOENT ? 127 : errno, 0);
+		exit(errno == ENOENT ? 127 : errno);
 	}
 	if (S_ISDIR(path_stat.st_mode))
 	{
-			errno = EISDIR;    
-			perror(cmd);  
-			get_exit(126, 0);
-			exit(126);
+		errno = EISDIR;
+		perror(cmd);
+		get_exit(126, 0);
+		exit(126);
 	}
 	if (errno == EACCES)
 	{
-			perror(cmd); 
-			get_exit(126, 0);
-			exit(126);
+		perror(cmd);
+		get_exit(126, 0);
+		exit(126);
 	}
 	perror(cmd);
 	get_exit(errno, 0);
 	exit(1);
 }
-bool child(t_exec_cmd **cmd, t_shell *data)
+bool	child(t_exec_cmd **cmd, t_shell *data)
 {
 	if ((*cmd)->args && (*cmd)->args[0] && (*cmd)->args[0][0] == '\2')
 		return (1);
@@ -73,7 +73,7 @@ bool child(t_exec_cmd **cmd, t_shell *data)
 	}
 	else if ((*cmd)->cmd == NULL && (*cmd)->args[0])
 	{
-		comnond_err((*cmd)->args[0],data->env->lenv);
+		comnond_err((*cmd)->args[0], data->env->lenv);
 		return (get_exit(127, 0), exit(127), false);
 	}
 	else if ((*cmd)->cmd == NULL && (*cmd)->args == NULL)
@@ -82,10 +82,10 @@ bool child(t_exec_cmd **cmd, t_shell *data)
 		handel_errer((*cmd)->cmd);
 	return (EXIT_SUCCESS);
 }
-char *f_strdup(const char *s1)
+char	*f_strdup(const char *s1)
 {
-	char *new;
-	int i;
+	char	*new;
+	int		i;
 
 	if (s1 == NULL)
 		return (NULL);
@@ -101,13 +101,13 @@ char *f_strdup(const char *s1)
 	new[i] = '\0';
 	return (new);
 }
-char *f_strjoin(char *s1, char *s2)
+char	*f_strjoin(char *s1, char *s2)
 {
-	char *r;
-	size_t ls1;
-	size_t ls2;
-	size_t t;
-	size_t i;
+	char	*r;
+	size_t	ls1;
+	size_t	ls2;
+	size_t	t;
+	size_t	i;
 
 	if (s1 == NULL && s2 == NULL)
 		return (f_strdup(""));
@@ -132,11 +132,11 @@ char *f_strjoin(char *s1, char *s2)
 	return (r);
 }
 
-char *ft_mysep1(char *s1, char *f)
+char	*ft_mysep1(char *s1, char *f)
 {
-	char *result;
-	size_t lword;
-	size_t i;
+	char	*result;
+	size_t	lword;
+	size_t	i;
 
 	result = NULL;
 	lword = 0;
@@ -161,9 +161,9 @@ char *ft_mysep1(char *s1, char *f)
 	return (result);
 }
 
-char **my_copy1(char **new, char *s, int x, char *f)
+char	**my_copy1(char **new, char *s, int x, char *f)
 {
-	t_member_split sp;
+	t_member_split	sp;
 
 	sp.n = 0;
 	sp.tmp = NULL;
@@ -174,7 +174,6 @@ char **my_copy1(char **new, char *s, int x, char *f)
 		if (*s != '\0')
 		{
 			sp.tmp = ft_mysep1(s, f);
-
 			new[sp.n++] = sp.tmp;
 		}
 		while ((*s != f[0] && *s != f[1]) && *s)
@@ -192,11 +191,13 @@ char **my_copy1(char **new, char *s, int x, char *f)
 	return (new);
 }
 
-int ft_counter2(char *s, char *f)
+int	ft_counter2(char *s, char *f)
 {
-	size_t i = 0;
-	size_t cnt = 0;
+	size_t	i;
+	size_t	cnt;
 
+	i = 0;
+	cnt = 0;
 	if (!s || !*s)
 		return (0);
 	while (s[i])
@@ -218,13 +219,13 @@ int ft_counter2(char *s, char *f)
 			}
 		}
 	}
-	return cnt;
+	return (cnt);
 }
-char **f_split(char *s, char c, char c1)
+char	**f_split(char *s, char c, char c1)
 {
-	char **new;
-	int x;
-	char f[2];
+	char	**new;
+	int		x;
+	char	f[2];
 
 	if (!s)
 		return (NULL);

@@ -12,9 +12,9 @@
 
 #include "../minishell.h"
 
-bool check_is_number(char *s)
+bool	check_is_number(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!s)
@@ -29,12 +29,13 @@ bool check_is_number(char *s)
 	}
 	return (1);
 }
-bool multi_argiment(char **args)
+bool	multi_argiment(char **args)
 {
+	int		exit_status;
+	char	*trim;
+
 	// int i;
-	int exit_status;
-	char *trim ;
-	trim = f_strtrim(args[1]," ");
+	trim = f_strtrim(args[1], " ");
 	// printf("%s\n",trim);
 	if (!check_is_number(trim))
 	{
@@ -48,14 +49,14 @@ bool multi_argiment(char **args)
 	if (args[2])
 	{
 		ft_putstr_fd("minishell : exit: too many arguments\n", 2);
-		return (get_exit(1, 0),0);
+		return (get_exit(1, 0), 0);
 	}
 	exit_status = ft_atoi(trim) % 256;
 	get_exit(exit_status, 0);
 	ft_putstr_fd("exit\n", 2);
 	exit(get_exit(0, 1));
 }
-void exit_builting(char **args, bool flage)
+void	exit_builting(char **args, bool flage)
 {
 	if (!args[1])
 	{
@@ -65,5 +66,5 @@ void exit_builting(char **args, bool flage)
 		exit(0);
 	}
 	if (!multi_argiment(args))
-		return;
+		return ;
 }

@@ -50,7 +50,6 @@ char	*handle_dollar_special(char *s, int *i, char *buffer)
 	return (buffer);
 }
 
-
 char	*handle_dollar(char *s, int *i, t_env *env, char *buffer)
 {
 	char	*value;

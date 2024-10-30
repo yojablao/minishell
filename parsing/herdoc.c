@@ -12,11 +12,11 @@
 
 #include "../minishell.h"
 
-int g_sig;
+int			g_sig;
 
-void free2d(char **s)
+void	free2d(char **s)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (s[++i] != NULL)
@@ -39,7 +39,7 @@ char	*f_strtrim(char const *s1, char const *set)
 		end--;
 	end += 1;
 	s = ft_strlen(s1) - ft_strlen(end);
-	result = (char *)master(s + 1,1);
+	result = (char *)master(s + 1, 1);
 	if (!result)
 		return (NULL);
 	i = 0;
@@ -52,9 +52,9 @@ char	*f_strtrim(char const *s1, char const *set)
 	return (result);
 }
 
-char *ft_get_env(t_shell *data, char *key)
+char	*ft_get_env(t_shell *data, char *key)
 {
-	t_env *temp;
+	t_env	*temp;
 
 	temp = data->env->lenv;
 	while (temp)
@@ -66,7 +66,7 @@ char *ft_get_env(t_shell *data, char *key)
 	return (NULL);
 }
 
-void hrdc_sig(int sig)
+void	hrdc_sig(int sig)
 {
 	(void)sig;
 	close(0);
@@ -74,13 +74,13 @@ void hrdc_sig(int sig)
 	g_sig = 1;
 }
 
-static char *read_it(const char *del, int *fd, t_environment **env, bool flage)
+static char	*read_it(const char *del, int *fd, t_environment **env, bool flage)
 {
-	char *fullline;
-	char *tmp;
-	char *line;
-	fullline = NULL;
+	char	*fullline;
+	char	*tmp;
+	char	*line;
 
+	fullline = NULL;
 	if (g_sig == 1)
 		return (NULL);
 	*fd = open("/tmp/lo.txt", O_CREAT | O_RDWR | O_TRUNC, 0644);
@@ -91,10 +91,11 @@ static char *read_it(const char *del, int *fd, t_environment **env, bool flage)
 	{
 		line = readline("\033[95m heredoc> \033[0m");
 		tmp = line;
-		if (!line || (ft_strcmp(line, (char *)del) == -1 && !*line) || !ft_strcmp(line, (char *)del ))
+		if (!line || (ft_strcmp(line, (char *)del) == -1 && !*line)
+			|| !ft_strcmp(line, (char *)del))
 		{
 			free(line);
-			break;
+			break ;
 		}
 		if (flage == true)
 			tmp = ft_expand1(line, (*env)->env, (*env)->lenv);
@@ -106,9 +107,9 @@ static char *read_it(const char *del, int *fd, t_environment **env, bool flage)
 	return (fullline);
 }
 
-bool check_qoutes(char *str)
+bool	check_qoutes(char *str)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (str[++i])
@@ -119,13 +120,13 @@ bool check_qoutes(char *str)
 	return (true);
 }
 
-int ft_herdoc(char *del, t_environment **env)
+int	ft_herdoc(char *del, t_environment **env)
 {
-	char *fullline;
-	int fd;
-	int flage;
+	char	*fullline;
+	int		fd;
+	int		flage;
 
-	if(!del)
+	if (!del)
 		del = f_strdup("");
 	flage = check_qoutes(del);
 	if (flage == false)

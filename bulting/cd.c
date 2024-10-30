@@ -12,14 +12,14 @@
 
 #include "../minishell.h"
 
-char *cd_to_path(char *path, bool flag, int *err)
+char	*cd_to_path(char *path, bool flag, int *err)
 {
-	char buffer[1025];
-	char *tmp;
-	
-	tmp =getcwd(buffer, sizeof(buffer)) ;
-	if(!tmp)
-			perror("minishell: cd: error retrieving current directory");
+	char	buffer[1025];
+	char	*tmp;
+
+	tmp = getcwd(buffer, sizeof(buffer));
+	if (!tmp)
+		perror("minishell: cd: error retrieving current directory");
 	if (chdir(path) == -1)
 	{
 		*err = 1;
@@ -36,10 +36,10 @@ char *cd_to_path(char *path, bool flag, int *err)
 	}
 	if (!tmp)
 		return (NULL);
-	return f_strdup(buffer);
+	return (f_strdup(buffer));
 }
 
-void update_pwd(char *pwd, char *oldpwd, bool flag, t_env **env)
+void	update_pwd(char *pwd, char *oldpwd, bool flag, t_env **env)
 {
 	if (pwd)
 		add_to_env(env, "PWD", pwd, flag);
@@ -47,7 +47,7 @@ void update_pwd(char *pwd, char *oldpwd, bool flag, t_env **env)
 		add_to_env(env, "OLDPWD", oldpwd, flag);
 }
 
-void handle_fail_chdir(t_env **env, char *path)
+void	handle_fail_chdir(t_env **env, char *path)
 {
 	if (ft_strcmp(path, "..") == 0)
 	{
@@ -61,11 +61,11 @@ void handle_fail_chdir(t_env **env, char *path)
 	}
 }
 
-void cd_builting(t_exec_cmd **s, t_environment **env)
+void	cd_builting(t_exec_cmd **s, t_environment **env)
 {
-	char buffer[1025];
-	char *old;
-	int	err;
+	char	buffer[1025];
+	char	*old;
+	int		err;
 
 	err = 0;
 	if (!(*s)->args[1])

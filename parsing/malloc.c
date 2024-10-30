@@ -12,9 +12,9 @@
 
 #include "../minishell.h"
 
-char *ft_my_malloc(size_t len)
+char	*ft_my_malloc(size_t len)
 {
-	char *new;
+	char	*new;
 
 	new = master(len, 1);
 	if (!new)
@@ -26,15 +26,15 @@ char *ft_my_malloc(size_t len)
 	return (new);
 }
 
-void ft_free(t_list *a, char *s1, char *s2)
+void	ft_free(t_list *a, char *s1, char *s2)
 {
 	ft_free_stack(a);
 	free(s1);
 	free(s2);
 }
-void ft_free_array(char **s1)
+void	ft_free_array(char **s1)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s1[i])
@@ -45,10 +45,11 @@ void ft_free_array(char **s1)
 	free(s1);
 }
 
-void free_all(void **arr)
+void	free_all(void **arr)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (arr[i])
 	{
 		free(arr[i]);
@@ -57,11 +58,12 @@ void free_all(void **arr)
 	}
 }
 
-void *master(size_t size, int flag)
+void	*master(size_t size, int flag)
 {
-	static void *arr[INT32_MAX];
-	static int i = 0;
-	void *ptr;
+	static void	*arr[INT32_MAX];
+	static int	i = 0;
+	void		*ptr;
+
 	if (flag == 1)
 	{
 		ptr = malloc(size);
@@ -75,12 +77,12 @@ void *master(size_t size, int flag)
 	{
 		i = 0;
 		free_all(arr);
-		return NULL;
+		return (NULL);
 	}
 }
-void *f_calloc(size_t count, size_t size)
+void	*f_calloc(size_t count, size_t size)
 {
-	void *str;
+	void	*str;
 
 	if (size > sizeof(size))
 		return (NULL);
@@ -90,7 +92,7 @@ void *f_calloc(size_t count, size_t size)
 	ft_bzero(str, (count * size));
 	return (str);
 }
-t_list *f_lstnew(void *content)
+t_list	*f_lstnew(void *content)
 {
 	t_list *head;
 	enum status;

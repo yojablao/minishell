@@ -12,16 +12,16 @@
 
 #include "../minishell.h"
 
-void skip_betw_quotes(char *str, size_t *i)
+void	skip_betw_quotes(char *str, size_t *i)
 {
-	char quot_char;
+	char	quot_char;
 
 	quot_char = str[*i];
 	(*i)++;
 	while (str[*i] && str[*i] != quot_char)
 		(*i)++;
 }
-char *skip_betw_quotes2(char *str)
+char	*skip_betw_quotes2(char *str)
 {
 	if (*str == 34)
 	{
@@ -37,11 +37,13 @@ char *skip_betw_quotes2(char *str)
 	}
 	return (str);
 }
-size_t skip_betw_quotes3(char *str, size_t *i)
+size_t	skip_betw_quotes3(char *str, size_t *i)
 {
-	char quote_char = str[*i];
-	size_t len = 0;
+	char	quote_char;
+	size_t	len;
 
+	quote_char = str[*i];
+	len = 0;
 	len++;
 	(*i)++;
 	while (str[*i] && str[*i] != quote_char)
@@ -50,13 +52,14 @@ size_t skip_betw_quotes3(char *str, size_t *i)
 		(*i)++;
 	}
 	len++;
-	return len;
+	return (len);
 }
 
-size_t ft_count_operators(char *str)
+size_t	ft_count_operators(char *str)
 {
-	size_t i;
-	size_t c;
+	size_t	i;
+	size_t	c;
+
 	i = 0;
 	c = 0;
 	while (str[i])
@@ -82,11 +85,11 @@ size_t ft_count_operators(char *str)
 	return (c * 2);
 }
 
-char *ft_handel_spaces_allocation(char *str)
+char	*ft_handel_spaces_allocation(char *str)
 {
-	char *new;
-	size_t len1;
-	size_t len2;
+	char	*new;
+	size_t	len1;
+	size_t	len2;
 
 	new = NULL;
 	len2 = ft_count_operators(str);
@@ -95,9 +98,9 @@ char *ft_handel_spaces_allocation(char *str)
 	return (new);
 }
 
-int ft_check_quotes(char *str)
+int	ft_check_quotes(char *str)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (str && str[i] != '\0')
@@ -112,23 +115,22 @@ int ft_check_quotes(char *str)
 	}
 	return (1);
 }
-void ft_write_bet_quotes(char *str, char *new, int *i, int *j)
+void	ft_write_bet_quotes(char *str, char *new, int *i, int *j)
 {
-	char l;
+	char	l;
 
 	l = str[*i];
 	new[(*j)++] = str[(*i)++];
-
 	while (str[*i])
 	{
 		if (str[*i] == l)
-			break;
+			break ;
 		new[(*j)++] = str[(*i)++];
 	}
 	new[(*j)++] = str[(*i)];
 }
 
-void add_spaces(char c, char *new, int *j, int v)
+void	add_spaces(char c, char *new, int *j, int v)
 {
 	if (v == 0)
 	{
@@ -145,18 +147,22 @@ void add_spaces(char c, char *new, int *j, int v)
 	}
 }
 
-void ft_add_spaces(char *str, char *new)
+void	ft_add_spaces(char *str, char *new)
 {
-	int i = 0;
-	int j = 0;
+	int	i;
+	int	j;
 
+	i = 0;
+	j = 0;
 	while (str[i])
 	{
 		if (str[i] == 34 || str[i] == 39)
 			ft_write_bet_quotes(str, new, &i, &j);
-		else if ((str[i] == '<' && str[i + 1] == '<') || (str[i] == '>' && str[i + 1] == '>'))
+		else if ((str[i] == '<' && str[i + 1] == '<') || (str[i] == '>' && str[i
+				+ 1] == '>'))
 			add_spaces(str[i++], new, &j, 1);
-		else if (str[i] == '|' || (str[i] == '<' && str[i + 1] != '<') || (str[i] == '>' && str[i + 1] != '>'))
+		else if (str[i] == '|' || (str[i] == '<' && str[i + 1] != '<')
+			|| (str[i] == '>' && str[i + 1] != '>'))
 			add_spaces(str[i], new, &j, 0);
 		else
 			new[j++] = str[i];
@@ -165,9 +171,9 @@ void ft_add_spaces(char *str, char *new)
 	new[j] = '\0';
 }
 
-int ft_check_her(char *str)
+int	ft_check_her(char *str)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (str[i])
@@ -176,21 +182,25 @@ int ft_check_her(char *str)
 			skip_betw_quotes(str, &i);
 		if (str[i] == '>' && str[i + 1] == '>' && str[i + 2] == '>')
 			return (0);
-		if (str[i] == '<' && str[i + 1] == '<' &&
-			str[i + 2] == '<')
+		if (str[i] == '<' && str[i + 1] == '<' && str[i + 2] == '<')
 			return (0);
 		i++;
 	}
 	return (1);
 }
-char *rm_escap_char(char *s)
+char	*rm_escap_char(char *s)
 {
-	int i = 0;
-	int j = 0;
-	int single_q = 0;
-	int double_q = 0;
+	int		i;
+	int		j;
+	int		single_q;
+	int		double_q;
+	char	*res;
 
-	char *res = master(ft_strlen(s) + 1, 1);
+	i = 0;
+	j = 0;
+	single_q = 0;
+	double_q = 0;
+	res = master(ft_strlen(s) + 1, 1);
 	if (!res)
 		return (NULL);
 	while (s[i])
@@ -207,10 +217,10 @@ char *rm_escap_char(char *s)
 	return (res);
 }
 
-int syntax(char *str, t_shell **cmd)
+int	syntax(char *str, t_shell **cmd)
 {
-	char *new;
-	char *expend;
+	char	*new;
+	char	*expend;
 
 	new = NULL;
 	expend = NULL;
@@ -227,6 +237,6 @@ int syntax(char *str, t_shell **cmd)
 /*
 split ("|");0 done;
 char **allcmd == echo $DFdf > $USER
-char **cmd = echo \0
-char **red = > file > hamrachi
+char	**cmd = echo \0
+char	**red = > file > hamrachi
 */

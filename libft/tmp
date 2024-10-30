@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/26 00:26:56 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/28 09:10:47 by yojablao         ###   ########.fr       */
+/*   Created: 2023/11/10 14:10:57 by hamrachi          #+#    #+#             */
+/*   Updated: 2023/11/16 19:07:34 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-void	pwd_builting(t_env *l)
+int	ft_toupper(int c)
 {
-	char BUFFER[1024];
-	char *path;
-
-	path = getcwd(BUFFER, sizeof(BUFFER));
-	if (path == NULL)
-		path = extract_value(l, "PWD");
-	get_exit(0, 0);
-	printf("%s\n", path);
+	if (c >= 97 && c <= 122)
+	{
+		c = c - 32;
+	}
+	return (c);
 }

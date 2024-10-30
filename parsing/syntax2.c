@@ -10,15 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../minishell.h"
 
-void ft_full_list(t_list **a, char *s, int c)
+void	ft_full_list(t_list **a, char *s, int c)
 {
-	char **array = NULL;
-	t_list *tmp = NULL;
-	int i;
+	char	**array;
+	t_list	*tmp;
+	int		i;
 
+	array = NULL;
+	tmp = NULL;
 	array = f_split(s, c, '\t');
 	if (!array)
 		exit(1);
@@ -36,12 +37,13 @@ void ft_full_list(t_list **a, char *s, int c)
 	}
 }
 
-void ft_print_stack(t_exec_cmd *a)
+void	ft_print_stack(t_exec_cmd *a)
 {
-	t_exec_cmd *tmp;
+	t_exec_cmd	*tmp;
+	int			i;
 
 	tmp = a;
-	int i = -1;
+	i = -1;
 	while (tmp != NULL)
 	{
 		i = -1;
@@ -50,19 +52,17 @@ void ft_print_stack(t_exec_cmd *a)
 		printf("in content ==> %d\n", tmp->infd);
 		if (tmp->args)
 		{
-
 			while (tmp->args[++i])
 				printf("args ==> %s\n", tmp->args[i]);
 		}
-
 		tmp = tmp->next;
 	}
 }
 
-void ft_free_stack(t_list *a)
+void	ft_free_stack(t_list *a)
 {
-	t_list *tmp;
-	t_list *to_free;
+	t_list	*tmp;
+	t_list	*to_free;
 
 	tmp = a;
 	while (tmp)
@@ -74,12 +74,12 @@ void ft_free_stack(t_list *a)
 	a = NULL;
 }
 
-int ft_check_grammer(t_list *a)
+int	ft_check_grammer(t_list *a)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
-	if(!a)
-		return(1);
+	if (!a)
+		return (1);
 	tmp = a;
 	if (tmp->stat == PIPE || !tmp)
 		return (0);

@@ -51,7 +51,7 @@ char	*handle_single_quote(char *s, int *i, char *buffer)
 	return (f_strjoin(buffer, tmp));
 }
 
-char	*join_buffer(char *tmp, int *j, int start, char	*buffer)
+char	*join_buffer(char *tmp, int *j, int start, char *buffer)
 {
 	char	*value;
 	int		end;

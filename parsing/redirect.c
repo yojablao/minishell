@@ -12,31 +12,34 @@
 
 #include "../minishell.h"
 
-int in_redirect(char *file)
+int	in_redirect(char *file)
 {
-	int fd;
+	int	fd;
+
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (-1);
 	return (fd);
 }
-int out_redirect(char *file)
+int	out_redirect(char *file)
 {
-	int fd;
+	int	fd;
+
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
-		return -1;
-	return fd;
-}
-int append(char *file)
-{
-	int fd;
-	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd < 0)
-		return -1;
+		return (-1);
 	return (fd);
 }
-void free_data(t_shell **shell)
+int	append(char *file)
+{
+	int	fd;
+
+	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd < 0)
+		return (-1);
+	return (fd);
+}
+void	free_data(t_shell **shell)
 {
 	t_shell *data;
 	data = (*shell);

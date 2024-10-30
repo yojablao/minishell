@@ -12,14 +12,14 @@
 
 #include "../minishell.h"
 
-int check_option(char **word, int *i)
+int	check_option(char **word, int *i)
 {
-	int j;
-	bool flage;
+	int		j;
+	bool	flage;
 
 	flage = false;
 	if (!word[*i])
-		return false;
+		return (false);
 	while (word[++(*i)])
 	{
 		if (word[*i][0] == '-')
@@ -30,7 +30,7 @@ int check_option(char **word, int *i)
 				if (word[*i][j] == 'n')
 					flage = true;
 				else
-					return(false);
+					return (false);
 			}
 		}
 		else
@@ -38,9 +38,8 @@ int check_option(char **word, int *i)
 	}
 	return (flage);
 }
-void print_echo(char **input, bool flage, int i)
+void	print_echo(char **input, bool flage, int i)
 {
-
 	while (input[i])
 	{
 		printf("%s", input[i]);
@@ -51,22 +50,23 @@ void print_echo(char **input, bool flage, int i)
 	if (!flage)
 		printf("\n");
 }
-void echo(char **input)
+void	echo(char **input)
 {
-	int i = 0;
-	bool option;
+	int		i;
+	bool	option;
 
+	i = 0;
 	if (!input || !*input)
 	{
 		get_exit(1, 0);
-		return;
+		return ;
 	}
 	option = check_option(input, &i);
 	// printf("%d->>\n",i);
 	if (!input[i] && option)
 	{
 		get_exit(1, 0);
-		return;
+		return ;
 	}
 	print_echo(input, option, i);
 	get_exit(0, 0);

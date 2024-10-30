@@ -60,8 +60,8 @@ char	*get_key(char *s)
 		if (s[i] == '$')
 		{
 			start = i++;
-			while (s[i] && !special_letter(s[i])
-				&& s[i] != '$' && s[i] != '\'' && s[i] != '\"')
+			while (s[i] && !special_letter(s[i]) && s[i] != '$' && s[i] != '\''
+				&& s[i] != '\"')
 				i++;
 			end = i;
 			break ;
@@ -100,4 +100,3 @@ char	*f_remove_spaces(char *str)
 	}
 	return (res);
 }
-
