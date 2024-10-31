@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   syntax3.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/31 11:57:49 by yojablao          #+#    #+#             */
+/*   Updated: 2024/10/31 12:30:37 by yojablao         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -76,8 +86,8 @@ void	ft_add_spaces(char *str, char *new)
 	{
 		if (str[i] == 34 || str[i] == 39)
 			ft_write_bet_quotes(str, new, &i, &j);
-		else if ((str[i] == '<' && str[i + 1] == '<') || (str[i] == '>' && str[i
-				+ 1] == '>'))
+		else if ((str[i] == '<' && str[i + 1] == '<') || (str[i] == '>'
+				&& str[i + 1] == '>'))
 			add_spaces(str[i++], new, &j, 1);
 		else if (str[i] == '|' || (str[i] == '<' && str[i + 1] != '<')
 			|| (str[i] == '>' && str[i + 1] != '>'))

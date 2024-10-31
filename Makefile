@@ -6,7 +6,7 @@
 #    By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/21 15:23:56 by yojablao          #+#    #+#              #
-#    Updated: 2024/10/30 09:58:14 by yojablao         ###   ########.fr        #
+#    Updated: 2024/10/31 14:32:36 by yojablao         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,6 @@ fclean: clean
 
 push:
 	git add .
-	git commit -m "yojablao"
+	git commit -m "norm"
 	git push
 re: fclean all

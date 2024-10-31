@@ -6,13 +6,14 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 19:47:10 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/28 09:07:33 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 14:24:27 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 bool	find_target(char *str, char c);
+
 void	export_print(char **tab)
 {
 	int	i;
@@ -41,6 +42,7 @@ void	export_print(char **tab)
 			printf("%s\n", tab[i]);
 	}
 }
+
 void	print_export(char **tab, int size)
 {
 	int		i;
@@ -78,120 +80,6 @@ int	sizeenv(char **env)
 	return (i);
 }
 
-int	is_valid_identifier(char *command, int mybool)
-{
-	int	j;
-
-	j = -1;
-	if (!ft_isalpha(command[0]) && command[0] != '_')
-		return (1);
-	while (command[++j])
-	{
-		if (command[j] == '=' && mybool == 0)
-			return (0);
-		if (!ft_isalnum(command[j]) && command[j] != '_' && command[j] != '+')
-			return (1);
-		if (command[j] == '+' && command[j + 1] == '=')
-			return (0);
-		else if (command[j] == '+' && command[j + 1] != '=')
-			return (1);
-	}
-	return (0);
-}
-
-void	print_error(char *error_msg, char *identifier, char *command)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(command, 2);
-	ft_putstr_fd(": `", 2);
-	ft_putstr_fd(identifier, 2);
-	ft_putstr_fd("`: ", 2);
-	ft_putstr_fd(error_msg, 2);
-	get_exit(1, 0);
-}
-
-bool	find_target(char *str, char c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
-void	add_key_env(t_env **env, char *key, char *value)
-{
-	t_env	*new_node;
-	t_env	*tmp;
-
-	new_node = master(sizeof(t_env), 1);
-	if (!new_node)
-		return ;
-	new_node->key = f_strdup(key);
-	new_node->value = f_strdup(value);
-	new_node->valid = 0;
-	new_node->next = NULL;
-	if (*env == NULL)
-	{
-		*env = new_node;
-		return ;
-	}
-	tmp = *env;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new_node;
-	// printf("%s\n",tmp->next->value);
-}
-int	key_exists(char *str, t_env *env)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->key, str) == 0)
-			return (true);
-		tmp = tmp->next;
-	}
-	return (false);
-}
-// void update_env(t_environment **top_env)
-// {
-// 	// free2d((*top_env)->env);
-// }
-void	add_or_update(t_environment **env, char *s)
-{
-	int		i;
-	char	*key;
-	char	*value;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == '+' && s[i + 1] == '=')
-		{
-			s[i] = '\0';
-			key = f_strdup(s);
-			value = f_strdup(&s[i + 2]);
-			add_to_env(&(*env)->lenv, key, value, 1);
-			return ;
-		}
-		else if (s[i] == '=')
-		{
-			s[i] = '\0';
-			key = f_strdup(s);
-			value = f_strdup(&s[i + 1]);
-			add_to_env(&(*env)->lenv, key, value, 0);
-			return ;
-		}
-		i++;
-	}
-}
 int	validation(char **str, int i, t_environment **env)
 {
 	if (is_valid_identifier(str[i], 0) == 1)
@@ -205,6 +93,7 @@ int	validation(char **str, int i, t_environment **env)
 	}
 	return (0);
 }
+
 int	export_builtin(char **str, t_environment **env)
 {
 	int		i;
@@ -228,7 +117,6 @@ int	export_builtin(char **str, t_environment **env)
 			get_exit(1, 0);
 		}
 		(*env)->env = join_to_env((*env)->lenv);
-		// update_env(env);
 	}
 	(!flage) && (get_exit(0, 0));
 	return (0);

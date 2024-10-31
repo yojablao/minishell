@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:19:24 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 10:52:30 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 14:16:41 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,33 @@ t_env	*env_set(char **envi)
 		i++;
 	}
 	return (env);
+}
+
+int	typecheck(char *word, t_exec_cmd **comond)
+{
+	if (ft_strcmp(word, "<<") == 0)
+	{
+		if ((*comond)->infd != 0)
+			close((*comond)->infd);
+		return (1);
+	}
+	else if (ft_strcmp(word, "<") == 0)
+	{
+		if ((*comond)->infd != 0)
+			close((*comond)->infd);
+		return (2);
+	}
+	else if (ft_strcmp(word, ">>") == 0)
+	{
+		if ((*comond)->outfd != 1)
+			close((*comond)->outfd);
+		return (3);
+	}
+	else if (ft_strcmp(word, ">") == 0)
+	{
+		if ((*comond)->outfd != 1)
+			close((*comond)->outfd);
+		return (4);
+	}
+	return (0);
 }

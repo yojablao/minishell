@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:39 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 10:45:20 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 12:28:48 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,65 +79,4 @@ int	parsing_input(t_shell **cmd, char *input)
 			return (-1);
 		return (1);
 	}
-}
-
-bool	handel_comond(char **words, t_exec_cmd **comond, t_environment **env)
-{
-	char	**args;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	args = master(sizeof(char *) * (count_words(words) + 1), 1);
-	while (words[i] != NULL)
-	{
-		if (!handel_redirect(&i, words, comond, env))
-		{
-			close_open_fd(comond);
-			return (false);
-		}
-		else if (words[i] != NULL)
-		{
-			if (i == 0 || (i >= 1 && pasabel(words[i - 1]) == true))
-				args[j++] = words[i];
-			i++;
-		}
-	}
-	args[j] = NULL;
-	(*comond)->args = args;
-	return (true);
-}
-
-char	*find_pexec(char *comond, char *value)
-{
-	char	*path;
-	char	**fullpath;
-	int		i;
-
-	i = -1;
-	fullpath = f_split(value, ':', ':');
-	while (fullpath[++i] != NULL)
-	{
-		fullpath[i] = f_strjoin(fullpath[i], "/");
-		if (!fullpath[i])
-			return (NULL);
-		path = f_strjoin(fullpath[i], comond);
-		if (!path[i])
-			return (NULL);
-		if (!access(path, F_OK))
-			return (path);
-	}
-	return (NULL);
-}
-
-
-size_t	f_strlen2d(char **str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
 }

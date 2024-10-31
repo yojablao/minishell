@@ -6,11 +6,30 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:06:47 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 10:59:19 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 14:17:22 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	comond_init(t_shell **cmd)
+{
+	char	**comond;
+
+	comond = ft_joinlist(&(*cmd)->a, &(*cmd)->env, -1);
+	if (!handel_comond(comond, &(*cmd)->cmd, &(*cmd)->env))
+		return (false);
+	if (!(*cmd)->cmd->args[0])
+		return (close_open_fd(&(*cmd)->cmd), false);
+	if (check_internal_builtins(&(*cmd)->cmd, &(*cmd)->env) == 1)
+		return (false);
+	(*cmd)->cmd->cmd = find_comond((*cmd)->cmd->args[0], &(*cmd)->env->lenv);
+	if (!(*cmd)->cmd->cmd)
+		return (false);
+	else
+		add_to_env(&(*cmd)->env->lenv, "_", (*cmd)->cmd->cmd, 0);
+	return (true);
+}
 
 static void	process_input(char *input, t_shell **data)
 {

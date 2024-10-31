@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   syntax4.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/31 12:30:45 by yojablao          #+#    #+#             */
+/*   Updated: 2024/10/31 12:31:39 by yojablao         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -42,9 +52,9 @@ size_t	ft_count_operators(char *str)
 	size_t	i;
 	size_t	c;
 
-	i = 0;
+	i = -1;
 	c = 0;
-	while (str[i])
+	while (str[++i])
 	{
 		if (str[i] == 34 || str[i] == 39)
 			skip_betw_quotes(str, &i);
@@ -62,7 +72,6 @@ size_t	ft_count_operators(char *str)
 				i++;
 			c++;
 		}
-		i++;
 	}
 	return (c * 2);
 }

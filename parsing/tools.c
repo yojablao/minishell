@@ -6,12 +6,11 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:50:24 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 10:33:42 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 11:59:29 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 char	*select_word(char *content, char *expanded, int status)
 {
@@ -21,7 +20,7 @@ char	*select_word(char *content, char *expanded, int status)
 		return (f_strdup(content));
 }
 
-bool	empty_Q(char *s)
+bool	empty_q(char *s)
 {
 	int	i;
 
@@ -56,6 +55,7 @@ void	filehandler(t_exec_cmd **s)
 		close((*s)->outfd);
 	}
 }
+
 void	f(void *content)
 {
 	char	*s;

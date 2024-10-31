@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:43:59 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 16:40:06 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 14:20:55 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ bool	check_is_number(char *s)
 	}
 	return (1);
 }
+
 bool	multi_argiment(char **args)
 {
 	int		exit_status;
@@ -53,13 +54,13 @@ bool	multi_argiment(char **args)
 	ft_putstr_fd("exit\n", 2);
 	exit(get_exit(0, 1));
 }
+
 void	exit_builting(char **args, bool flage)
 {
 	if (!args[1])
 	{
 		if (flage)
 			ft_putstr_fd("exit\n", 2);
-		
 		exit(get_exit(0, 1));
 	}
 	if (!multi_argiment(args))

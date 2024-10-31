@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:46:07 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/31 10:34:55 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:47:20 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	skip_betw_quotes(char *str, size_t *i)
 	while (str[*i] && str[*i] != quot_char)
 		(*i)++;
 }
-
 
 int	ft_check_her(char *str)
 {
@@ -40,6 +39,7 @@ int	ft_check_her(char *str)
 	}
 	return (1);
 }
+
 char	*rm_escap_char(char *s)
 {
 	int		i;
@@ -86,9 +86,3 @@ int	syntax(char *str, t_shell **cmd)
 		return (0);
 	return (1);
 }
-/*
-split ("|");0 done;
-char **allcmd == echo $DFdf > $USER
-char	**cmd = echo \0
-char	**red = > file > hamrachi
-*/

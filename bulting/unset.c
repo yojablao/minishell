@@ -6,39 +6,12 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 00:25:41 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 14:12:27 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 14:28:52 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	size_env(t_env *tmp)
-{
-	int	i;
-
-	i = 0;
-	while (tmp != NULL)
-	{
-		if (!tmp->value && !tmp->key)
-			break ;
-		i++;
-		tmp = tmp->next;
-	}
-	return (i);
-}
-
-char	*extract_value(t_env *env, char *key)
-{
-	if (!env)
-		return (NULL);
-	while (env)
-	{
-		if (ft_strcmp(env->key, key) == 0)
-			return (env->value);
-		env = env->next;
-	}
-	return (NULL);
-}
 char	**join_to_env(t_env *env)
 {
 	int		i;
@@ -63,6 +36,7 @@ char	**join_to_env(t_env *env)
 	envi[i] = NULL;
 	return (envi);
 }
+
 bool	un_set_builting(t_exec_cmd **s, t_environment **env)
 {
 	int	i;
@@ -91,6 +65,7 @@ bool	un_set_builting(t_exec_cmd **s, t_environment **env)
 		get_exit(0, 0);
 	return (true);
 }
+
 bool	check_exs(t_env **tmp, char *key, char *value, bool add)
 {
 	bool	flage;
@@ -114,6 +89,7 @@ bool	check_exs(t_env **tmp, char *key, char *value, bool add)
 	}
 	return (flage);
 }
+
 void	add_to_env(t_env **envi, char *key, char *content, bool add)
 {
 	t_env	*current;
@@ -136,6 +112,7 @@ void	add_to_env(t_env **envi, char *key, char *content, bool add)
 	else
 		current->next = new_node;
 }
+
 void	delet_from_env(t_env **envi, char *s)
 {
 	t_env	*tmp;

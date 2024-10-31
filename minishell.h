@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/31 10:58:55 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 14:29:37 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ typedef struct s_shell
 }							t_shell;
 
 // extern int					g_sig;
-
+void						free_all(void **arr);
 void						print_error(char *error_msg, char *identifier,
 								char *command);
 t_list						*f_lstnew(void *content);
@@ -209,9 +209,20 @@ char						*expand_exit_status(int status);
 int							checkexpand(char *s);
 char						**creat_env(void);
 void						update_shell_lvl(t_env **env);
-bool						empty_Q(char *s);
+void						free2d(char **s);
+bool						empty_q(char *s);
 char						*select_word(char *content, char *expanded,
 								int status);
 char						*find_pexec(char *comond, char *value);
-
+char						*f_strtrim(char const *s1, char const *set);
+char						*ft_get_env(t_shell *data, char *key);
+int							exec_builtin(t_exec_cmd **s, t_environment **env);
+void						pipe_line(t_exec_cmd **s, t_shell **data);
+int							exic(t_exec_cmd **s, t_shell **data);
+void						fail_case(char *fail);
+void						child_sig(int sig);
+void						pipe_handle(t_shell *sh, int curr_cmd);
+int							typecheck(char *word, t_exec_cmd **comond);
+void	add_or_update(t_environment **env, char *s);
+int	key_exists(char *str, t_env *env);
 #endif

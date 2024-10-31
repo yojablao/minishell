@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 17:07:54 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/04 03:40:32 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 14:19:14 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_list	*ft_lstnew(void *content)
 {
 	t_list	*head;
-	enum status;
+	// enum status;
 
 	head = (t_list *)malloc(sizeof(t_list));
 	if (!head)
