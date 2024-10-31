@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 00:25:41 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 14:28:52 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 14:33:18 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,30 +111,6 @@ void	add_to_env(t_env **envi, char *key, char *content, bool add)
 		*envi = new_node;
 	else
 		current->next = new_node;
-}
-
-void	delet_from_env(t_env **envi, char *s)
-{
-	t_env	*tmp;
-	t_env	*current;
-
-	tmp = NULL;
-	current = *envi;
-	while (current)
-	{
-		if (ft_strcmp(current->key, s) == 0)
-		{
-			if (tmp == NULL)
-				*envi = current->next;
-			else
-				tmp->next = current->next;
-			get_exit(0, 1);
-			break ;
-		}
-		tmp = current;
-		current = current->next;
-	}
-	get_exit(1, 1);
 }
 
 bool	un_set(char *s, t_environment **env)

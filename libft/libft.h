@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:43:43 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/31 12:24:30 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 15:12:05 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,15 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
-// typedef struct s_listb
-// {
-// 	char **cmd;
-// 	char **redirec;
-// };
 typedef enum s_status
 {
 	PIPE,
 	INP,
-    OUT,
-    APP,
-    HER,
-    TEXT,
-}			e_status;
+	OUT,
+	APP,
+	HER,
+	TEXT,
+}			t_status;
 
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **lst, t_list *new);
@@ -83,6 +78,5 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*));
 void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-
-int	ft_counter(char *s, char c);
+int		ft_counter(char *s, char c);
 #endif

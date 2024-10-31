@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:14:10 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/29 05:15:45 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 15:19:28 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,10 @@ char	*join_buffer(char *tmp, int *j, int start, char *buffer)
 	return (buffer);
 }
 
-char	*handle_d_q_content(char *tmp, int *j, t_env *env, char *buffer)
+char	*handle_d_q_util(char *tmp, int *j, t_env *env, char *buffer)
 {
-	char	*key;
 	char	*value;
-	int		start;
+	char	*key;
 
 	if (tmp[*j] == '$' && tmp[*j + 1] == '?')
 	{
@@ -85,6 +84,16 @@ char	*handle_d_q_content(char *tmp, int *j, t_env *env, char *buffer)
 		value = expanding_values(key + 1, env);
 		buffer = f_strjoin(buffer, value);
 	}
+	return (buffer);
+}
+
+char	*handle_d_q_content(char *tmp, int *j, t_env *env, char *buffer)
+{
+	int		start;
+
+	if ((tmp[*j] == '$' && tmp[*j + 1] == '?')
+		|| (tmp[*j] == '$' && special_letter(tmp[*j + 1]) == false))
+		buffer = handle_d_q_util(tmp, j, env, buffer);
 	else if (tmp[*j] == '$' && special_letter(tmp[*j + 1]) == true)
 	{
 		start = *j;
@@ -95,19 +104,6 @@ char	*handle_d_q_content(char *tmp, int *j, t_env *env, char *buffer)
 	{
 		start = *j;
 		buffer = join_buffer(tmp, j, start, buffer);
-	}
-	return (buffer);
-}
-
-char	*process_double_quote(char *tmp, t_env *env, char *buffer)
-{
-	int	j;
-
-	j = 0;
-	while (tmp[j])
-	{
-		buffer = handle_d_q_content(tmp, &j, env, buffer);
-		j++;
 	}
 	return (buffer);
 }

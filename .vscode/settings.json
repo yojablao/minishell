@@ -78,6 +78,7 @@
     "utility": "c",
     "fcntl.h": "c",
     "stdbool.h": "c",
-    "sstream": "c"
+    "sstream": "c",
+    "__node_handle": "c"
   }
 }

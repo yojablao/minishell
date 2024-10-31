@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/31 14:29:37 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 15:19:59 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,10 @@ void						fail_case(char *fail);
 void						child_sig(int sig);
 void						pipe_handle(t_shell *sh, int curr_cmd);
 int							typecheck(char *word, t_exec_cmd **comond);
-void	add_or_update(t_environment **env, char *s);
-int	key_exists(char *str, t_env *env);
+void						add_or_update(t_environment **env, char *s);
+void						delet_from_env(t_env **envi, char *s);
+int							key_exists(char *str, t_env *env);
+char						*process_double_quote(char *tmp,
+								t_env *env, char *buffer);
+
 #endif

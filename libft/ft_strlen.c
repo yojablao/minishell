@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 16:41:17 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/22 16:52:17 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 15:10:56 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 size_t	ft_strlen(const char *str)
 {
 	size_t	i;
-	if(!str || !*str)
-		return 0;
+
+	if (!str || !*str)
+		return (0);
 	i = 0;
 	while (str[i])
 		i++;

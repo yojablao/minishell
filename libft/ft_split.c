@@ -6,38 +6,40 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:25:41 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/24 22:09:54 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 15:09:00 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "../minishell.h"
 
-int ft_counter(char *s, char c)
+int	ft_counter(char *s, char c)
 {
-    size_t i = 0;
-    size_t cnt = 0;
+	size_t	i;
+	size_t	cnt;
 
-    while (s[i])
-    {
-        while (s[i] == c && s[i] != '\0')
-            i++;
-        if (s[i] != '\0')
-        {
-            cnt++;
-            while (s[i] != c && s[i] != '\0')
-            {
-                if (s[i] == 39 || s[i] == 34)
-                {
+	i = 0;
+	cnt = 0;
+	while (s[i])
+	{
+		while (s[i] == c && s[i] != '\0')
+			i++;
+		if (s[i] != '\0')
+		{
+			cnt++;
+			while (s[i] != c && s[i] != '\0')
+			{
+				if (s[i] == 39 || s[i] == 34)
+				{
 					skip_betw_quotes(s, &i);
 					i++;
 				}
-                else
-                    i++;
-            }
-        }
-    }
-    return cnt;
+				else
+					i++;
+			}
+		}
+	}
+	return (cnt);
 }
 
 char	*ft_mysep(char *s1, char c)
@@ -51,10 +53,10 @@ char	*ft_mysep(char *s1, char c)
 	{
 		if (s1[lword] == 39 || s1[lword] == 34)
 		{
-			skip_betw_quotes(s1,&lword);
-			lword++; 
+			skip_betw_quotes(s1, &lword);
+			lword++;
 		}
-        else
+		else
 			lword++;
 	}
 	result = ft_my_malloc(lword + 1);
@@ -84,7 +86,7 @@ char	**ft_frees(char **new, int l)
 
 char	**my_copy(char **new, char *s, int x, char c)
 {
-	t_member_split sp;
+	t_member_split	sp;
 
 	sp.n = 0;
 	while (*s && sp.n < x)
