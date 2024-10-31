@@ -6,147 +6,12 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:50:24 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 09:57:42 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 10:33:42 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//  #include <errno.h>
-
-char	*f_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*new;
-	char	*src;
-	size_t	l;
-	size_t	i;
-
-	if (!s)
-		return (NULL);
-	src = (char *)s;
-	l = ft_strlen(s);
-	i = 0;
-	if (start >= l)
-		return (f_strdup(""));
-	if (len > l - start)
-		len = (l - start);
-	new = (char *)master((len + 1) * sizeof(char), 1);
-	if (!new)
-		return (NULL);
-	while (i < len)
-		new[i++] = src[start++];
-	new[i] = '\0';
-	return (new);
-}
-void	add_env(t_env **head, char *key, char *value)
-{
-	t_env	*new_env;
-	t_env	*tmp;
-
-	new_env = (t_env *)master(sizeof(t_env), 1);
-	new_env->key = f_strdup(key);
-	new_env->value = f_strdup(value);
-	new_env->valid = 1;
-	new_env->next = NULL;
-	if (*head == NULL)
-		*head = new_env;
-	else
-	{
-		tmp = *head;
-		while (tmp->next != NULL)
-			tmp = tmp->next;
-		tmp->next = new_env;
-	}
-}
-t_env	*env_set(char **envi)
-{
-	t_env	*env;
-	int		i;
-	int		j;
-
-	env = NULL;
-	i = 0;
-	if (!envi)
-		return (NULL);
-	while (envi[i])
-	{
-		j = 0;
-		while (envi[i][j])
-		{
-			if (envi[i][j] == '=')
-			{
-				envi[i][j] = '\0';
-				add_env(&env, &envi[i][0], &envi[i][j + 1]);
-				envi[i][j] = '=';
-				break ;
-			}
-			j++;
-		}
-		i++;
-	}
-	return (env);
-}
-int	count_words(char **words)
-{
-	int	count;
-
-	count = 0;
-	while (words[count] != NULL)
-		count++;
-	return (count);
-}
-bool	pasabel(char *c)
-{
-	if (ft_strcmp(c, "<") == 0)
-		return (false);
-	if (ft_strcmp(c, "<<") == 0)
-		return (false);
-	if (ft_strcmp(c, ">>") == 0)
-		return (false);
-	if (ft_strcmp(c, ">") == 0)
-		return (false);
-	if (ft_strcmp(c, "|") == 0)
-		return (false);
-	return (true);
-}
-char	**correct_cmd(char **args, int *j)
-{
-	char	**split_args;
-	char	**new_args;
-	int		original_count;
-	int		split_count;
-	int		i;
-	int		k;
-
-	k = 0;
-	i = 0;
-	split_count = 0;
-	original_count = *j;
-	split_args = f_split(args[0], ' ', '\t');
-	while (split_args[split_count] != NULL)
-		split_count++;
-	new_args = master((original_count + split_count + 1) * sizeof(char *), 1);
-	while (k < split_count)
-		new_args[i++] = split_args[k++];
-	k = 1;
-	while (k < original_count)
-		new_args[i++] = args[k++];
-	new_args[i] = NULL;
-	*j = i;
-	return (new_args);
-}
-
-void	ft_printf_a(t_list *a)
-{
-	t_list	*tmp;
-
-	tmp = a;
-	while (tmp)
-	{
-		printf("{%s}\n", tmp->content);
-		tmp = tmp->next;
-	}
-}
 
 char	*select_word(char *content, char *expanded, int status)
 {
@@ -155,6 +20,7 @@ char	*select_word(char *content, char *expanded, int status)
 	else
 		return (f_strdup(content));
 }
+
 bool	empty_Q(char *s)
 {
 	int	i;
@@ -168,36 +34,6 @@ bool	empty_Q(char *s)
 	}
 	return (1);
 }
-char	**ft_joinlist(t_list **lst, t_environment **env, int status)
-{
-	int		index;
-	char	**words;
-	char	*expanded;
-
-	index = 0;
-	words = master(sizeof(char *) * (ft_lstsize(*lst) + 1), 1);
-	while (*lst && (*lst)->stat != 0)
-	{
-		if (index > 0 && empty_Q((*lst)->content))
-			words[index++] = f_strdup("\0");
-		else
-		{
-			expanded = ft_expand1((*lst)->content, (*env)->env, (*env)->lenv);
-			if ((expanded && *expanded) || status == 4)
-			{
-				words[index++] = select_word((*lst)->content, expanded, status);
-				if ((*env)->lenv->flage)
-					words = correct_cmd(words, &index);
-			}
-		}
-		status = (*lst)->stat;
-		*lst = (*lst)->next;
-	}
-	if (*lst && (*lst)->stat == 0)
-		*lst = (*lst)->next;
-	words[index] = NULL;
-	return (words);
-}
 
 void	filehandler(t_exec_cmd **s)
 {
@@ -207,7 +43,6 @@ void	filehandler(t_exec_cmd **s)
 	{
 		if (dup2((*s)->infd, STDIN_FILENO) == -1)
 		{
-			// perror(strerror(errno));
 			exit(EXIT_FAILURE);
 		}
 		close((*s)->infd);
@@ -216,7 +51,6 @@ void	filehandler(t_exec_cmd **s)
 	{
 		if (dup2((*s)->outfd, 1) == -1)
 		{
-			// perror(strerror(errno));
 			exit(EXIT_FAILURE);
 		}
 		close((*s)->outfd);

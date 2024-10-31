@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/30 17:47:34 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 10:58:55 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@
 # include <unistd.h>
 
 # define DEFAULT_PATH "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
+
 int			g_sig;
+
 typedef struct s_env
 {
 	char					*key;
@@ -103,18 +105,21 @@ typedef struct s_shell
 	int						*prev;
 }							t_shell;
 
-extern int					g_sig;
+// extern int					g_sig;
 
 void						print_error(char *error_msg, char *identifier,
 								char *command);
 t_list						*f_lstnew(void *content);
 char						*ft_my_malloc(size_t len);
 int							syntax(char *str, t_shell **cmd);
+void						ft_add_spaces(char *str, char *new);
+char						*ft_handel_spaces_allocation(char *str);
+size_t						ft_count_operators(char *str);
 void						ft_full_list(t_list **a, char *s, int c);
 void						ft_print_stack(t_exec_cmd *a);
 void						f(void *content);
 void						ft_printf_a(t_list *a);
-int							ft_check_Quotes(char *str);
+int							ft_check_quotes(char *str);
 void						ft_free_stack(t_list *a);
 void						skip_betw_quotes(char *str, size_t *i);
 char						*skip_betw_quotes2(char *str);
@@ -202,5 +207,11 @@ char						*ft_strrange(char *s, int start, int end);
 
 char						*expand_exit_status(int status);
 int							checkexpand(char *s);
+char						**creat_env(void);
+void						update_shell_lvl(t_env **env);
+bool						empty_Q(char *s);
+char						*select_word(char *content, char *expanded,
+								int status);
+char						*find_pexec(char *comond, char *value);
 
 #endif

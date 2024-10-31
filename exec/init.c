@@ -6,44 +6,13 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:53:57 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 17:55:55 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 10:18:38 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**creat_env(void)
-{
-	char	**env;
-	char	buffer[1024];
 
-	env = master(sizeof(char *) * 5, 1);
-	env[0] = f_strdup("OLDPWD");
-	env[1] = f_strdup(f_strjoin("PWD=", getcwd(buffer, sizeof(buffer))));
-	env[2] = f_strdup("SHLVL=1");
-	env[3] = NULL;
-	return (env);
-}
-void	update_shell_lvl(t_env **env)
-{
-	char	*value;
-	int		lvl;
-
-	value = extract_value((*env), "SHLVL");
-	
-	lvl = ft_atoi(value);
-	if (!value || !*value || lvl > 999)
-		return (add_to_env(env, "SHLVL", "1", 0));
-	if (lvl == 2147483647)
-		return (add_to_env(env, "SHLVL", "0", 0));
-	if (lvl < 0)
-		return (add_to_env(env, "SHLVL", "0", 0));
-	if (lvl == 999)
-		return (add_to_env(env, "SHLVL", "", 0));
-	value = ft_itoa(lvl + 1);
-	add_to_env(env, "SHLVL", value, 0);
-	free(value);
-}
 
 t_environment	*env_setup(char **envi)
 {

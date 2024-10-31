@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:14:19 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 15:14:42 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 10:52:44 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,17 @@ void	save_env(t_environment **env)
 	(*env)->env = join_to_env((*env)->lenv);
 	free_env(lenv);
 	free2d(buffer);
+}
+
+char	**creat_env(void)
+{
+	char	**env;
+	char	buffer[1024];
+
+	env = master(sizeof(char *) * 5, 1);
+	env[0] = f_strdup("OLDPWD");
+	env[1] = f_strdup(f_strjoin("PWD=", getcwd(buffer, sizeof(buffer))));
+	env[2] = f_strdup("SHLVL=1");
+	env[3] = NULL;
+	return (env);
 }

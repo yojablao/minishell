@@ -6,13 +6,11 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:06:47 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 17:08:38 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 10:59:19 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 static void	process_input(char *input, t_shell **data)
 {
@@ -50,8 +48,8 @@ static void	minishell_loop(t_shell **data, char *prompt)
 	while (1)
 	{
 		input = readline(prompt);
-		if(g_sig)
-			get_exit(1,0);
+		if (g_sig)
+			get_exit(1, 0);
 		org_in = dup(STDIN_FILENO);
 		if (!input)
 		{
@@ -79,11 +77,11 @@ int	main(int ac, char **av, char **env)
 	data = init(env);
 	if (!data)
 		return (1);
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
-	{
-		write(2, "not a tty!\n", 12);
-		return (0);
-	}
+	// if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+	// {
+	// 	write(2, "not a tty!\n", 12);
+	// 	return (0);
+	// }
 	minishell_loop(&data, prompt);
 	return (0);
 }

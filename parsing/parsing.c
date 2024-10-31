@@ -6,11 +6,25 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:39 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 17:51:28 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 10:45:20 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int	heredoc_count(t_list *a)
+{
+	int	i;
+
+	i = 0;
+	while (a)
+	{
+		if (a->stat == 4)
+			i++;
+		a = a->next;
+	}
+	return (i);
+}
 
 static int	pipe_check(t_list *a)
 {
@@ -26,6 +40,21 @@ static int	pipe_check(t_list *a)
 	return (i);
 }
 
+static int	heredoc_pipe_check(t_shell *sh)
+{
+	if (heredoc_count(sh->a) > 16)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd("maximum here-document count exceeded\n", 2);
+		exit(2);
+	}
+	sh->n_pipe = pipe_check(sh->a);
+	if (sh->n_pipe > 1390)
+		return (ft_putstr_fd("bash: fork: Resource temporarily unavailable\n",
+				2), -1);
+	return (0);
+}
+
 int	parsing_input(t_shell **cmd, char *input)
 {
 	if (!syntax(input, cmd))
@@ -35,10 +64,8 @@ int	parsing_input(t_shell **cmd, char *input)
 	if (!(*cmd)->cmd || !(*cmd)->a)
 		return (-1);
 	(*cmd)->head = (*cmd)->cmd;
-	(*cmd)->n_pipe = pipe_check((*cmd)->a);
-	if ((*cmd)->n_pipe > 1390)
-		return (ft_putstr_fd("bash: fork: Resource temporarily unavailable\n",
-				2), -1);
+	if (heredoc_pipe_check(*cmd) == -1)
+		return (-1);
 	if ((*cmd)->n_pipe > 0)
 	{
 		if (init_pipe_line(cmd) == false)
@@ -82,7 +109,7 @@ bool	handel_comond(char **words, t_exec_cmd **comond, t_environment **env)
 	return (true);
 }
 
-static char	*find_pexec(char *comond, char *value)
+char	*find_pexec(char *comond, char *value)
 {
 	char	*path;
 	char	**fullpath;
@@ -103,54 +130,8 @@ static char	*find_pexec(char *comond, char *value)
 	}
 	return (NULL);
 }
-char	*find_comond(char *comond, t_env **env)
-{
-	char	*path;
-	char	*tmp1;
 
-	if (!comond)
-		return (NULL);
-	// if(comond[0] == '.' && !comond[1])
-	// {
-	//     ft_putstr_fd("minshell: .: filename argument required\n",2);
-	//     ft_putstr_fd(".: usage: . filename [arguments]\n",2);
-	//     get_exit(2,0);
-	//     return(NULL);
-	// }
-	if (ft_strchr(comond, '/'))
-	{
-		if (comond[ft_strlen(comond) - 1] == '/')
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(comond, 2);
-			ft_putstr_fd(": is a directory\n", 2);
-			get_exit(126, 0);
-			return (NULL);
-		}
-		else
-		{
-			if (access(comond, X_OK))
-				ft_putstr_fd(": No such file or directory\n", 2);
-			return (comond);
-		}
-	}
-	path = extract_value((*env), "PATH");
-	if (path)
-	{
-		tmp1 = find_pexec(comond, path);
-		if (tmp1 == NULL)
-		{
-			comnond_err(comond, *env);
-			get_exit(127, 0);
-			return (NULL);
-		}
-		else
-			return (tmp1);
-	}
-	else
-		return (comond);
-	return (NULL);
-}
+
 size_t	f_strlen2d(char **str)
 {
 	size_t	i;
