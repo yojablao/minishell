@@ -6,11 +6,11 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:19:24 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 14:16:41 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 15:36:34 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	update_shell_lvl(t_env **env)
 {

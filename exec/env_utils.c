@@ -6,11 +6,11 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:14:19 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 10:52:44 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 15:36:42 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_env	*env_cpy(t_env *env)
 {

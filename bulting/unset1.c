@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 14:27:39 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 14:33:22 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 15:22:07 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	delet_from_env(t_env **envi, char *s)
 	}
 	get_exit(1, 1);
 }
-
 int	size_env(t_env *tmp)
 {
 	int	i;
