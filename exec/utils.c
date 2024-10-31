@@ -6,11 +6,11 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:33:14 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 11:00:15 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/10/31 15:47:50 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*f_substr(char const *s, unsigned int start, size_t len)
 {
