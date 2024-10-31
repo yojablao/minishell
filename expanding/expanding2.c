@@ -6,36 +6,11 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:14:10 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/31 15:19:28 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/01 00:48:34 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*expanding_values(char *key, t_env *env)
-{
-	t_env	*tmp;
-	char	*value;
-
-	tmp = env;
-	if (key[0] >= '0' && key[0] <= '9')
-		return (f_strdup(key + 1));
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->key, key) && env->flage == 0)
-		{
-			value = f_strdup(tmp->value);
-			return (value);
-		}
-		if (!ft_strcmp(tmp->key, key) && env->flage == 1)
-		{
-			value = f_strdup(f_remove_spaces(tmp->value));
-			return (value);
-		}
-		tmp = tmp->next;
-	}
-	return (f_strdup(""));
-}
 
 char	*handle_single_quote(char *s, int *i, char *buffer)
 {
@@ -51,7 +26,7 @@ char	*handle_single_quote(char *s, int *i, char *buffer)
 	return (f_strjoin(buffer, tmp));
 }
 
-char	*join_buffer(char *tmp, int *j, int start, char *buffer)
+char	*join_buffer(char *tmp, int *j, int start, char	*buffer)
 {
 	char	*value;
 	int		end;
@@ -65,36 +40,37 @@ char	*join_buffer(char *tmp, int *j, int start, char *buffer)
 	return (buffer);
 }
 
-char	*handle_d_q_util(char *tmp, int *j, t_env *env, char *buffer)
+char	*get_buffer(char *tmp, int *j, t_env *env, char *buffer)
 {
-	char	*value;
 	char	*key;
+	char	*value;
 
-	if (tmp[*j] == '$' && tmp[*j + 1] == '?')
-	{
-		value = ft_itoa(get_exit(0, 1));
-		(*j)++;
-		buffer = f_strjoin(buffer, value);
-	}
-	else if (tmp[*j] == '$' && special_letter(tmp[*j + 1]) == false)
-	{
-		key = get_key(tmp + (*j));
-		(*j) += ft_strlen(key) - 1;
-		env->flage = 0;
-		value = expanding_values(key + 1, env);
-		buffer = f_strjoin(buffer, value);
-	}
+	key = NULL;
+	value = NULL;
+	env->flage = 0;
+	key = get_key(tmp + (*j));
+	(*j) += ft_strlen(key) - 1;
+	value = expanding_values(key + 1, env);
+	buffer = f_strjoin(buffer, value);
 	return (buffer);
 }
 
 char	*handle_d_q_content(char *tmp, int *j, t_env *env, char *buffer)
 {
+	char	*value;
 	int		start;
 
-	if ((tmp[*j] == '$' && tmp[*j + 1] == '?')
-		|| (tmp[*j] == '$' && special_letter(tmp[*j + 1]) == false))
-		buffer = handle_d_q_util(tmp, j, env, buffer);
-	else if (tmp[*j] == '$' && special_letter(tmp[*j + 1]) == true)
+	value = NULL;
+	if (tmp[*j] == '$' && tmp[*j + 1] == '?')
+	{
+		value = ft_itoa(get_exit(0, 1));
+		buffer = f_strjoin(buffer, value);
+		(*j)++;
+	}
+	else if (tmp[*j] == '$' && !special_lt(tmp[*j + 1]) && tmp[*j + 1] != '\'')
+		buffer = get_buffer(tmp, j, env, buffer);
+	else if ((tmp[*j] == '$' && special_lt(tmp[*j + 1]))
+		|| (tmp[*j] == '$' && tmp[*j + 1] == '\''))
 	{
 		start = *j;
 		(*j)++;
@@ -104,6 +80,19 @@ char	*handle_d_q_content(char *tmp, int *j, t_env *env, char *buffer)
 	{
 		start = *j;
 		buffer = join_buffer(tmp, j, start, buffer);
+	}
+	return (buffer);
+}
+
+char	*process_double_quote(char *tmp, t_env *env, char *buffer)
+{
+	int	j;
+
+	j = 0;
+	while (tmp[j])
+	{
+		buffer = handle_d_q_content(tmp, &j, env, buffer);
+		j++;
 	}
 	return (buffer);
 }

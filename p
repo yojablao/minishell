@@ -1,0 +1,12 @@
+Makefile
+bulting
+exec
+expanding
+file0
+libft
+main.c
+main.o
+minishell
+minishell.h
+p
+parsing

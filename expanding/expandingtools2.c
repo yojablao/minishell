@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:21:01 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/31 15:19:36 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/01 00:44:29 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,27 @@ char	*expand_exit_status(int status)
 	return (str);
 }
 
-char	*process_double_quote(char *tmp, t_env *env, char *buffer)
+char	*expanding_values(char *key, t_env *env)
 {
-	int	j;
+	t_env	*tmp;
+	char	*value;
 
-	j = 0;
-	while (tmp[j])
+	tmp = env;
+	if (key[0] >= '0' && key[0] <= '9')
+		return (f_strdup(key + 1));
+	while (tmp)
 	{
-		buffer = handle_d_q_content(tmp, &j, env, buffer);
-		j++;
+		if (!ft_strcmp(tmp->key, key) && env->flage == 0)
+		{
+			value = f_strdup(tmp->value);
+			return (value);
+		}
+		if (!ft_strcmp(tmp->key, key) && env->flage == 1)
+		{
+			value = f_strdup(f_remove_spaces(tmp->value));
+			return (value);
+		}
+		tmp = tmp->next;
 	}
-	return (buffer);
+	return (f_strdup(""));
 }

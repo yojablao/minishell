@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expandingtools1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:17:50 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/26 18:40:18 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/11/01 00:48:49 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_strrange(char *s, int start, int end)
 	return (str);
 }
 
-bool	special_letter(char l)
+bool	special_lt(char l)
 {
 	char	*s;
 	int		i;
@@ -60,8 +60,8 @@ char	*get_key(char *s)
 		if (s[i] == '$')
 		{
 			start = i++;
-			while (s[i] && !special_letter(s[i]) && s[i] != '$' && s[i] != '\''
-				&& s[i] != '\"')
+			while (s[i] && !special_lt(s[i])
+				&& s[i] != '$' && s[i] != '\'' && s[i] != '\"')
 				i++;
 			end = i;
 			break ;
