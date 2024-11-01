@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/11/01 00:47:43 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/01 01:09:13 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ char						*get_key(char *s);
 bool						special_lt(char l);
 char						*ft_strrange(char *s, int start, int end);
 // void close_open_fd_1(t_exec_cmd **data);
-
+ 
 char						*expand_exit_status(int status);
 int							checkexpand(char *s);
 char						**creat_env(void);

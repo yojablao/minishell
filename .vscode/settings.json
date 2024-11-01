@@ -55,24 +55,5 @@
   "C_Cpp_Runner.useLeakSanitizer": false,
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
-  "C_Cpp_Runner.msvcSecureNoWarnings": false,
-  "files.associations": {
-    "__functional_base": "c",
-    "__functional_base_03": "c",
-    "__hash_table": "c",
-    "__tuple": "c",
-    "algorithm": "c",
-    "array": "c",
-    "chrono": "c",
-    "type_traits": "c",
-    "functional": "c",
-    "iterator": "c",
-    "limits": "c",
-    "memory": "c",
-    "ratio": "c",
-    "tuple": "c",
-    "utility": "c",
-    "ios": "c",
-    "__locale": "c"
-  }
+  "C_Cpp_Runner.msvcSecureNoWarnings": false
 }
