@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 15:14:19 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 15:36:42 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/03 12:02:49 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,25 +86,13 @@ void	free_env(t_env *env)
 
 void	save_env(t_environment **env)
 {
-	int		i;
-	char	*buffer[1024];
 	t_env	*lenv;
 
-	i = 0;
-	while ((*env)->env[i])
-	{
-		buffer[i] = ft_strdup((*env)->env[i]);
-		if (!buffer[i])
-			return ;
-		i++;
-	}
-	buffer[i] = NULL;
 	lenv = env_cpy((*env)->lenv);
 	master(0, 0);
 	(*env)->lenv = env_cpy_v2(lenv);
 	(*env)->env = join_to_env((*env)->lenv);
 	free_env(lenv);
-	free2d(buffer);
 }
 
 char	**creat_env(void)

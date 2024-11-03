@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:33 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 12:18:14 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/01 04:38:38 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	hrdc_sig(int sig)
 	(void)sig;
 	close(0);
 	get_exit(1, false);
-	g_sig = 1;
+	g_sig = -1337;
 }
 
 char	*heredoc_loop(char *del, t_environment **env, bool flage)
@@ -38,15 +38,18 @@ char	*heredoc_loop(char *del, t_environment **env, bool flage)
 	char	*line;
 	char	*fullline;
 	char	*tmp;
+	int		fd_tmp;
 
 	fullline = f_strdup("");
-	while (1)
+	fd_tmp = dup(STDIN_FILENO);
+	while (1 && !g_sig)
 	{
-		line = readline("\033[95m heredoc> \033[0m");
+		line = readline("Heredoc>");
 		tmp = line;
-		if (!line || (ft_strcmp(line, (char *)del) == -1 && !*line)
-			|| !ft_strcmp(line, (char *)del))
+		if (!line || !ft_strcmp(line, (char *)del))
 		{
+			if (g_sig)
+				get_exit(0, false);
 			free(line);
 			break ;
 		}
@@ -56,7 +59,7 @@ char	*heredoc_loop(char *del, t_environment **env, bool flage)
 		free(line);
 		fullline = f_strjoin(fullline, tmp);
 	}
-	return (fullline);
+	return (dup2(fd_tmp, STDIN_FILENO), close(fd_tmp), fullline);
 }
 
 static char	*read_it(char *del, int *fd, t_environment **env, char *file)
@@ -72,7 +75,6 @@ static char	*read_it(char *del, int *fd, t_environment **env, char *file)
 	*fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (*fd == -1)
 		perror("open fail \n");
-	signal(SIGINT, handling_sig);
 	signal(SIGINT, hrdc_sig);
 	fullline = heredoc_loop(del, env, flage);
 	return (fullline);
@@ -88,7 +90,7 @@ int	ft_herdoc(char *del, t_environment **env)
 	indx = ft_itoa((*env)->lenv->flage);
 	if (!del)
 		del = f_strdup("");
-	s = f_strjoin("file", indx);
+	s = f_strjoin("/tmp/.file", indx);
 	free(indx);
 	fullline = read_it(del, &fd, env, s);
 	if (fullline)
@@ -98,7 +100,7 @@ int	ft_herdoc(char *del, t_environment **env)
 	}
 	close(fd);
 	fd = open(s, O_RDONLY);
-	if (fd == -1)
+	if (fd == -1 && g_sig != 1)
 		return (perror("Error reopening heredoc file for reading"), -1);
 	return (fd);
 }

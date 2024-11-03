@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 11:12:57 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/11/01 01:08:51 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/01 02:44:37 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*handle_dollar_special(char *s, int *i, char *buffer)
 
 	tmp = NULL;
 	if (s[*i + 1] == '$')
-		return ((*i)++, f_strjoin(buffer, ft_strdup("$")));
+		return ((*i)++, f_strjoin(buffer, f_strdup("$")));
 	if (s[*i + 1] == '?')
 	{
 		tmp = ft_itoa(get_exit(0, 1));

@@ -6,13 +6,13 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 12:28:05 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 12:29:03 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/01 03:18:08 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*find_pexec(char *comond, char *value)
+char	*find_path_cmd(char *comond, char *value)
 {
 	char	*path;
 	char	**fullpath;
@@ -55,7 +55,7 @@ bool	handel_comond(char **words, t_exec_cmd **comond, t_environment **env)
 	args = master(sizeof(char *) * (count_words(words) + 1), 1);
 	while (words[i] != NULL)
 	{
-		if (!handel_redirect(&i, words, comond, env))
+		if (!handel_redirect(&i, words, comond, env) && g_sig != -1337)
 		{
 			close_open_fd(comond);
 			return (false);

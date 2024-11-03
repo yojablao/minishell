@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 12:47:39 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 13:57:18 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/01 02:32:38 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	handel_wait_sig(pid_t pid, int status, bool p)
 	return (0);
 }
 
-int	exic(t_exec_cmd **s, t_shell **data)
+int	execution_one(t_exec_cmd **s, t_shell **data)
 {
 	pid_t	pid;
 

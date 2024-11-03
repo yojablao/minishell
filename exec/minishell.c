@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 00:56:39 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/31 12:55:56 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/03 12:53:37 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	check_internal_builtins(t_exec_cmd **s, t_environment **env)
 	if (internel_builting((*s)->args[0]))
 	{
 		filehandler(s);
+
 		suc = exec_builtin(s, env);
 		add_to_env(&(*env)->lenv, "_", (*s)->args[0], 0);
 	}
@@ -42,10 +43,10 @@ int	check_internal_builtins(t_exec_cmd **s, t_environment **env)
 
 bool	internel_builting(char *s)
 {
-	if (ft_strcmp(s, "exit") == 0 || ft_strcmp(s, "unset") == 0 || ft_strcmp(s,
-			"cd") == 0 || ft_strcmp(s, "export") == 0)
+	if (ft_strcmp(s, "env") == 0 || ft_strcmp(s, "pwd") == 0)
 		return (1);
-	else if (ft_strcmp(s, "env") == 0 || ft_strcmp(s, "pwd") == 0)
+	else if (ft_strcmp(s, "exit") == 0 || ft_strcmp(s, "unset") == 0 || ft_strcmp(s,
+			"cd") == 0 || ft_strcmp(s, "export") == 0)
 		return (1);
 	else
 		return (0);
@@ -73,7 +74,7 @@ int	exice(t_exec_cmd **cmd, int type, t_shell **info)
 	if (type == 2)
 		pipe_line(cmd, info);
 	else
-		exic(cmd, info);
+		execution_one(cmd, info);
 	close_open_fd_1(&(*info)->head);
 	return (1);
 }

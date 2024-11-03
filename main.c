@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:06:47 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/01 01:13:12 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/03 09:32:24 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ static void	process_input(char *input, t_shell **data)
 	{
 		add_history(input);
 		flage = parsing_input(data, input);
-		if (flage == -1)
-			close_open_fd(&(*data)->cmd);
+		if ((flage == -1 || g_sig == -1337) && get_exit(0,1) != 258)
+			close_open_fd_1(&(*data)->cmd);
 		if (flage != -1 && g_sig == 0)
 			exice(&(*data)->cmd, flage, data);
 	}
@@ -92,15 +92,15 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	prompt = ft_strdup("\001\033[1;32m\002minishell\001\033[0m\002 : ");
+	prompt = ft_strdup("minishell:> ");
 	data = init(env);
 	if (!data)
 		return (1);
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
-	{
-		write(2, "not a tty!\n", 12);
-		return (0);
-	}
+	// if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+	// {
+	// 	write(2, "not a tty!\n", 12);
+	// 	return (0);
+	// }
 	minishell_loop(&data, prompt);
 	return (0);
 }

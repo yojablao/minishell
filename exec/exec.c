@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 00:25:23 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 13:56:13 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/03 09:48:09 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 bool	bulting(t_exec_cmd **s, t_shell *data)
 {
+	
+	if(!(*s)->args[0])
+		return (0);
 	if (ft_strcmp((*s)->args[0], "echo") == 0)
 		return (echo((*s)->args), 1);
 	if (ft_strcmp((*s)->args[0], "exit") == 0)

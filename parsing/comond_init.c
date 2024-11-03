@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:29:44 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 15:36:51 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/03 12:29:36 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*find_comond(char *comond, t_env **env)
 	path = extract_value((*env), "PATH");
 	if (path)
 	{
-		tmp1 = find_pexec(comond, path);
+		tmp1 = find_path_cmd(comond, path);
 		if (tmp1 == NULL)
 		{
 			comnond_err(comond, *env);
@@ -86,14 +86,15 @@ char	**ft_joinlist(t_list **lst, t_environment **env, int status)
 			expanded = ft_expand1((*lst)->content, (*env)->env, (*env)->lenv);
 			if ((expanded && *expanded) || status == 4)
 			{
-				words[index++] = select_word((*lst)->content, expanded, status);
+				words[index++] = valid_exp((*lst)->content, expanded, status);
 				if ((*env)->lenv->flage)
-					words = correct_cmd(words, &index);
+					(1)&& (words = correct_cmd(words, &index),(*env)->lenv->flage =0);
 			}
 		}
 		(1 && (status = (*lst)->stat), *lst = (*lst)->next);
 	}
 	init_lst_index(lst);
+	// printf("%d\n,%lu\n",index,sizeof(words));
 	words[index] = NULL;
 	return (words);
 }

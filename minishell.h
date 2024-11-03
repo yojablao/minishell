@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/11/01 01:09:13 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/01 04:13:01 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ typedef struct s_shell
 	int						*prev;
 }							t_shell;
 
-// extern int					g_sig;
 void						free_all(void **arr);
 void						print_error(char *error_msg, char *identifier,
 								char *command);
@@ -116,7 +115,6 @@ void						ft_add_spaces(char *str, char *new);
 char						*ft_handel_spaces_allocation(char *str);
 size_t						ft_count_operators(char *str);
 void						ft_full_list(t_list **a, char *s, int c);
-void						ft_print_stack(t_exec_cmd *a);
 void						f(void *content);
 void						ft_printf_a(t_list *a);
 int							ft_check_quotes(char *str);
@@ -131,7 +129,6 @@ t_env						*env_set(char **envi);
 char						*f_substr(char const *s, unsigned int start,
 								size_t len);
 char						*find_comond(char *comond, t_env **env);
-void						free2d(char **s);
 int							out_redirect(char *file);
 int							in_redirect(char *file);
 int							ft_herdoc(char *del, t_environment **env);
@@ -164,11 +161,9 @@ int							export_builtin(char **str, t_environment **env);
 int							env_build(t_env *env);
 void						echo(char **input);
 char						*extract_value(t_env *env, char *key);
-bool						un_set(char *s, t_environment **env);
 bool						un_set_builting(t_exec_cmd **s,
 								t_environment **env);
 int							size_env(t_env *tmp);
-char						*ft_get_env(t_shell *data, char *key);
 char						**join_to_env(t_env *env);
 void						pwd_builting(t_env *l);
 void						cd_builting(t_exec_cmd **s, t_environment **env);
@@ -178,20 +173,15 @@ size_t						f_strlen2d(char **str);
 bool						handel_comond(char **words, t_exec_cmd **comond,
 								t_environment **env);
 int							get_exit(int sts, bool set);
-// char			*ft_expand1(char *s, char **envi, t_env *lenv);
 void						add_key_env(t_env **env, char *key, char *value);
 void						comnond_err(char *s, t_env *env);
-int							exice(t_exec_cmd **cmd, int type, t_shell **info);
-void						close_open_fd(t_exec_cmd **data);
 void						exit_builting(char **args, bool flage);
+void						close_open_fd(t_exec_cmd **data);
 char						**correct_cmd(char **args, int *j);
 void						handling_sig(int ac);
 void						close_open_fd_1(t_exec_cmd **data);
-char						*f_strtrim(char const *s1, char const *set);
 //------------expanding fuctions--------//
 char						*ft_expand1(char *s, char **envi, t_env *lenv);
-char						*process_double_quote(char *tmp, t_env *env,
-								char *buffer);
 char						*handle_d_q_content(char *tmp, int *j, t_env *env,
 								char *buffer);
 char						*join_buffer(char *tmp, int *j, int start,
@@ -203,22 +193,22 @@ char						*f_remove_spaces(char *str);
 char						*get_key(char *s);
 bool						special_lt(char l);
 char						*ft_strrange(char *s, int start, int end);
-// void close_open_fd_1(t_exec_cmd **data);
- 
+
 char						*expand_exit_status(int status);
 int							checkexpand(char *s);
 char						**creat_env(void);
 void						update_shell_lvl(t_env **env);
 void						free2d(char **s);
 bool						empty_q(char *s);
-char						*select_word(char *content, char *expanded,
+char						*valid_exp(char *content, char *expanded,
 								int status);
-char						*find_pexec(char *comond, char *value);
+char						*find_path_cmd(char *comond, char *value);
 char						*f_strtrim(char const *s1, char const *set);
 char						*ft_get_env(t_shell *data, char *key);
+int							exice(t_exec_cmd **cmd, int type, t_shell **info);
 int							exec_builtin(t_exec_cmd **s, t_environment **env);
 void						pipe_line(t_exec_cmd **s, t_shell **data);
-int							exic(t_exec_cmd **s, t_shell **data);
+int							execution_one(t_exec_cmd **s, t_shell **data);
 void						fail_case(char *fail);
 void						child_sig(int sig);
 void						pipe_handle(t_shell *sh, int curr_cmd);

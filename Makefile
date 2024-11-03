@@ -1,7 +1,7 @@
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 
 READLINE_L = ~/.brew/opt/readline/lib
 READLINE_I = ~/.brew/opt/readline/include

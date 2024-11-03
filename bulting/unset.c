@@ -6,11 +6,28 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 00:25:41 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 14:33:18 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/01 04:16:06 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+bool	un_set(char *s, t_environment **env)
+{
+	t_env	*envi;
+
+	if (!env || !*env || !s)
+		return (get_exit(1, 0), false);
+	if (!(*env)->lenv)
+		envi = env_set((*env)->env);
+	else
+		envi = (*env)->lenv;
+	delet_from_env(&envi, s);
+	(*env)->env = join_to_env((*env)->lenv);
+	if (!(*env)->env)
+		return (get_exit(1, 0), false);
+	return (get_exit(0, 0), true);
+}
 
 char	**join_to_env(t_env *env)
 {
@@ -111,21 +128,4 @@ void	add_to_env(t_env **envi, char *key, char *content, bool add)
 		*envi = new_node;
 	else
 		current->next = new_node;
-}
-
-bool	un_set(char *s, t_environment **env)
-{
-	t_env	*envi;
-
-	if (!env || !*env || !s)
-		return (get_exit(1, 0), false);
-	if (!(*env)->lenv)
-		envi = env_set((*env)->env);
-	else
-		envi = (*env)->lenv;
-	delet_from_env(&envi, s);
-	(*env)->env = join_to_env((*env)->lenv);
-	if (!(*env)->env)
-		return (get_exit(1, 0), false);
-	return (get_exit(0, 0), true);
 }

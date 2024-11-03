@@ -6,13 +6,13 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:50:24 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 11:59:29 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/01 04:13:06 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*select_word(char *content, char *expanded, int status)
+char	*valid_exp(char *content, char *expanded, int status)
 {
 	if (status == -1 || status != 4)
 		return (expanded);

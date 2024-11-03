@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:33:14 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 15:47:50 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/03 12:53:43 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,41 +62,31 @@ bool	pasabel(char *c)
 	return (true);
 }
 
+#include <stdlib.h> // Ensure to include necessary headers
+
 char	**correct_cmd(char **args, int *j)
 {
 	char	**split_args;
 	char	**new_args;
-	int		i;
-	int		k;
+	int		split_count = 0;
+	int		args_index = 1;
+	int		new_index = 0;
 
-	i = 0;
-	k = 1;
 	split_args = f_split(args[0], ' ', '\t');
-	while (split_args[i] != NULL)
-		i++;
-	new_args = master((*j + i + 1) * sizeof(char *), 1);
-	k = 0;
-	while (split_args[k] != NULL)
-	{
-		new_args[k] = split_args[k];
-		k++;
-	}
-	k = 1;
-	while (k < *j)
-		new_args[i++] = args[k++];
-	new_args[i] = NULL;
-	*j = i;
+	if (!split_args) 
+		return (NULL);
+	while (split_args[split_count] != NULL)
+		split_count++;
+	new_args = master((*j + split_count + 100) * sizeof(char *), 1);
+	if (!new_args)
+		return (NULL);
+	for (new_index = 0; new_index < split_count; new_index++)
+		new_args[new_index] = split_args[new_index];
+	while (args_index < *j)
+		new_args[new_index++] = args[args_index++];
+	new_args[new_index] = NULL;
+	*j = new_index;
+	// free(split_args);
+
 	return (new_args);
-}
-
-void	ft_printf_a(t_list *a)
-{
-	t_list	*tmp;
-
-	tmp = a;
-	while (tmp)
-	{
-		printf("{%s}\n", tmp->content);
-		tmp = tmp->next;
-	}
 }

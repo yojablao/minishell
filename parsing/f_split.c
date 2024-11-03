@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:56:33 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 13:56:55 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/03 12:16:02 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*f_strjoin(char *s1, char *s2)
 	ls2 = ft_strlen(s2);
 	if (ls1 == 0 && ls2 == 0)
 		return (f_strdup(""));
-	r = (char *)master((ls1 + ls2) * sizeof(char), 1);
+	r = (char *)master((ls1 + ls2) * sizeof(char) + 1, 1);
 	if (!r)
 		return (NULL);
 	t = ft_strlcpy(r, s1, (ls1));
@@ -114,7 +114,8 @@ int	ft_counter2(char *s, char *f)
 			{
 				if (s[i] == 39 || s[i] == 34)
 					skip_betw_quotes(s, &i);
-				i++;
+				if(s[i] != '\0')
+					i++;
 			}
 		}
 	}

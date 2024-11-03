@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 20:53:27 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/30 08:59:47 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/01 04:31:54 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ char	*cd_to_path(char *path, bool flag, int *err)
 	{
 		*err = 1;
 		if (flag)
-			perror("minishell: cd: HOME not set");
+			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+		else if (!path)
+			ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
 		else
 		{
 			ft_putstr_fd("minishell: cd: ", 2);
@@ -61,6 +63,24 @@ void	handle_fail_chdir(t_env **env, char *path)
 	}
 }
 
+int	home_or_oldpwd(char **old, t_exec_cmd **s, t_environment **env, int *err)
+{
+	if (!(*s)->args[1])
+	{
+		*old = cd_to_path(extract_value((*env)->lenv, "HOME"), 1, err);
+		return (0);
+	}
+	else if (ft_strcmp((*s)->args[1], "-") == 0)
+	{
+		*old = cd_to_path(extract_value((*env)->lenv, "OLDPWD"), 0, err);
+		if (!(*old))
+			return (0);
+		pwd_builting((*env)->lenv);
+		return (0);
+	}
+	return (1);
+}
+
 void	cd_builting(t_exec_cmd **s, t_environment **env)
 {
 	char	buffer[1025];
@@ -68,11 +88,7 @@ void	cd_builting(t_exec_cmd **s, t_environment **env)
 	int		err;
 
 	err = 0;
-	if (!(*s)->args[1])
-		old = cd_to_path(extract_value((*env)->lenv, "HOME"), 1, &err);
-	else if (ft_strcmp((*s)->args[1], "-") == 0)
-		old = cd_to_path(extract_value((*env)->lenv, "OLDPWD"), 1, &err);
-	else
+	if (home_or_oldpwd(&old, s, env, &err))
 		old = cd_to_path((*s)->args[1], 0, &err);
 	if (old)
 	{

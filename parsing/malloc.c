@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 04:55:36 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/31 12:27:30 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/03 12:19:21 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	*master(size_t size, int flag)
 	if (flag == 1)
 	{
 		ptr = malloc(size);
+		ft_bzero(ptr, size);
 		if (!ptr)
 			exit(1);
 		arr[i] = ptr;
