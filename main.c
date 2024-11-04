@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:06:47 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/03 09:32:24 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 10:49:56 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ bool	comond_init(t_shell **cmd)
 	return (true);
 }
 
-static void	process_input(char *input, t_shell **data)
+static void	process_input(char *input, t_shell **data) 
 {
 	int	flage;
 
@@ -62,10 +62,10 @@ static void	minishell_loop(t_shell **data, char *prompt)
 	int		org_in;
 
 	rl_catch_signals = 0 ;
-	signal(SIGINT, handling_sig);
-	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
+		signal(SIGINT, handling_sig);
+		signal(SIGQUIT, SIG_IGN);
 		input = readline(prompt);
 		if (g_sig)
 			get_exit(1, 0);
@@ -85,7 +85,7 @@ static void	minishell_loop(t_shell **data, char *prompt)
 	}
 }
 
-int	main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env) 
 {
 	t_shell	*data;
 	char	*prompt;
@@ -96,11 +96,11 @@ int	main(int ac, char **av, char **env)
 	data = init(env);
 	if (!data)
 		return (1);
-	// if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
-	// {
-	// 	write(2, "not a tty!\n", 12);
-	// 	return (0);
-	// }
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+	{
+		write(2, "not a tty!\n", 12);
+		return (0);
+	}
 	minishell_loop(&data, prompt);
 	return (0);
 }

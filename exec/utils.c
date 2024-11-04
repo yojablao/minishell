@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:33:14 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/03 12:53:43 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 09:33:19 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,5 @@ char	**correct_cmd(char **args, int *j)
 	new_args[new_index] = NULL;
 	*j = new_index;
 	// free(split_args);
-
 	return (new_args);
 }

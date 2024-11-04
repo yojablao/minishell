@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 12:47:39 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/01 02:32:38 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 12:48:00 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	handel_wait_sig(pid_t pid, int status, bool p)
 			printf("Quit: 3\n");
 		else if (signal == SIGINT)
 			printf("\n");
+		if(p)
+			return (0);
 		return (128 + signal);
 	}
 	return (0);

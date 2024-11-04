@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 14:11:47 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 14:13:54 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 09:27:40 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_exec_cmd	*aloc_comond(t_exec_cmd *s)
 	st->next = NULL;
 	st->cmd = NULL;
 	st->args = NULL;
-	st->builting = false;
+	st->builting = false; //zayda
 	return (st);
 }
 

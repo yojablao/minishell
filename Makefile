@@ -16,7 +16,7 @@ SOURCES = \
 	bulting/unset.c bulting/unset1.c \
 	exec/env_tools.c exec/env_utils.c exec/exec.c exec/execution.c \
 	exec/minishell.c exec/pipe_line.c exec/pipe_utils.c exec/tools.c exec/utils.c \
-	expanding/expanding1.c expanding/expanding2.c expanding/expandingtools1.c expanding/expandingtools2.c \
+	expanding/expanding1.c expanding/expanding2.c expanding/expandingtools1.c expanding/expandingtools2.c expanding/expanding3.c\
 	parsing/comond_init.c parsing/f_split.c parsing/herdoc.c parsing/heredoc_utils.c \
 	parsing/init.c parsing/init2.c parsing/malloc.c parsing/malloc_utils.c \
 	parsing/parsing.c parsing/parsing_utils.c parsing/redirect.c \
@@ -30,7 +30,7 @@ $(NAME): $(OBJECTS) $(LIBFT)
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
-%.o: %.c minishell.h
+%.o: %.c minishell.h libft/libft.h
 	$(CC) $(CFLAGS) -I $(READLINE_I) -I $(LIBFT_DIR) -c $< -o $@
 
 all: $(NAME)

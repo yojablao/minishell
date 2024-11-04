@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expandingtools1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:17:50 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/11/01 00:48:49 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 12:30:44 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,22 @@ char	*get_key(char *s)
 	str = ft_strrange(s, start, end);
 	return (str);
 }
-
+char	*ft_check_operator(char	*value, char *res)
+{
+	if(!value)
+		return(NULL);
+	if (!ft_strcmp(value, "<<") || !ft_strcmp(value, ">>")
+		|| !ft_strcmp(value, "<") || !ft_strcmp(value, ">")
+		|| !ft_strcmp(value, "|"))
+	{
+		res = f_strjoin(res, f_strdup("\""));
+		res = f_strjoin(res, value);
+		res = f_strjoin(res, f_strdup("\""));
+	}
+	else
+		res = f_strjoin(res, value);
+	return (res);
+}
 char	*f_remove_spaces(char *str)
 {
 	char	*value;
@@ -93,7 +108,7 @@ char	*f_remove_spaces(char *str)
 		while (str[i] && str[i] != ' ' && str[i] != '\t')
 			i++;
 		value = ft_strrange(str, start, i);
-		res = f_strjoin(res, value);
+		res = ft_check_operator(value, res);
 		while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 			i++;
 		need_space = (str[i] != '\0');

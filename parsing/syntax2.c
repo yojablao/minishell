@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 10:15:24 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/11/01 03:21:38 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 11:38:34 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@ void	ft_full_list(t_list **a, char *s, int c)
 	array = f_split(s, c, '\t');
 	if (!array)
 		exit(1);
-	i = 0;
-	while (array[i])
-		i++;
 	i = 0;
 	while (array[i])
 	{

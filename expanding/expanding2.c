@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:14:10 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/11/01 01:08:43 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/03 22:50:30 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char	*handle_d_q_content(char *tmp, int *j, t_env *env, char *buffer)
 	{
 		value = ft_itoa(get_exit(0, 1));
 		buffer = f_strjoin(buffer, value);
+		free(value);
 		(*j)++;
 	}
 	else if (tmp[*j] == '$' && !special_lt(tmp[*j + 1]) && tmp[*j + 1] != '\'')

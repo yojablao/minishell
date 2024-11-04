@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/11/01 04:13:01 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 12:43:07 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ bool						comond_init(t_shell **cmd);
 void						add_to_env(t_env **envi, char *key, char *content,
 								bool add);
 int							export_builtin(char **str, t_environment **env);
-int							env_build(t_env *env);
+int							env_build(t_env *env,t_exec_cmd *s);
 void						echo(char **input);
 char						*extract_value(t_env *env, char *key);
 bool						un_set_builting(t_exec_cmd **s,
@@ -181,7 +181,10 @@ char						**correct_cmd(char **args, int *j);
 void						handling_sig(int ac);
 void						close_open_fd_1(t_exec_cmd **data);
 //------------expanding fuctions--------//
+//char						*ft_expand1(char *s, char **envi, t_env *lenv);
 char						*ft_expand1(char *s, char **envi, t_env *lenv);
+char						*ft_expend_her(char *line, t_environment **env);
+//char						*handle_dollar(char *s, int *i, t_env *env, char *buffer);
 char						*handle_d_q_content(char *tmp, int *j, t_env *env,
 								char *buffer);
 char						*join_buffer(char *tmp, int *j, int start,

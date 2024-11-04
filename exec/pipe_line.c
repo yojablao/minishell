@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 12:46:03 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 14:04:46 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 12:46:18 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ pid_t	setup_pipe_and_fork(t_exec_cmd *cmd, t_shell *data, int curr_cmd)
 		if (pipe(data->curr) == -1)
 			fail_case("pipe creation failed");
 	}
-	signal(SIGINT, child_sig);
-	signal(SIGQUIT, child_sig);
+	//signal(SIGINT, child_sig);
+	// signal(SIGQUIT, child_sig);
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == -1)

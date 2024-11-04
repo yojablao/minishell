@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:39 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 12:28:48 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 10:51:10 by hamrachi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	parsing_input(t_shell **cmd, char *input)
 	(*cmd)->head = (*cmd)->cmd;
 	if (!(*cmd)->cmd || !(*cmd)->a)
 		return (-1);
-	(*cmd)->head = (*cmd)->cmd;
 	if (heredoc_pipe_check(*cmd) == -1)
 		return (-1);
 	if ((*cmd)->n_pipe > 0)
