@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:14:10 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/11/03 22:50:30 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:38:27 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,7 @@ char	*handle_d_q_content(char *tmp, int *j, t_env *env, char *buffer)
 		buffer = join_buffer(tmp, j, start, buffer);
 	}
 	else
-	{
-		start = *j;
-		buffer = join_buffer(tmp, j, start, buffer);
-	}
+		buffer = join_buffer(tmp, j, *j, buffer);
 	return (buffer);
 }
 

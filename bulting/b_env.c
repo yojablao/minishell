@@ -6,16 +6,17 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 00:26:36 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/04 12:55:58 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:24:31 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char *check_args(char **args)
+char	*check_args(char **args)
 {
-	int i =0 ;
+	int	i;
 
+	i = 0;
 	while (args[i])
 	{
 		if (ft_strcmp(args[i], "env") == 0)
@@ -25,10 +26,21 @@ char *check_args(char **args)
 	}
 	return (NULL);
 }
-int	env_build(t_env *env,t_exec_cmd *s)
+
+void	err(char *ptr)
 {
-	char *ptr = check_args(s->args);
-	if(!ptr)
+	get_exit(127, 0);
+	ft_putstr_fd("env: ", 2);
+	ft_putstr_fd(ptr, 2);
+	ft_putstr_fd(": No such file or directory\n", 2);
+}
+
+int	env_build(t_env *env, t_exec_cmd *s)
+{
+	char	*ptr;
+
+	ptr = check_args(s->args);
+	if (!ptr)
 	{
 		while (env)
 		{
@@ -44,11 +56,6 @@ int	env_build(t_env *env,t_exec_cmd *s)
 		get_exit(0, 0);
 	}
 	else
-	{
-		get_exit(127, 0);
-		ft_putstr_fd("env: ",2);
-		ft_putstr_fd(ptr,2);
-		ft_putstr_fd(": No such file or directory\n",2);
-	}
+		err(ptr);
 	return (0);
 }

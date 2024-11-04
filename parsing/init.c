@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:53:57 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 14:17:05 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:49:21 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,10 @@ bool	init_pipe_line(t_shell **cmd)
 		if (handel_comond(comond, &(*cmd)->cmd, &(*cmd)->env))
 			handel_pipe_cmd(cmd);
 		if ((*cmd)->n_pipe >= j + 1)
+		{
 			(*cmd)->cmd->next = aloc_comond((*cmd)->head);
+			get_exit(0, 0);
+		}
 		else
 			break ;
 		if (!(*cmd)->cmd->next)
@@ -112,5 +115,5 @@ bool	init_pipe_line(t_shell **cmd)
 		(*cmd)->cmd = (*cmd)->cmd->next;
 		j++;
 	}
-	return (get_exit(0, 0), true);
+	return (get_exit(0, 1), true);
 }

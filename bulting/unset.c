@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 00:25:41 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/01 04:16:06 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:25:05 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,11 @@
 
 bool	un_set(char *s, t_environment **env)
 {
-	t_env	*envi;
-
 	if (!env || !*env || !s)
 		return (get_exit(1, 0), false);
 	if (!(*env)->lenv)
-		envi = env_set((*env)->env);
-	else
-		envi = (*env)->lenv;
-	delet_from_env(&envi, s);
+		(*env)->lenv = env_set((*env)->env);
+	delet_from_env(&(*env)->lenv, s);
 	(*env)->env = join_to_env((*env)->lenv);
 	if (!(*env)->env)
 		return (get_exit(1, 0), false);

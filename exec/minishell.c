@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 00:56:39 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/11/04 12:43:25 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:28:22 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	check_internal_builtins(t_exec_cmd **s, t_environment **env)
 	if (internel_builting((*s)->args[0]))
 	{
 		filehandler(s);
-
 		suc = exec_builtin(s, env);
 		add_to_env(&(*env)->lenv, "_", (*s)->args[0], 0);
 	}
@@ -45,8 +44,8 @@ bool	internel_builting(char *s)
 {
 	if (ft_strcmp(s, "env") == 0 || ft_strcmp(s, "pwd") == 0)
 		return (1);
-	else if (ft_strcmp(s, "exit") == 0 || ft_strcmp(s, "unset") == 0 || ft_strcmp(s,
-			"cd") == 0 || ft_strcmp(s, "export") == 0)
+	else if (ft_strcmp(s, "exit") == 0 || ft_strcmp(s, "unset") == 0
+		|| ft_strcmp(s, "cd") == 0 || ft_strcmp(s, "export") == 0)
 		return (1);
 	else
 		return (0);
@@ -63,7 +62,7 @@ int	exec_builtin(t_exec_cmd **s, t_environment **env)
 	if (ft_strcmp((*s)->args[0], "export") == 0)
 		return (export_builtin((*s)->args, env), 1);
 	if (ft_strcmp((*s)->args[0], "env") == 0)
-		return (env_build((*env)->lenv,(*s)), 1);
+		return (env_build((*env)->lenv, (*s)), 1);
 	if (ft_strcmp((*s)->args[0], "pwd") == 0)
 		return (pwd_builting((*env)->lenv), 1);
 	return (0);

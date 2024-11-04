@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:33 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/04 10:14:43 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:46:58 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ char	*heredoc_loop(char *del, t_environment **env, bool flage)
 		}
 		if (flage == true)
 			tmp = ft_expend_her(line, env);
-			//tmp = ft_expend1(line, (*env)->env, (*env)->lenv);
 		tmp = f_strjoin(tmp, "\n");
 		free(line);
 		fullline = f_strjoin(fullline, tmp);

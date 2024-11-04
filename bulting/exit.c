@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:43:59 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 14:20:55 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:24:57 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ bool	multi_argiment(char **args)
 	char	*trim;
 
 	trim = f_strtrim(args[1], " ");
-	if (!check_is_number(trim))
+	if (!check_is_number(trim)
+		|| (args[1][0] == '-' && !ft_isdigit(args[1][1])))
 	{
 		ft_putstr_fd("exit\n", 2);
 		ft_putstr_fd("minishell : exit: ", 2);

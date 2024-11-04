@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 00:25:23 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/04 12:43:20 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:25:33 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 bool	bulting(t_exec_cmd **s, t_shell *data)
 {
-	
-	if(!(*s)->args[0])
+	if (!(*s)->args[0])
 		return (0);
 	if (ft_strcmp((*s)->args[0], "echo") == 0)
 		return (echo((*s)->args), 1);
@@ -28,7 +27,7 @@ bool	bulting(t_exec_cmd **s, t_shell *data)
 	else if (ft_strcmp((*s)->args[0], "export") == 0)
 		return (export_builtin((*s)->args, &data->env), 1);
 	else if (ft_strcmp((*s)->args[0], "env") == 0)
-		return (env_build(data->env->lenv,(*s)), 1);
+		return (env_build(data->env->lenv, (*s)), 1);
 	else if (ft_strcmp((*s)->args[0], "pwd") == 0)
 		return (pwd_builting(data->env->lenv), 1);
 	else

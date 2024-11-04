@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 12:47:39 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/04 12:48:00 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:26:45 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ int	handel_wait_sig(pid_t pid, int status, bool p)
 	{
 		signal = WTERMSIG(status);
 		if (signal == SIGPIPE)
-			return (0);
+			return (get_exit(1, 1));
 		if (signal == SIGQUIT)
 			printf("Quit: 3\n");
 		else if (signal == SIGINT)
 			printf("\n");
-		if(p)
-			return (0);
+		if (p)
+			return (get_exit(1, 1));
 		return (128 + signal);
 	}
 	return (0);

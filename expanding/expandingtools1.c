@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expandingtools1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:17:50 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/11/04 12:30:44 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:41:54 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,11 @@ char	*get_key(char *s)
 	str = ft_strrange(s, start, end);
 	return (str);
 }
+
 char	*ft_check_operator(char	*value, char *res)
 {
-	if(!value)
-		return(NULL);
+	if (!value)
+		return (NULL);
 	if (!ft_strcmp(value, "<<") || !ft_strcmp(value, ">>")
 		|| !ft_strcmp(value, "<") || !ft_strcmp(value, ">")
 		|| !ft_strcmp(value, "|"))
@@ -87,6 +88,7 @@ char	*ft_check_operator(char	*value, char *res)
 		res = f_strjoin(res, value);
 	return (res);
 }
+
 char	*f_remove_spaces(char *str)
 {
 	char	*value;

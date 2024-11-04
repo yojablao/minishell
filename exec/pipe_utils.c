@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 12:54:55 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/03 09:29:55 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:29:33 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,11 @@ int	get_exit(int sts, bool set)
 	if (!set)
 		status = sts;
 	return (status);
+}
+
+int	is_executable(char *cmd)
+{
+	if (access(cmd, X_OK) == 0)
+		return (1);
+	return (0);
 }

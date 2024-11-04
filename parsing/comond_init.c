@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:29:44 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/04 12:43:54 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:46:46 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,29 +71,29 @@ void	init_lst_index(t_list **lst)
 
 char	**ft_joinlist(t_list **lst, t_environment **env, int status)
 {
-	int		index;
+	int		i;
 	char	**words;
 	char	*expanded;
 
-	index = 0;
+	i = 0;
 	words = master(sizeof(char *) * (ft_lstsize(*lst) + 1), 1);
 	while (*lst && (*lst)->stat != 0)
 	{
-		if (index >= 0 && empty_q((*lst)->content))
-			words[index++] = f_strdup("\1");
+		if (i >= 0 && empty_q((*lst)->content))
+			words[i++] = f_strdup("\1");
 		else
 		{
 			expanded = ft_expand1((*lst)->content, (*env)->env, (*env)->lenv);
 			if ((expanded && *expanded) || status == 4)
 			{
-				words[index++] = valid_exp((*lst)->content, expanded, status);
+				words[i++] = valid_exp((*lst)->content, expanded, status);
 				if ((*env)->lenv->flage)
-					(1)&& (words = correct_cmd(words, &index),(*env)->lenv->flage = 0);
+					words = fix_cmd(words, &i, &(*env)->lenv);
 			}
 		}
 		(1 && (status = (*lst)->stat), *lst = (*lst)->next);
 	}
 	init_lst_index(lst);
-	words[index] = NULL;
+	words[i] = NULL;
 	return (words);
 }

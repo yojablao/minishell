@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:39:30 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/11/04 12:43:07 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:48:47 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ typedef struct s_exec_cmd
 	int						outfd;
 	char					*cmd;
 	char					**args;
-	bool					builting;
 }							t_exec_cmd;
 
 typedef struct s_num_operat
@@ -95,10 +94,8 @@ typedef struct s_environment
 typedef struct s_shell
 {
 	t_list					*a;
-	int						dup_stdin;
 	t_exec_cmd				*cmd;
 	t_environment			*env;
-	char					**env_ini;
 	t_exec_cmd				*head;
 	int						n_pipe;
 	int						*curr;
@@ -158,7 +155,7 @@ bool						comond_init(t_shell **cmd);
 void						add_to_env(t_env **envi, char *key, char *content,
 								bool add);
 int							export_builtin(char **str, t_environment **env);
-int							env_build(t_env *env,t_exec_cmd *s);
+int							env_build(t_env *env, t_exec_cmd *s);
 void						echo(char **input);
 char						*extract_value(t_env *env, char *key);
 bool						un_set_builting(t_exec_cmd **s,
@@ -177,14 +174,13 @@ void						add_key_env(t_env **env, char *key, char *value);
 void						comnond_err(char *s, t_env *env);
 void						exit_builting(char **args, bool flage);
 void						close_open_fd(t_exec_cmd **data);
-char						**correct_cmd(char **args, int *j);
+char						**fix_cmd(char **args, int *j, t_env **lenv);
 void						handling_sig(int ac);
 void						close_open_fd_1(t_exec_cmd **data);
 //------------expanding fuctions--------//
-//char						*ft_expand1(char *s, char **envi, t_env *lenv);
+int							is_executable(char *cmd);
 char						*ft_expand1(char *s, char **envi, t_env *lenv);
 char						*ft_expend_her(char *line, t_environment **env);
-//char						*handle_dollar(char *s, int *i, t_env *env, char *buffer);
 char						*handle_d_q_content(char *tmp, int *j, t_env *env,
 								char *buffer);
 char						*join_buffer(char *tmp, int *j, int start,

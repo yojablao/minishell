@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 00:26:46 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/04 10:59:39 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:23:23 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_option(char **word, int *i)
 				else
 					return (false);
 			}
-			if(!word[*i][1])
+			if (!word[*i][1])
 				return (false);
 		}
 		else

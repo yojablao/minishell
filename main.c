@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:06:47 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/04 10:49:56 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:48:38 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ bool	comond_init(t_shell **cmd)
 	return (true);
 }
 
-static void	process_input(char *input, t_shell **data) 
+static void	process_input(char *input, t_shell **data)
 {
 	int	flage;
 
@@ -39,7 +39,7 @@ static void	process_input(char *input, t_shell **data)
 	{
 		add_history(input);
 		flage = parsing_input(data, input);
-		if ((flage == -1 || g_sig == -1337) && get_exit(0,1) != 258)
+		if ((flage == -1 || g_sig == -1337) && get_exit(0, 1) != 258)
 			close_open_fd_1(&(*data)->cmd);
 		if (flage != -1 && g_sig == 0)
 			exice(&(*data)->cmd, flage, data);
@@ -85,7 +85,7 @@ static void	minishell_loop(t_shell **data, char *prompt)
 	}
 }
 
-int	main(int ac, char **av, char **env) 
+int	main(int ac, char **av, char **env)
 {
 	t_shell	*data;
 	char	*prompt;

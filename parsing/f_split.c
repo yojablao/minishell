@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:56:33 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/03 12:16:02 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:47:16 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	ft_counter2(char *s, char *f)
 			{
 				if (s[i] == 39 || s[i] == 34)
 					skip_betw_quotes(s, &i);
-				if(s[i] != '\0')
+				if (s[i] != '\0')
 					i++;
 			}
 		}
