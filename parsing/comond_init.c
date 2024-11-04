@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:29:44 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/04 16:46:46 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 17:25:00 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,6 @@ int	is_valide_comond(char *comond)
 			ft_putstr_fd(": is a directory\n", 2);
 			get_exit(126, 0);
 			return (-1);
-		}
-		else
-		{
-			if (access(comond, X_OK))
-				ft_putstr_fd(": No such file or directory\n", 2);
-			return (0);
 		}
 	}
 	return (1);

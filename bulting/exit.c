@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:43:59 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/04 16:24:57 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 17:24:11 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ bool	multi_argiment(char **args)
 	}
 	if (args[2])
 	{
+		ft_putstr_fd("exit\n", 2);
 		ft_putstr_fd("minishell : exit: too many arguments\n", 2);
 		return (get_exit(1, 0), 0);
 	}
