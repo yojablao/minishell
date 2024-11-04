@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 11:12:57 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/11/04 18:17:01 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 18:44:21 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ char	*handle_dollar(char *s, int *i, t_env *env, char *buffer)
 		value = ft_strrange(s, start, end);
 		return (f_strjoin(buffer, value));
 	}
-	env->flage = 1;
+	if(env)
+		env->flage = 1;
 	key = get_key(s + *i);
 	*i += ft_strlen(key) - 1;
 	tmp = expanding_values(key + 1, env);

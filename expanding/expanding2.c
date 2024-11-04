@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 18:14:10 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/11/04 16:38:27 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 18:42:10 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ char	*get_buffer(char *tmp, int *j, t_env *env, char *buffer)
 
 	key = NULL;
 	value = NULL;
-	env->flage = 0;
+	if(env)
+		env->flage = 0;
 	key = get_key(tmp + (*j));
 	(*j) += ft_strlen(key) - 1;
 	value = expanding_values(key + 1, env);

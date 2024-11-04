@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:49:33 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/04 16:46:58 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 18:48:34 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,10 @@ int	ft_herdoc(char *del, t_environment **env)
 	int		fd;
 	char	*s;
 	char	*indx;
-
-	indx = ft_itoa((*env)->lenv->flage);
+	if((*env)->lenv)
+		indx = ft_itoa((*env)->lenv->flage);
+	else
+		indx = ft_itoa(1);
 	if (!del)
 		del = f_strdup("");
 	s = f_strjoin("/tmp/.file", indx);

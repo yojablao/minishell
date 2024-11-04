@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 03:53:57 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/04 16:49:21 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 18:46:27 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ bool	init_pipe_line(t_shell **cmd)
 	while ((*cmd)->n_pipe >= j)
 	{
 		comond = ft_joinlist(&(*cmd)->a, &(*cmd)->env, -1);
-		(*cmd)->env->lenv->flage += j;
+		if((*cmd)->env->lenv)
+			(*cmd)->env->lenv->flage += j;
 		if (handel_comond(comond, &(*cmd)->cmd, &(*cmd)->env))
 			handel_pipe_cmd(cmd);
 		if ((*cmd)->n_pipe >= j + 1)
