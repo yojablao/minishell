@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 19:47:10 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 14:24:27 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 18:19:12 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,10 @@ int	export_builtin(char **str, t_environment **env)
 	bool	flage;
 
 	flage = false;
+
 	if (!str)
 		return (1);
-	if (str[1] == NULL)
+	if (str[1] == NULL && (*env)->env)
 	{
 		print_export((*env)->env, sizeenv((*env)->env));
 		return (0);

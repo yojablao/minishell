@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 00:25:41 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/04 16:25:05 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 17:47:39 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ bool	check_exs(t_env **tmp, char *key, char *value, bool add)
 
 	env = (*tmp);
 	flage = false;
+	if (!env)
+		return (false);
 	while (env)
 	{
 		if (ft_strcmp(env->key, key) == 0)
@@ -109,7 +111,11 @@ void	add_to_env(t_env **envi, char *key, char *content, bool add)
 	t_env	*new_node;
 	bool	flage;
 
+
+		
 	current = *envi;
+	if (!*envi)
+		return ;
 	flage = false;
 	if (check_exs(envi, key, content, add) == true)
 		return ;

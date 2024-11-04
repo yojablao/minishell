@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamrachi <hamrachi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 11:12:57 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/11/04 11:37:06 by hamrachi         ###   ########.fr       */
+/*   Updated: 2024/11/04 18:17:01 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,9 @@ char	*ft_expand1(char *s, char **envi, t_env *lenv)
 	i = 0;
 	buffer = NULL;
 	env = env_set(envi);
-	env->flage = 0;
-	while (s[i])
+	if (env)
+		env->flage = 0;
+	while (s && s[i])
 	{
 		if (s[i] == '\'')
 			buffer = handle_single_quote(s, &i, buffer);
@@ -114,7 +115,8 @@ char	*ft_expand1(char *s, char **envi, t_env *lenv)
 		if (s[i])
 			i++;
 	}
-	lenv->flage = env->flage;
+	if (lenv && env)
+		lenv->flage = env->flage;
 	if (buffer && buffer[0] == 0)
 		return (NULL);
 	return (buffer);

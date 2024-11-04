@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:29:44 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/04 17:25:00 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 18:27:03 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	**ft_joinlist(t_list **lst, t_environment **env, int status)
 	words = master(sizeof(char *) * (ft_lstsize(*lst) + 1), 1);
 	while (*lst && (*lst)->stat != 0)
 	{
-		if (i >= 0 && empty_q((*lst)->content))
+		if (i >= 0 && empty_q((*lst)->content) && status != 4)
 			words[i++] = f_strdup("\1");
 		else
 		{
@@ -81,7 +81,7 @@ char	**ft_joinlist(t_list **lst, t_environment **env, int status)
 			if ((expanded && *expanded) || status == 4)
 			{
 				words[i++] = valid_exp((*lst)->content, expanded, status);
-				if ((*env)->lenv->flage)
+				if ((*env)->lenv && (*env)->lenv->flage)
 					words = fix_cmd(words, &i, &(*env)->lenv);
 			}
 		}

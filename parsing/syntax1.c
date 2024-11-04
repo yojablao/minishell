@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:46:07 by hamrachi          #+#    #+#             */
-/*   Updated: 2024/10/31 13:47:20 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 17:51:04 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_check_her(char *str)
 	size_t	i;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] == 39 || str[i] == 34)
 			skip_betw_quotes(str, &i);
@@ -55,7 +55,7 @@ char	*rm_escap_char(char *s)
 	res = master(ft_strlen(s) + 1, 1);
 	if (!res)
 		return (NULL);
-	while (s[i])
+	while (s && s[i])
 	{
 		if (s[i] == '\'' && !double_q)
 			single_q = !single_q;

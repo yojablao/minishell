@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:06:47 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/04 16:48:38 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 18:20:20 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	minishell_loop(t_shell **data, char *prompt)
 		{
 			printf("exit\n");
 			close(org_in);
-			exit(0);
+			exit(get_exit(1, 1));
 		}
 		g_sig = 0;
 		process_input(input, data);

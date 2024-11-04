@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 10:19:24 by yojablao          #+#    #+#             */
-/*   Updated: 2024/10/31 15:36:34 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 17:54:14 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_env	*env_set(char **envi)
 
 	env = NULL;
 	i = 0;
-	if (!envi)
+	if (!envi || !*envi)
 		return (NULL);
 	while (envi[i])
 	{
