@@ -6,7 +6,7 @@
 /*   By: yojablao <yojablao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 12:28:05 by yojablao          #+#    #+#             */
-/*   Updated: 2024/11/04 17:25:43 by yojablao         ###   ########.fr       */
+/*   Updated: 2024/11/04 17:26:44 by yojablao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ char	*find_path_cmd(char *comond, char *value)
 	int		i;
 
 	i = -1;
-	if(!access(comond,X_OK))
-		return(comond);
+	if (!access(comond, X_OK))
+		return (comond);
 	fullpath = f_split(value, ':', ':');
 	while (fullpath[++i] != NULL)
 	{
